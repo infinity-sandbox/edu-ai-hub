@@ -1,5 +1,5 @@
-# Use Node.js version 16.20.2 as a parent image
-FROM node:16.20.2 as build
+# Use Node.js version 20.15.0 as a parent image
+FROM node:20.15.0 as build
 
 # Set the working directory in the container
 WORKDIR /frontend
