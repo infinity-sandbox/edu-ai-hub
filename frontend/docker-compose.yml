@@ -1,0 +1,13 @@
+version: '3'
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./
+      dockerfile: dockerfile.frontend  # Specify your custom Dockerfile name here
+    image: frontend:latest
+    restart: unless-stopped
+    expose:
+      - "80"
+    ports:
+      - "8080:80"
