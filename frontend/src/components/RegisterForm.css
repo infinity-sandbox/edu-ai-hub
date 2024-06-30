@@ -1,0 +1,60 @@
+.registration-form {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.steps-content {
+    margin-top: 24px;
+}
+
+.ant-btn-primary {
+    background-color: #4CAF50 !important;
+    border-color: #4CAF50 !important;
+    border-radius: 8px;
+}
+
+.ant-btn-primary:hover {
+    background-color: #45a049 !important;
+    border-color: #45a049 !important;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+}
+
+.form-navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-navigation-buttons .ant-btn {
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 32px;
+}
+
+.form-item-label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.ant-input,
+.ant-picker,
+.ant-upload,
+.ant-checkbox-wrapper {
+    border-radius: 8px;
+}
