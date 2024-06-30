@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, DatePicker, Upload, Steps } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/reset.css';
-import './RegisterForm.css';
+import '../styles/RegisterForm.css';
 
 const { Step } = Steps;
 
