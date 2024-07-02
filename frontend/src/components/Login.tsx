@@ -15,7 +15,7 @@ const Login: React.FC = () => {
   const onFinish = () => {
     const loginData = { email, password };
     console.log('Login data: ', loginData);
-    axios.post('/Login', loginData)
+    axios.post('http://localhost:3000/login', loginData)
       .then(result => console.log(result))
       .catch(err => console.log(err));
 
@@ -32,12 +32,12 @@ const Login: React.FC = () => {
       
     <div className="login-container">
       <div>
-       <div className="logo">
+       {/* <div className="logo">
           <img src={logo} />
           <div>
             <h1>TeachLink</h1>
           </div>
-        </div>
+        </div> */}
      <div>
       <Form
         name="login"

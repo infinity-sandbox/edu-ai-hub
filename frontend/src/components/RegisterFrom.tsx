@@ -66,7 +66,7 @@ const Register: React.FC = () => {
         <div className="logo">
           <img src={logo} />
           <div>
-            <h1>TeachLink</h1>
+            <h1>KidoAI</h1>
           </div>
         </div>
         <Form

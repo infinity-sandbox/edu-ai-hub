@@ -11,7 +11,7 @@
     background: #24562B;
     /* Adjust the color to match your SVG design */
     display: flex;
-    background-image: url(../images/loginbackgroud.jpg);
+    background-image: url(../images/loginbackgroud.svg);
     background-repeat: no-repeat;
         /* Ensures the image doesn't repeat */
         background-size: cover;
