@@ -1,24 +1,33 @@
-// src/Login.tsx
 import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-
+import { saveAs } from 'file-saver';
 
 const Login: React.FC = () => {
-  const [email,setEmail] =useState();
-  const [password,setPassword] =useState();
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    axios.post('https://jsonplaceholder.typicode.com/posts',{values})
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onFinish = () => {
+    const loginData = { email, password };
+    console.log('Login data: ', loginData);
+    axios.post('https://jsonplaceholder.typicode.com/posts', loginData)
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+
+    // Create JSON object
+    const json = JSON.stringify(loginData, null, 2);
+
+    // Create a blob from the JSON object and save it as a file
+    const blob = new Blob([json], { type: 'application/json' });
+    saveAs(blob, 'loginData.json');
   };
 
   return (
+    <div className='LoginPage'>
+      
     <div className="login-container">
       <Form
         name="login"
@@ -31,13 +40,19 @@ const Login: React.FC = () => {
           name="email"
           rules={[{ required: true, message: 'Please input your Email!' }]}
         >
-          <Input prefix={<UserOutlined />} className='emailInput' placeholder="Email" />
+          <Input
+            prefix={<UserOutlined />}
+            className='emailInput'
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
         </Form.Item>
         <div className='PasswordText'>
-        <div>password </div>
-        <div className="forgot-link">
-          <a href="#">Forgot?</a>
-        </div>
+          <div>Password</div>
+          <div className="forgot-link">
+            <a href="#">Forgot?</a>
+          </div>
         </div>
         <Form.Item className='passwordInput'
           name="password"
@@ -46,7 +61,10 @@ const Login: React.FC = () => {
           <Input
             prefix={<LockOutlined />}
             type="password"
-            placeholder="Password" className='passwordInput'
+            placeholder="Password"
+            className='passwordInput'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
         </Form.Item>
         
@@ -59,6 +77,9 @@ const Login: React.FC = () => {
           Don't have an account?<Link to="/Register">Sign up</Link>
         </div>
       </Form>
+    </div>
+    <div className="Right-side"><img src= {"LeftSideDesign"} alt="Left Side Design" />
+    </div>
     </div>
   );
 };

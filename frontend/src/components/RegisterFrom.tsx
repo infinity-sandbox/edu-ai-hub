@@ -1,249 +1,280 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, DatePicker, Upload, Steps } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, DatePicker, Upload } from 'antd';
+import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined, UploadOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import 'antd/dist/reset.css';
+import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
+import creatAccImg from "../images/RegisterPageImage.png"
 
-const { Step } = Steps;
 
-const RegisterFrom: React.FC = () => {
-  const [current, setCurrent] = useState(0);
+const Register: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [parentName, setParentName] = useState('');
+  const [parentEmail, setParentEmail] = useState('');
+  const [school, setSchool] = useState('');
+  const [classLevel, setClassLevel] = useState('');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [books, setBooks] = useState('');
+  const [birthdate, setBirthdate] = useState<string | null>(null);
+  const [address, setAddress] = useState('');
+  const [securityQuestion, setSecurityQuestion] = useState('');
+  const [securityAnswer, setSecurityAnswer] = useState('');
+   const [profilePicture, setProfilePicture] = useState<any>(null);
 
-  const next = () => {
-    setCurrent(current + 1);
+  const onFinish = () => {
+    const registerData = {
+      username,
+      email,
+      password,
+      confirmPassword,
+      phoneNumber,
+      parentName,
+      parentEmail,
+      school,
+      classLevel,
+      agreeToTerms,
+      books,
+      birthdate,
+      address,
+      securityQuestion,
+      securityAnswer,
+      profilePicture,
+    };
+    console.log('Register data: ', registerData);
+    axios.post('https://jsonplaceholder.typicode.com/posts', registerData)
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+
+    // Create JSON object
+    const json = JSON.stringify(registerData, null, 2);
+
+    // Create a blob from the JSON object and save it as a file
+    const blob = new Blob([json], { type: 'application/json' });
+    saveAs(blob, 'registerData.json');
   };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    axios.post('/api/register', values)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
-  };
-
-  const validatePassword = ({ getFieldValue }: any) => ({
-    validator(_: any, value: any) {
-      if (!value || getFieldValue('password') === value) {
-        return Promise.resolve();
-      }
-      return Promise.reject(new Error('The two passwords do not match!'));
-    },
-  });
-
-  const steps = [
-    {
-      title: 'User Info',
-      content: (
-        <div>
-          <Form.Item
-            name="username"
-            label="Username"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your email!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            name="confirmPassword"
-            label="Confirm Password"
-            className="form-item-label"
-            dependencies={['password']}
-            hasFeedback
-            rules={[{ required: true, message: 'Please confirm your password!' }, validatePassword]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <div className="form-navigation-buttons">
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: 'Additional Info',
-      content: (
-        <div>
-          <Form.Item
-            name="phoneNumber"
-            label="Phone Number"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your phone number!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="parentName"
-            label="Parent Name"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your parent\'s name!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="parentEmail"
-            label="Parent Email"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your parent\'s email!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="birthdate"
-            label="Birthdate"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your birthdate!' }]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <div className="form-navigation-buttons">
-            <Button onClick={() => prev()}>
-              Previous
-            </Button>
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: 'School Info',
-      content: (
-        <div>
-          <Form.Item
-            name="address"
-            label="Address"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your address!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="school"
-            label="School"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your school!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="class"
-            label="Class"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your class!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="books"
-            label="Books"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your books!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <div className="form-navigation-buttons">
-            <Button onClick={() => prev()}>
-              Previous
-            </Button>
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: 'Personal Info',
-      content: (
-        <div>
-          <Form.Item
-            name="securityQuestion"
-            label="Security Question"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your security question!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="securityAnswer"
-            label="Security Answer"
-            className="form-item-label"
-            rules={[{ required: true, message: 'Please input your security answer!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="profilePicture"
-            label="Profile Picture"
-            className="form-item-label"
-            valuePropName="fileList"
-            getValueFromEvent={(e: any) => (Array.isArray(e) ? e : e?.fileList)}
-          >
-            <Upload name="profile" listType="picture" maxCount={1}>
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item
-            name="agreeToTerms"
-            valuePropName="checked"
-            rules={[{ required: true, message: 'Please agree to the terms!' }]}
-          >
-            <Checkbox>I agree to the terms and conditions</Checkbox>
-          </Form.Item>
-          <div className="form-navigation-buttons">
-            <Button onClick={() => prev()}>
-              Previous
-            </Button>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </div>
-        </div>
-      ),
-    },
-  ];
 
   return (
-    <div className="registration-form">
-      <div className="form-title">Create an Account</div>
-      <Form name="register" onFinish={onFinish} scrollToFirstError>
-        <Steps current={current}>
-          {steps.map(item => (
-            <Step key={item.title} title={item.title} />
-          ))}
-        </Steps>
-        <div className="steps-content">{steps[current].content}</div>
+    <div className='RegisterPageAll'>
+       <div className="left-side">
+         <img src= {creatAccImg} alt="Left Side Design" />
+       </div>
+    <div className="register-container">
+     
+      <Form
+        name="register"
+        onFinish={onFinish}
+        className="register-form"
+      >
+        <h1>Create your account</h1>
+        
+        <Form.Item
+          name="username"
+          rules={[{ required: true, message: 'Please input your Username!' }]}
+        >
+          <Input
+            prefix={<UserOutlined />}
+            placeholder="Username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="email"
+          rules={[{ required: true, message: 'Please input your Email!' }
+          ,{ type: 'email', message: 'Please enter a valid Email!' }
+          ]}
+        >
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'Please input your Password!' },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </Form.Item>
+        
+           <Form.Item
+          name="confirmPassword"
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            { required: true, message: 'Please confirm your Password!' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              },
+            }),
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="phoneNumber"
+          rules={[{ required: true, message: 'Please input your Phone Number!' }]}
+        >
+          <Input
+            prefix={<PhoneOutlined />}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={e => setPhoneNumber(e.target.value)}
+          />
+        </Form.Item>
+       <Form.Item name="birthdate" rules={[{ required: true, message: 'Please input your Birthdate!' }]}>
+  <DatePicker placeholder='Enter Birthdate' style={{ width: '100%' }} onChange={(date, dateString) => setBirthdate(dateString as string)} />
+</Form.Item>
+        <Form.Item
+          name="parentName"
+          rules={[{ required: true, message: 'Please input your Parent Name!' }]}
+        >
+          <Input
+            placeholder="Parent Name"
+            value={parentName}
+            onChange={e => setParentName(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="parentEmail"
+          rules={[{ required: true, message: 'Please input your Parent Email!' }]}
+        >
+          <Input
+            placeholder="Parent Email"
+            value={parentEmail}
+            onChange={e => setParentEmail(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="school"
+          rules={[{ required: true, message: 'Please input your School!' }]}
+        >
+          <Input
+            placeholder="School"
+            value={school}
+            onChange={e => setSchool(e.target.value)}
+          />
+        </Form.Item>
+        
+        <Form.Item
+          name="classLevel"
+          rules={[{ required: true, message: 'Please input your Class!' }]}
+        >
+          <Input
+            placeholder="Class"
+            value={classLevel}
+            onChange={e => setClassLevel(e.target.value)}
+          />
+          </Form.Item>
+          <Form.Item
+          name="books"
+          rules={[{ required: true, message: 'Please input your Books!' }]}
+        >
+          <Input
+            placeholder="Books"
+            value={books}
+            onChange={e => setBooks(e.target.value)}
+          />
+        </Form.Item>
+          <Form.Item
+          name="address"
+          rules={[{ required: true, message: 'Please input your Address!' }]}
+        >
+          <Input
+            placeholder="Address"
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item
+          name="securityQuestion"
+          rules={[{ required: true, message: 'Please input your Security Question!' }]}
+        >
+          <Input
+            placeholder="Security Question"
+            value={securityQuestion}
+            onChange={e => setSecurityQuestion(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="securityAnswer"
+          rules={[{ required: true, message: 'Please input your Security Answer!' }]}
+        >
+          <Input
+            placeholder="Security Answer"
+            value={securityAnswer}
+            onChange={e => setSecurityAnswer(e.target.value)}
+          />
+        </Form.Item>
+        
+       <Form.Item
+          name="profilePicture"
+          rules={[{ required: true, message: 'Please upload your Profile Picture!' }]}
+        >
+          <Upload
+            beforeUpload={file => {
+              setProfilePicture(file);
+              return false;
+            }}
+            listType="picture"
+          >
+            <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
+          </Upload>
+        </Form.Item>
+
+          <Form.Item
+          name="agreeToTerms"
+          valuePropName="checked"
+          rules={[{ validator:(_, value) => value ? Promise.resolve() : Promise.reject(new Error('You must agree to the terms and conditions')) }]}
+        >
+          <Checkbox
+            checked={agreeToTerms}
+            onChange={e => setAgreeToTerms(e.target.checked)}
+          >
+            I agree to the terms and conditions
+          </Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" className="register-button">
+            Create account
+          </Button>
+        </Form.Item>
+        <div className="login-link">
+          Already have an account? <Link to="/login">Login</Link>
+        </div>
       </Form>
+    </div>
     </div>
   );
 };
 
-export default RegisterFrom;
+export default Register;

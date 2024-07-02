@@ -1,6 +1,19 @@
 *{
     font-family: 'Roboto', sans-serif;
 }
+.LoginPage{
+    display: flex;
+}
+.Right-side {
+    flex: 1;
+    height: auto;
+    width: auto;
+    background: #0c6b58;
+    /* Adjust the color to match your SVG design */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 :root {
     --button-bg-color: #4CAF50;
     /* Matte green color */
@@ -156,4 +169,9 @@ font-weight: 600;
 }
 .signup-link a:hover {
     text-decoration: underline;
+}
+@media screen and (max-width: 600px) {
+    .Right-side {
+        display: none;
+    }
 }
