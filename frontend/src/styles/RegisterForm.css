@@ -15,6 +15,10 @@
 .register-form {
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 2em;
 }
 
 .register-form h1 {
@@ -38,7 +42,26 @@
     text-align: center;
     margin-top: 20px;
 }
-
+.logo{
+    display: flex;
+    margin-left: 85px;
+}
+.logo h1{
+    color: #1f6935;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.createAccount{
+    font-family: 
+        'URW Bookman',
+        'URW Bookman L',
+        'Georgia Pro',
+        Georgia,
+        serif;
+    color: #1f6935;
+}
+.logo img{
+    height: 100px;
+}
 .register-form .login-link a {
     color: #0ca83b;
     font-weight: 600;
@@ -48,10 +71,18 @@
     height: auto;
     max-width: 400px;
     background: #0c6b58;
+    background-image: url(../images/registerBackground.jpg);
+    
+        background-repeat: no-repeat;
+        /* Ensures the image doesn't repeat */
+        background-size: cover;
     /* Adjust the color to match your SVG design */
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.left-side img{
+    height: 300px;
 }
 /* 
 <div className="left-side"><img src= {

@@ -5,6 +5,8 @@ import '../styles/Login.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
+import sideSvgImage from '../images/image1.svg'
+import logo from "../images/logo.png";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +15,7 @@ const Login: React.FC = () => {
   const onFinish = () => {
     const loginData = { email, password };
     console.log('Login data: ', loginData);
-    axios.post('https://jsonplaceholder.typicode.com/posts', loginData)
+    axios.post('/Login', loginData)
       .then(result => console.log(result))
       .catch(err => console.log(err));
 
@@ -29,12 +31,20 @@ const Login: React.FC = () => {
     <div className='LoginPage'>
       
     <div className="login-container">
+      <div>
+       <div className="logo">
+          <img src={logo} />
+          <div>
+            <h1>TeachLink</h1>
+          </div>
+        </div>
+     <div>
       <Form
         name="login"
         onFinish={onFinish}
         className="login-form"
       >
-        <h1>Login</h1>
+        <h1 className='loginLeable'>Login</h1>
         <div className='EmailText'>Email</div>
         <Form.Item className='emailInput'
           name="email"
@@ -77,9 +87,15 @@ const Login: React.FC = () => {
           Don't have an account?<Link to="/Register">Sign up</Link>
         </div>
       </Form>
+      </div>
+      </div>
     </div>
-    <div className="Right-side"><img src= {"LeftSideDesign"} alt="Left Side Design" />
+    <div className="Right-side">
+     
+      <img src= {sideSvgImage} alt="Left Side Design" />
+    
     </div>
+    
     </div>
   );
 };

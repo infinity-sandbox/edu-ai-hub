@@ -1,5 +1,5 @@
 *{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Avenir', 'Helvetica Neue', Arial, sans-serif;
 }
 .LoginPage{
     display: flex;
@@ -8,11 +8,32 @@
     flex: 1;
     height: auto;
     width: auto;
-    background: #0c6b58;
+    background: #24562B;
     /* Adjust the color to match your SVG design */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    background-image: url(../images/loginbackgroud.jpg);
+    background-repeat: no-repeat;
+        /* Ensures the image doesn't repeat */
+        background-size: cover;
+        justify-content: center;
+        
+}
+.Right-side img{
+    height: 700px;
+    margin-top: 200px;
+}
+.aboutInLoginPage{
+    color: white;
+    max-width: 900px;
+    margin: 50px;
+    font-family: Arial, sans-serif;
+        /* Example font family */
+        font-size: 16px;
+        /* Example font size */
+        line-height: 1.5;
+        text-align: justify;
+        
+    
 }
 :root {
     --button-bg-color: #4CAF50;
@@ -150,7 +171,7 @@ login-button:hover {
 
 .forgot-link a{
     display: block;
-    text-align: right;
+    
     text-decoration: none;
     color: #52c41a;;
 }
@@ -174,4 +195,13 @@ font-weight: 600;
     .Right-side {
         display: none;
     }
+}
+.loginLeable{
+    font-family:
+            'URW Bookman',
+            'URW Bookman L',
+            'Georgia Pro',
+            Georgia,
+            serif;
+        color: #1f6935;
 }
