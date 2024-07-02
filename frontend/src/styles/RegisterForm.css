@@ -44,7 +44,8 @@
 }
 .logo{
     display: flex;
-    margin-left: 85px;
+    margin-left: 50px;
+    
 }
 .logo h1{
     color: #1f6935;

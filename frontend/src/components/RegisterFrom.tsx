@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
-import logo from "../images/logo.png";
+import logo from "../images/logo.svg";
 
 const { Option } = Select;
 
@@ -65,9 +65,7 @@ const Register: React.FC = () => {
       <div className="register-container">
         <div className="logo">
           <img src={logo} />
-          <div>
-            <h1>KidoAI</h1>
-          </div>
+          
         </div>
         <Form
           name="register"
