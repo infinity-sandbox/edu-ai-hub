@@ -309,7 +309,9 @@ const Register: React.FC = () => {
             Already have an account? <Link to="/login">Login</Link>
           </div>
         </Form>
+        
       </div>
+      
     </div>
   );
 };

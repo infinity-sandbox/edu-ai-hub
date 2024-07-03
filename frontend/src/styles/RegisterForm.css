@@ -35,7 +35,9 @@
     background-color: #0ca83b;
     color: #fff;
     border: none;
+    height: 50px;
     font-weight: 600;
+    font-size: 20px;
 }
 
 .register-form .login-link {
