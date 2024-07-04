@@ -32,9 +32,10 @@
 
 .register-form .register-button {
     width: 100%;
-    background-color: #0ca83b;
+    background-color: #59B379;
     color: #fff;
     border: none;
+    border-radius: 5rem;
     height: 50px;
     font-weight: 600;
     font-size: 20px;
@@ -60,7 +61,7 @@
         'Georgia Pro',
         Georgia,
         serif;
-    color: #1f6935;
+    color: #4c4c4c;
 }
 .logo img{
     height: 100px;
@@ -73,9 +74,8 @@
     flex: 1;
     height: auto;
     max-width: 400px;
-    background: #0c6b58;
+    background: #59B379;
     background-image: url(../images/registerBackground.svg);
-    
         background-repeat: no-repeat;
         /* Ensures the image doesn't repeat */
         background-size: cover;
