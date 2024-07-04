@@ -15,7 +15,7 @@
     height: 90%;
     display: flex;
     flex-direction: column;
-    
+    align-items: center;
     position: relative;
     background-color: #2b2e4a;
     border-radius: 15px;
@@ -91,10 +91,13 @@
 
 /* Customized Select component */
 .ant-select {
-    max-width: 600px;
-    width: 50%;
-    color: white;
-    background: #ffffff;
+    width: 300px;
+        max-width: 100%;
+        font-size: 1.2em;
+        color: white;
+        background-color: #59B379 !important;
+        border: none;
+        border-radius: 5px;
 }
 
 .ant-select-selector {
