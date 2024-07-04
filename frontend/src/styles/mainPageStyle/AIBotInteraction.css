@@ -15,7 +15,7 @@
     height: 90%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    
     position: relative;
     background-color: #2b2e4a;
     border-radius: 15px;
@@ -91,28 +91,31 @@
 
 /* Customized Select component */
 .ant-select {
-    width: 100%;
+    max-width: 600px;
+    width: 50%;
     color: white;
-    background: #59B379;
+    background: #ffffff;
 }
 
 .ant-select-selector {
-    background: #59B379 !important;
-    border: 1px solid #59B379 !important;
+    background: #ffffff !important;
+    border: 1px solid #ffffff !important;
     border-radius: 10px !important;
-    height: 60px !important;
+    height: 30px !important;
+    max-width:  900px;
     /* Increased height */
     display: flex;
-    align-items: center;
+
     color: white !important;
     font-size: 18px;
     /* Increased font size */
     padding: 0 20px;
     /* Added padding */
+    
 }
 
 .ant-select-arrow {
-    color: white !important;
+    color: #59B379 !important;
 }
 
 .ant-select-open .ant-select-selector {

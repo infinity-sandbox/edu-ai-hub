@@ -93,6 +93,7 @@ const AIBotInteraction: React.FC = () => {
       <Content className="content">
         {!selectedClass ? (
           <div>
+            <h1 style={{color:'white'}}>Select Class</h1>
             <Select onChange={handleClassSelect} placeholder="Select a class" dropdownClassName="custom-dropdown">
               <Option value="english">English</Option>
               <Option value="math">Math</Option>
