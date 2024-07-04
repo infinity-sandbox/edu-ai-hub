@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
-import logo from "../images/logo.svg";
+import logo from "../images/Logo.svg";
 
 const { Option } = Select;
 

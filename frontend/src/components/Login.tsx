@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import sideSvgImage from '../images/image1.svg'
-import logo from "../images/logo.svg";
+// import logo from "../images/Logo.svg";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -32,9 +32,9 @@ const Login: React.FC = () => {
       
     <div className="login-container">
       <div>
-       <div className="logo">
+       {/* <div className="logo">
           <img src={logo} />
-        </div>
+        </div> */}
      <div>
       <Form
         name="login"
