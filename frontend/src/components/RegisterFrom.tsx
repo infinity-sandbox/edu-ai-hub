@@ -202,7 +202,6 @@ const Register: React.FC = () => {
               placeholder="Select your class"
               value={classLevel}
               onChange={value => setClassLevel(value)}
-              className='registration-class'
             >
               <Option value="P1">P1</Option>
               <Option value="P2">P2</Option>
