@@ -91,13 +91,10 @@
 
 /* Customized Select component */
 .ant-select {
-    width: 300px;
-        max-width: 100%;
-        font-size: 1.2em;
-        color: white;
-        background-color: #59B379 !important;
-        border: none;
-        border-radius: 5px;
+    max-width: 600px;
+    width: 50%;
+    color: white;
+    background: #ffffff;
 }
 
 .ant-select-selector {
@@ -105,40 +102,37 @@
     border: 1px solid #ffffff !important;
     border-radius: 10px !important;
     height: 30px !important;
-    max-width:  900px;
-    /* Increased height */
+    max-width: 900px;
     display: flex;
-
     color: white !important;
     font-size: 18px;
-    /* Increased font size */
     padding: 0 20px;
-    /* Added padding */
-    
-}
-
-.ant-select-arrow {
+  }
+  
+  .custom-select .ant-select-arrow {
     color: #59B379 !important;
-}
-
-.ant-select-open .ant-select-selector {
+  }
+  
+  .custom-select.ant-select-open .ant-select-selector {
     border-color: #59B379 !important;
-}
-
-.ant-select-dropdown {
+  }
+  
+  /* Specific to the custom-dropdown class */
+  .custom-dropdown.ant-select-dropdown {
     background: #59B379 !important;
     color: white !important;
-}
-
-.ant-select-item {
+  }
+  
+  .custom-dropdown .ant-select-item {
     color: white !important;
-}
-
-.ant-select-item:hover,
-.ant-select-item-option-selected {
+  }
+  
+  .custom-dropdown .ant-select-item:hover,
+  .custom-dropdown .ant-select-item-option-selected {
     background: #59B379 !important;
     color: white !important;
-}
+  }
+  
 
 .raise-hand-container {
     display: flex;

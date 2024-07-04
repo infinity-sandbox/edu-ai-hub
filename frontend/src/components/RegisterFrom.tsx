@@ -63,10 +63,10 @@ const Register: React.FC = () => {
     <div className='RegisterPageAll'>
       <div className="left-side"></div>
       <div className="register-container">
-        <div className="logo">
+        {/* <div className="logo">
           <img src={logo} />
           
-        </div>
+        </div> */}
         <Form
           name="register"
           onFinish={onFinish}
