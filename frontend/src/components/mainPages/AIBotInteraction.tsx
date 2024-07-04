@@ -4,6 +4,7 @@ import { UpOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
+import raiseHandImage from '../../images/raised-hand.svg'
 
 const { Option } = Select;
 const { Content } = Layout;
@@ -109,7 +110,7 @@ const AIBotInteraction: React.FC = () => {
         ) : (
           <div className="classroom">
             <div className="class-header">
-              <h1>Class: {selectedClass}</h1>
+              <h1>{selectedClass} Class</h1>
             </div>
             <div className="top-section">
               <Webcam
@@ -131,11 +132,11 @@ const AIBotInteraction: React.FC = () => {
               <Button
                 type="primary"
                 shape="round"
-                icon={<UpOutlined />}
+                
                 size="large"
                 onClick={handleVoiceInput}
                 className="raise-hand-button"
-              >Hand Raise</Button>
+              ><img style={{height:'40px'}} src={raiseHandImage}/></Button>
             </div>
           </div>
         )}

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
-import logo from "../images/logo.svg";
+import RegisterSVG from "../images/RegisterSVG.svg";
 
 const { Option } = Select;
 
@@ -63,10 +63,6 @@ const Register: React.FC = () => {
     <div className='RegisterPageAll'>
       <div className="left-side"></div>
       <div className="register-container">
-        {/* <div className="logo">
-          <img src={logo} />
-          
-        </div> */}
         <Form
           name="register"
           onFinish={onFinish}
@@ -163,7 +159,6 @@ const Register: React.FC = () => {
           >
             <Input
               prefix={<UserOutlined />}
-              
               placeholder="Parent Name"
               value={parentName}
               onChange={e => setParentName(e.target.value)}
@@ -309,9 +304,10 @@ const Register: React.FC = () => {
             Already have an account? <Link to="/login">Login</Link>
           </div>
         </Form>
-        
       </div>
-      
+      <div className="registerSVG">
+        <img src={RegisterSVG} alt="Register SVG" />
+      </div>
     </div>
   );
 };

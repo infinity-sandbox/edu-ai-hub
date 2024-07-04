@@ -1,14 +1,26 @@
-.RegisterPageAll{
+.RegisterPageAll {
     display: flex;
     min-height: 100vh;
-    
 }
-.register-container {
-    width: 100%;
+
+.left-side {
+    flex: 1;
+    height: auto;
     max-width: 400px;
+    background: #59B379;
+    background-image: url(../images/registerBackground.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-container {
+    flex: 1;
+    max-width: 500px;
     padding: 20px;
     background-color: #fff;
-    
 }
 
 .register-form {
@@ -44,17 +56,19 @@
     text-align: center;
     margin-top: 20px;
 }
-.logo{
+
+.logo {
     display: flex;
     margin-left: 50px;
-    
 }
-.logo h1{
+
+.logo h1 {
     color: #1f6935;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-.createAccount{
-    font-family: 
+
+.createAccount {
+    font-family:
         'URW Bookman',
         'URW Bookman L',
         'Georgia Pro',
@@ -62,38 +76,34 @@
         serif;
     color: #4c4c4c;
 }
-.logo img{
+
+.logo img {
     height: 100px;
 }
+
 .register-form .login-link a {
     color: #0ca83b;
     font-weight: 600;
 }
-.left-side {
+
+.registerSVG {
     flex: 1;
-    height: auto;
-    max-width: 400px;
-    background: #59B379;
-    background-image: url(../images/registerBackground.svg);
-        background-repeat: no-repeat;
-        /* Ensures the image doesn't repeat */
-        background-size: cover;
-    /* Adjust the color to match your SVG design */
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.left-side img{
-    height: 300px;
-}
-/* 
-<div className="left-side"><img src= {
-    "LeftSideDesign"
+
+.registerSVG img {
+    max-width: 80%;
+    height: auto;
 }
 
-alt="Left Side Design" /></div> */
 @media screen and (max-width: 600px) {
     .left-side {
+        display: none;
+    }
+
+    .registerSVG {
         display: none;
     }
 }
