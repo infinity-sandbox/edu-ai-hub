@@ -5,6 +5,7 @@ import AIBotInteraction from './components/mainPages/AIBotInteraction';
 import LandingPage from './pages/LandingPage';
 import './App.css';
 import { Routes,Route, BrowserRouter } from 'react-router-dom';
+import ProfileManagement from './components/mainPages/ProfileManagement';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path='/' element={<LandingPage/>}></Route>
         <Route path='/Login' element={<Login/>}> </Route>
         <Route path='/Register' element={<Register/>}></Route>
+        <Route path='/ProfileManagement' element={<ProfileManagement/>}></Route>
         <Route path='/AIBotInteraction' element={<AIBotInteraction/>}></Route>
       </Routes>
     </BrowserRouter>

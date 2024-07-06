@@ -3,25 +3,23 @@
 
 /* Apply styles to the ai-bot-interaction container */
 .ai-bot-interaction {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #1f1c2c, #928dab);
     height: 100vh;
-    margin: 0;
-    color: white;
+    display: flex;
+    
+    
 }
 
 .content {
-    width: 100%;
-    height: 90%;
+    width: 80%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: #2b2e4a;
-    border-radius: 15px;
+    background-color: #59B379;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
 .classroom {
@@ -64,8 +62,8 @@
 }
 
 .blackboard {
-    background-color: #1c1e2e;
-    color: #fff;
+    background-color: #ffffff;
+    color: #000000;
     width: 100%;
     flex-grow: 1;
     padding: 20px;
@@ -147,7 +145,7 @@ width: 300px;
 }
 
 .raise-hand-button {
-    background-color: #59B379;
+    background-color: #ffffff;
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
