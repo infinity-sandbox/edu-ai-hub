@@ -41,6 +41,7 @@ local_build.sh
 docker-compose2.yml
 
 test-practice/
+test_practice
 
 # Local Docker
 docker-compose-local.yml
