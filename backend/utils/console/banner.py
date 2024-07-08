@@ -15,13 +15,10 @@ _MAIN_BANNER = r"""{}
 ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ 
 
-                {}by abel & louis  ~  AI for kids!
-                            v[_V_]
-
 """.format(IO.Fore.LIGHTGREEN_EX, IO.Style.RESET_ALL + IO.Style.BRIGHT)                                    
 
-def get_main_banner(version, banner=_MAIN_BANNER):
-    return banner.replace('[_V_]', version)
+def get_main_banner(banner=_MAIN_BANNER):
+    return banner
 
 def run_banner():
     """
@@ -29,16 +26,21 @@ def run_banner():
     @fetch version from a function
     """
 
-    version = '0.0.1'
-
     IO.spacer()
-    IO.print(get_main_banner(version, _MAIN_BANNER))
+    IO.print(get_main_banner(_MAIN_BANNER))
     IO.spacer()
     
     
-
-
     
+    
+    
+    
+    
+    
+    
+
+#---------------------------------------------------------------------------------------------------
+
 sample_banner = r"""
 
          _                    _          _               _      _               
@@ -122,9 +124,10 @@ sample_banner = r"""
   
   
   
+  return banner.replace('[_V_]', version)
   
-  
-  
+  {}by abel & louis  ~  AI for kids!
+             v[_V_]
   
   
   

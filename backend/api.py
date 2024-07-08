@@ -24,4 +24,4 @@ run_banner()
 # domain app router
 @app.get("/")
 async def serve_frontend():
-    return {'info': 'Aibou:- AI Application Backend Learning Platform for Kids in China'}
+    return {'info': 'aibou backend application'}
