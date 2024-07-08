@@ -51,4 +51,4 @@ ENV PORT=8000
 
 EXPOSE ${PORT}
 
-ENTRYPOINT uvicorn api:app --host ${HOST} --port ${PORT}
+ENTRYPOINT uvicorn app.app:app --host ${HOST} --port ${PORT}
