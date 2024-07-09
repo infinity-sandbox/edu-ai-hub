@@ -6,26 +6,44 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import sideSvgImage from '../images/image1.svg'
-// import logo from "../images/Logo.svg";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import {
+    Flex,
+    FormControl,
+    FormErrorMessage,
+    Heading,
+    useColorModeValue,
+    useToast,
+  } from "@chakra-ui/react";
+
 
 const Login: React.FC = () => {
+  const {
+        handleSubmit,
+        register,
+        formState: { errors, isSubmitting },
+      } = useForm();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const onFinish = () => {
-    const loginData = { email, password };
-    console.log('Login data: ', loginData);
-    axios.post('http://localhost:3000/login', loginData)
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
-
-    // Create JSON object
-    const json = JSON.stringify(loginData, null, 2);
-
-    // Create a blob from the JSON object and save it as a file
-    const blob = new Blob([json], { type: 'application/json' });
-    saveAs(blob, 'loginData.json');
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const toast = useToast();
+  const onSubmit = async () => {
+    try {
+      await login(email, password);
+    } catch (error) {
+      toast({
+        title: "Invalid email or password",
+        status: "error",
+        isClosable: true,
+        duration: 1500,
+      });
+    }
   };
+
+
 
   return (
     <div className='LoginPage'>
@@ -38,7 +56,7 @@ const Login: React.FC = () => {
      <div>
       <Form
         name="login"
-        onFinish={onFinish}
+        onFinish={onSubmit}
         className="login-form"
       >
         <h1 className='loginLeable'>Login</h1>
