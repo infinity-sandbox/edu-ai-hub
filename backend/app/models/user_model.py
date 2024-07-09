@@ -9,9 +9,17 @@ class User(Document):
     username: Indexed(str, unique=True) # type: ignore
     email: Indexed(EmailStr, unique=True) # type: ignore
     hashed_password: str
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    disabled: Optional[bool] = None
+    phone_number: Optional[str] = None
+    birthdate: Optional[str] = None
+    parent_name: Optional[str] = None
+    parent_email: Optional[EmailStr] = Indexed(EmailStr) # type: ignore
+    school: Optional[str] = None
+    user_class: Optional[str] = None
+    user_subject: Optional[str] = None
+    address: Optional[str] = None
+    security_question: Optional[str] = None
+    security_answer: Optional[str] = None
+    upload_photo: Optional[str] = None
     
     def __repr__(self) -> str:
         return f"<User {self.email}>"

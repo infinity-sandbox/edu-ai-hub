@@ -12,7 +12,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.models.user_model import User
 from app.api.api_v1.router import router
-from contextlib import asynccontextmanager
+from fastapi.responses import JSONResponse
 
 
 app = FastAPI(
@@ -29,6 +29,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def serve_frontend():
+    return JSONResponse(
+                content={
+                    "message": "aibou backend api. welcome to the jungle!",
+                }
+            )
+
 
 @app.on_event("startup")
 async def app_init():

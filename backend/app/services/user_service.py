@@ -4,7 +4,6 @@ from app.schemas.user_schema import UserAuth
 from app.models.user_model import User
 from app.core.security import get_password, verify_password
 import pymongo
-
 from app.schemas.user_schema import UserUpdate
 
 
@@ -14,7 +13,18 @@ class UserService:
         user_in = User(
             username=user.username,
             email=user.email,
-            hashed_password=get_password(user.password)
+            hashed_password=get_password(user.password),
+            phone_number=user.phone_number,
+            birthdate=user.birthdate,
+            parent_name=user.parent_name,
+            parent_email=user.parent_email,
+            school=user.school,
+            user_class=user.user_class,
+            user_subject=user.user_subject,
+            address=user.address,
+            security_question=user.security_question,
+            security_answer=user.security_answer,
+            upload_photo=user.upload_photo
         )
         await user_in.save()
         return user_in

@@ -1,20 +1,17 @@
 import pytest
 from logs.loggers.logger import logger_config
+import json
 
 
 @pytest.fixture
 def data():
-    number = 10
-    self_module = '__main__'
-    module = 'tests.test_logs.test_log'
+    with open("tests/data/log_test_data.json") as f:
+        data = json.load(f)
+    return data
     
-    return {
-                "number": number,
-                "self_module": self_module,
-                "module": module
-            }
 
 class TestLogger:
     @pytest.mark.operation
     def test_logger(self, data):
-        assert logger_config(__name__) == logger_config(data["module"])
+        for item in data:
+            assert logger_config(__name__) == logger_config(item["module"])
