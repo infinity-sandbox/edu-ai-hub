@@ -14,7 +14,7 @@
     "@types/node": "^16.18.101",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "antd": "^5.18.3",
+    "antd": "^5.19.1",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "file-saver": "^2.0.5",
@@ -25,6 +25,7 @@
     "react-router-dom": "^6.24.0",
     "react-scripts": "5.0.1",
     "react-webcam": "^7.2.0",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
-    "@types/react-icons": "^3.0.0"
+    "@types/react-icons": "^3.0.0",
+    "@types/react-webcam": "^3.0.0"
   }
 }
