@@ -1,0 +1,26 @@
+.profile-management {
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    
+}
+.formProfileManage{
+    max-width: 600px;
+}
+.profile-management .ant-form-item {
+    margin-bottom: 16px;
+}
+
+.profile-management .ant-form-item:last-child {
+    margin-bottom: 0;
+}
+
+.ant-btn {
+    background: #59B379;
+    border-color: #59B379;
+}
+
+.ant-btn:hover {
+    background: #45a061;
+    border-color: #45a061;
+}

@@ -1,0 +1,17 @@
+.site-layout-background {
+    background: #59B379;
+}
+.sidebarMenu{
+    background: #59B379;
+}
+.ant-menu-item {
+    color: #59B379;
+}
+
+.ant-menu-item:hover {
+    background-color: white;
+}
+
+.ant-menu-item-selected {
+    background-color: white;
+}
