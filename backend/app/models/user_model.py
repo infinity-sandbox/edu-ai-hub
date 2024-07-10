@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 from uuid import UUID, uuid4
 from beanie import Document, Indexed
@@ -15,11 +15,11 @@ class User(Document):
     parent_email: Optional[EmailStr] = Indexed(EmailStr) # type: ignore
     school: Optional[str] = None
     user_class: Optional[str] = None
-    user_subject: Optional[str] = None
+    user_subject: Optional[List[str]] = None
     address: Optional[str] = None
     security_question: Optional[str] = None
     security_answer: Optional[str] = None
-    upload_photo: Optional[str] = None
+    upload_photo: Optional[UUID] = Field(default_factory=uuid4)
     
     def __repr__(self) -> str:
         return f"<User {self.email}>"

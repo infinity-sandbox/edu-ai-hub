@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 
@@ -14,11 +14,11 @@ class UserAuth(BaseModel):
     parent_email: Optional[EmailStr] = Field(None, description="user parent email")
     school: Optional[str] = Field(None, description="user school")
     user_class: Optional[str] = Field(None, description="user class")
-    user_subject: Optional[str] = Field(None, description="user subject")
+    user_subject: Optional[List[str]] = Field(None, description="user subject")
     address: Optional[str] = Field(None, description="user address")
     security_question: Optional[str] = Field(None, description="user security question")
     security_answer: Optional[str] = Field(None, description="user security answer")
-    upload_photo: Optional[str] = Field(None, description="user photo")
+    upload_photo: Optional[UUID] = Field(None, description="user photo")
     
     
 
@@ -36,8 +36,8 @@ class UserUpdate(BaseModel):
     parent_email: Optional[EmailStr] = Field(None, description="user parent email")
     school: Optional[str] = Field(None, description="user school")
     user_class: Optional[str] = Field(None, description="user class")
-    user_subject: Optional[str] = Field(None, description="user subject")
+    user_subject: Optional[List[str]] = Field(None, description="user subject")
     address: Optional[str] = Field(None, description="user address")
     security_question: Optional[str] = Field(None, description="user security question")
     security_answer: Optional[str] = Field(None, description="user security answer")
-    upload_photo: Optional[str] = Field(None, description="user photo")
+    upload_photo: Optional[UUID] = Field(None, description="user photo")
