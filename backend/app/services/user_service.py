@@ -23,8 +23,8 @@ class UserService:
             user_subject=user.user_subject,
             address=user.address,
             security_question=user.security_question,
-            security_answer=user.security_answer,
-            upload_photo=user.upload_photo
+            security_answer=user.security_answer
+            # upload_photo=user.upload_photo
         )
         await user_in.save()
         return user_in
