@@ -84,6 +84,7 @@ const ProfileManagement: React.FC = () => {
       onValuesChange={onValuesChange}
       onFinish={handleSubmit}
     >
+      <h1 style={{textAlign:'center'}}>View Profile</h1>
       <Form.Item name="username" label="Username">
         <Input />
       </Form.Item>

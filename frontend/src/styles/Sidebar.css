@@ -4,14 +4,28 @@
 .sidebarMenu{
     background: #59B379;
 }
-.ant-menu-item {
-    color: #59B379;
+.site-layout-background {
+    background: #fff;
 }
 
-.ant-menu-item:hover {
-    background-color: white;
+.menu-button {
+    display: none;
 }
 
-.ant-menu-item-selected {
-    background-color: white;
+.drawer-mobile .ant-drawer-body {
+    padding: 0;
+}
+
+.sider-desktop {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .menu-button {
+        display: block;
+    }
+
+    .sider-desktop {
+        display: none;
+    }
 }
