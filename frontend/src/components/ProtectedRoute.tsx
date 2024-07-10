@@ -1,27 +1,18 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = () => {
   const isAuthenticated = () => {
     const token = localStorage.getItem('token');
     if (!token) return false;
 
-    const decodedToken = jwt_decode<{ exp: number }>(token);
+    // Correct the usage of jwtDecode
+    const decodedToken: { exp: number } = jwtDecode(token);
     return decodedToken.exp > Date.now() / 1000;
   };
 
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        isAuthenticated() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/Login" />
-        )
-      }
-    />
-  );
+  return isAuthenticated() ? <Outlet /> : <Navigate to="/Login" />;
 };
 
 export default ProtectedRoute;

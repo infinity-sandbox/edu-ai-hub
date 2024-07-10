@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import sideSvgImage from '../images/image1.svg';
@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onFinish = async () => {
     setLoading(true);
@@ -23,8 +23,8 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
       console.log('Login successful! Token:', token);
       message.success('Login successful!');
-      history.push('/dashboard'); // Redirect after successful login
-    } catch (err) {
+      navigate('/dashboard'); // Redirect after successful login
+    } catch (err: any) {
       console.error('Login error:', err.response);
       if (err.response && err.response.status === 401) {
         message.error('Invalid email or password. Please try again.');
