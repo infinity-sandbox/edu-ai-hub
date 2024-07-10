@@ -1,6 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
+<<<<<<< HEAD
 import Logo from "../../images/logo.svg";
+=======
+import Logo from "../../images/Logo_.svg";
+>>>>>>> d239a4e7cbe812e1f62a27f4d6a4ef847275a0e8
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import Box from "@mui/material/Box";

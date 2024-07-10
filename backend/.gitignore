@@ -1,0 +1,4 @@
+.env
+aibou.egg-info/
+logs/
+venv_aibou/
