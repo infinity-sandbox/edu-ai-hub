@@ -14,17 +14,21 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
-    const loginData = { 
-        username: username, 
-        password: password
-    };
+    const loginData = new URLSearchParams();
+    loginData.append('username', values.username);
+    loginData.append('password', values.password);
+
     setLoading(true);
     setError('');
 
-    axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData)
+    axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
     .then(_result => {
-        message.success('Login successful');
-        navigate('/login');
+        message.success('Login successfu!');
+        navigate('/');
     })
     .catch(err => {
         message.error("Invalid email or password. Please try again.");
@@ -34,29 +38,6 @@ const Login: React.FC = () => {
         setLoading(false);
     });
 }
-
-
-
-
-
-
-
-//     try {
-//       const response = await axios.post('http://0.0.0.0:8000/api/v1/auth/login', loginData);
-//       const { token } = response.data;
-
-//       // Save JWT to local storage
-//       localStorage.setItem('token', token);
-
-//       // Redirect to another page after successful login
-//       navigate('/');
-//     } catch (err) {
-//       setError('Invalid email or password. Please try again.');
-//       console.log(err);
-//     } finally {
-//       setLoading(true);
-//     }
-//   };
 
   return (
     <div className='LoginPage'>
