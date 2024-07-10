@@ -5,6 +5,8 @@ from app.models.user_model import User
 from app.core.security import get_password, verify_password
 import pymongo
 from app.schemas.user_schema import UserUpdate
+from logs.loggers.logger import logger_config
+logger = logger_config(__name__)
 
 
 class UserService:
@@ -31,10 +33,15 @@ class UserService:
     
     @staticmethod
     async def authenticate(email: str, password: str) -> Optional[User]:
+        logger.debug(f"Authenticating user with email: {email}")
+        logger.debug(f"Authenticating user with password: {password}")
         user = await UserService.get_user_by_email(email=email)
+        logger.info(f"User found: {user}")
         if not user:
+            logger.info(f"User not found: {user}")
             return None
         if not verify_password(password=password, hashed_pass=user.hashed_password):
+            logger.info(f"Password does not match: {user}")
             return None
         
         return user

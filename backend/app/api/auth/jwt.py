@@ -11,6 +11,8 @@ from app.core.config import settings
 from app.schemas.auth_schema import TokenPayload
 from pydantic import ValidationError
 from jose import jwt
+from logs.loggers.logger import logger_config
+logger = logger_config(__name__)
 
 
 auth_router = APIRouter()
@@ -18,6 +20,7 @@ auth_router = APIRouter()
 
 @auth_router.post('/login', summary="Create access and refresh tokens for user", response_model=TokenSchema)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
+    logger.debug(f"Authenticating user with email: {form_data.username} and password {form_data.password} ...")
     user = await UserService.authenticate(email=form_data.username, password=form_data.password)
     if not user:
         raise HTTPException(
