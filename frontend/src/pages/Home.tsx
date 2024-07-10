@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout } from 'antd';
 import Sidebar from '../components/SideNav/Sidebar';
 import ProfileManagement from '../components/ProfileManagements/ProfileManagement';
-import '../styles/ViewProfile.css';
+import '../styles/Home.css';
 import AIBotInteraction from '../components/mainPages/AIBotInteraction';
 
 const { Content } = Layout;

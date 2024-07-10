@@ -25,7 +25,7 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
 
       // Redirect to another page after successful login
-      navigate('/dashboard');
+      navigate('/Home');
     } catch (err) {
       setError('Invalid email or password. Please try again.');
       console.log(err);

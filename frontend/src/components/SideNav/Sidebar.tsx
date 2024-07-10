@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect }) => {
       <Menu.Item key="performance">Performance</Menu.Item>
       <Menu.Item key="games">Games</Menu.Item>
       <Menu.Item key="notifications">Notifications</Menu.Item>
-      <Menu.Item key="manage-profile">Profile</Menu.Item>
+      <Menu.Item key="manage-profile">Profile Managegnent</Menu.Item>
       <Menu.Item key="sign-out">Sign Out</Menu.Item>
     </Menu>
   );
