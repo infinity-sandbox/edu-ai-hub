@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     axios.post('http://0.0.0.0:8000/api/v1/users/register', registerData)
       .then(_result => {
         message.success('Registration successful');
-        navigate('/login');
+        navigate('/statusPages/SuccessRegistrationPage');
       })
       .catch(err => {
         message.error('Registration failed. Please try again.');
@@ -35,13 +35,6 @@ const Register: React.FC = () => {
       .finally(() => {
         setLoading(false);
       });
-
-    // // Create JSON object
-    // const json = JSON.stringify(registerData, null, 2);
-
-    // // Create a blob from the JSON object and save it as a file
-    // const blob = new Blob([json], { type: 'application/json' });
-    // saveAs(blob, 'registerData.json');
   };
 
   return (

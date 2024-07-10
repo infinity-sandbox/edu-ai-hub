@@ -7,7 +7,7 @@ import axios from 'axios';
 import sideSvgImage from '../images/image1.svg';
 
 const Login: React.FC = () => {
-  const [username, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
-    loginData.append('username', values.username);
+    loginData.append('username', values.email);
     loginData.append('password', values.password);
 
     setLoading(true);
@@ -28,7 +28,7 @@ const Login: React.FC = () => {
     })
     .then(_result => {
         message.success('Login successfu!');
-        navigate('/');
+        navigate('/Home');
     })
     .catch(err => {
         message.error("Invalid email or password. Please try again.");
@@ -62,14 +62,14 @@ const Login: React.FC = () => {
                 prefix={<UserOutlined />}
                 className='emailInput'
                 placeholder="Email"
-                value={username}
+                value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </Form.Item>
             <div className='PasswordText'>
               <div>Password</div>
               <div className="forgot-link">
-                <a href="#">Forgot?</a>
+                <Link to="/ForgotPassword">Forgot?</Link>
               </div>
             </div>
             <Form.Item className='passwordInput'
