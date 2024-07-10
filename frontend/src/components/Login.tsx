@@ -1,99 +1,103 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Alert, Spin } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
-import sideSvgImage from '../images/image1.svg'
-// import logo from "../images/Logo.svg";
+import sideSvgImage from '../images/image1.svg';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const onFinish = () => {
+  const onFinish = async () => {
     const loginData = { email, password };
-    console.log('Login data: ', loginData);
-    axios.post('http://localhost:3000/login', loginData)
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
+    setLoading(true);
+    setError('');
+    try {
+      const response = await axios.post('http://localhost:3000/api/v1/auth/login', loginData);
+      const { token } = response.data;
 
-    // Create JSON object
-    const json = JSON.stringify(loginData, null, 2);
+      // Save JWT to local storage
+      localStorage.setItem('token', token);
 
-    // Create a blob from the JSON object and save it as a file
-    const blob = new Blob([json], { type: 'application/json' });
-    saveAs(blob, 'loginData.json');
+      // Redirect to another page after successful login
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Invalid email or password. Please try again.');
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className='LoginPage'>
-      
-    <div className="login-container">
-      <div>
-       {/* <div className="logo">
-          <img src={logo} />
-        </div> */}
-     <div>
-      <Form
-        name="login"
-        onFinish={onFinish}
-        className="login-form"
-      >
-        <h1 className='loginLeable'>Login</h1>
-        <div className='EmailText'>Email</div>
-        <Form.Item className='emailInput'
-          name="email"
-          rules={[{ required: true, message: 'Please input your Email!' }]}
-        >
-          <Input
-            prefix={<UserOutlined />}
-            className='emailInput'
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </Form.Item>
-        <div className='PasswordText'>
-          <div>Password</div>
-          <div className="forgot-link">
-            <a href="#">Forgot?</a>
-          </div>
+      <div className="login-container">
+        <div>
+          <Form
+            name="login"
+            onFinish={onFinish}
+            className="login-form"
+          >
+            <h1 className='loginLeable'>Login</h1>
+            {error && <Alert message={error} type="error" showIcon />}
+            <div className='EmailText'>Email</div>
+            <Form.Item className='emailInput'
+              name="email"
+              rules={[
+                { required: true, message: 'Please input your Email!' },
+                { type: 'email', message: 'The input is not a valid email!' },
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined />}
+                className='emailInput'
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </Form.Item>
+            <div className='PasswordText'>
+              <div>Password</div>
+              <div className="forgot-link">
+                <a href="#">Forgot?</a>
+              </div>
+            </div>
+            <Form.Item className='passwordInput'
+              name="password"
+              rules={[
+                { required: true, message: 'Please input your Password!' },
+                { min: 6, message: 'Password must be at least 6 characters!' },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined />}
+                type="password"
+                placeholder="Password"
+                className='passwordInput'
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" className="login-button" disabled={loading}>
+                {loading ? <Spin /> : 'Login now'}
+              </Button>
+            </Form.Item>
+            <div className="signup-link">
+              <span>Don't have an account?</span>{" "}
+              <Link to="/Register">Register</Link>
+            </div>
+          </Form>
         </div>
-        <Form.Item className='passwordInput'
-          name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
-        >
-          <Input
-            prefix={<LockOutlined />}
-            type="password"
-            placeholder="Password"
-            className='passwordInput'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-        </Form.Item>
-        
-        <Form.Item>
-          <Button htmlType="submit" className="login-button">
-            Login now
-          </Button>
-        </Form.Item>
-        <div className="signup-link">
-          <span>Don't have an account?</span>{" "}
-          <Link to="/Register">Register</Link>
-        </div>
-      </Form>
       </div>
+      <div className="Right-side">
+        <img src={sideSvgImage} alt="Left Side Design" />
       </div>
-    </div>
-    <div className="Right-side">
-     
-      <img src= {sideSvgImage} alt="Left Side Design" />
-    
-    </div>
-    
     </div>
   );
 };
