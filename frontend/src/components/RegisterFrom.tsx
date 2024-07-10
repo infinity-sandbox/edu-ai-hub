@@ -36,12 +36,12 @@ const Register: React.FC = () => {
         setLoading(false);
       });
 
-    // Create JSON object
-    const json = JSON.stringify(registerData, null, 2);
+    // // Create JSON object
+    // const json = JSON.stringify(registerData, null, 2);
 
-    // Create a blob from the JSON object and save it as a file
-    const blob = new Blob([json], { type: 'application/json' });
-    saveAs(blob, 'registerData.json');
+    // // Create a blob from the JSON object and save it as a file
+    // const blob = new Blob([json], { type: 'application/json' });
+    // saveAs(blob, 'registerData.json');
   };
 
   return (

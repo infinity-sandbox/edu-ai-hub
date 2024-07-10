@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Alert, Spin } from 'antd';
+import { Form, Input, Button, Alert, Spin, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,32 +7,56 @@ import axios from 'axios';
 import sideSvgImage from '../images/image1.svg';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [username, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const onFinish = async () => {
-    const loginData = { email, password };
+  const onFinish = async (values: any) => {
+    const loginData = { 
+        username: username, 
+        password: password
+    };
     setLoading(true);
     setError('');
-    try {
-      const response = await axios.post('http://0.0.0.0:8000/api/v1/auth/login', loginData);
-      const { token } = response.data;
 
-      // Save JWT to local storage
-      localStorage.setItem('token', token);
+    axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData)
+    .then(_result => {
+        message.success('Login successful');
+        navigate('/login');
+    })
+    .catch(err => {
+        message.error("Invalid email or password. Please try again.");
+        console.error(err);
+    })
+    .finally(() => {
+        setLoading(false);
+    });
+}
 
-      // Redirect to another page after successful login
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Invalid email or password. Please try again.');
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+
+
+
+
+
+//     try {
+//       const response = await axios.post('http://0.0.0.0:8000/api/v1/auth/login', loginData);
+//       const { token } = response.data;
+
+//       // Save JWT to local storage
+//       localStorage.setItem('token', token);
+
+//       // Redirect to another page after successful login
+//       navigate('/');
+//     } catch (err) {
+//       setError('Invalid email or password. Please try again.');
+//       console.log(err);
+//     } finally {
+//       setLoading(true);
+//     }
+//   };
 
   return (
     <div className='LoginPage'>
@@ -57,7 +81,7 @@ const Login: React.FC = () => {
                 prefix={<UserOutlined />}
                 className='emailInput'
                 placeholder="Email"
-                value={email}
+                value={username}
                 onChange={e => setEmail(e.target.value)}
               />
             </Form.Item>
