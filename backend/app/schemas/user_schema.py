@@ -18,7 +18,7 @@ class UserAuth(BaseModel):
     address: Optional[str] = Field(None, description="user address")
     security_question: Optional[str] = Field(None, description="user security question")
     security_answer: Optional[str] = Field(None, description="user security answer")
-    upload_photo: Optional[UUID] = Field(None, description="user photo")
+    # upload_photo: Optional[UUID] = Field(None, description="user photo")
     
     
 
@@ -40,4 +40,4 @@ class UserUpdate(BaseModel):
     address: Optional[str] = Field(None, description="user address")
     security_question: Optional[str] = Field(None, description="user security question")
     security_answer: Optional[str] = Field(None, description="user security answer")
-    upload_photo: Optional[UUID] = Field(None, description="user photo")
+    # upload_photo: Optional[UUID] = Field(None, description="user photo")
