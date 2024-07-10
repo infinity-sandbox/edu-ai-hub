@@ -5,10 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
-<<<<<<< HEAD
 import logo from "../images/logo.svg";
-=======
->>>>>>> d239a4e7cbe812e1f62a27f4d6a4ef847275a0e8
 
 const { Option } = Select;
 

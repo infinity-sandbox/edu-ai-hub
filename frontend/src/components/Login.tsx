@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/auth/login', loginData);
+      const response = await axios.post('http://0.0.0.0:8000/api/v1/auth/login', loginData);
       const { token } = response.data;
 
       // Save JWT to local storage
