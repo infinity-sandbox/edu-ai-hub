@@ -35,7 +35,7 @@ async def update_user(data: UserUpdate, current_user: User = Depends(get_current
             detail="User not found"
         )
         
-@user_router.post('/emailresetrequest', summary="Send email reset password")
+@user_router.post('/emailreset', summary="Send email reset password", response_model=PasswordResetRequest)
 async def reset_password(request: PasswordResetRequest):
     try:
         return await UserService.send_email_request(request.email)

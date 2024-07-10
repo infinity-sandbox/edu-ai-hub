@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from app.core.config import settings
 import smtplib
+from app.core.security import create_access_token
 import jwt
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -80,10 +81,12 @@ class UserService:
         if not user:
             raise pymongo.errors.OperationFailure("User not found or this email is not registered!")
         access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        access_token = self.create_access_token(
-            data={"sub": email}, expires_delta=access_token_expires
+        access_token_expires_minutes = int(access_token_expires.total_seconds() / 60)
+        
+        access_token = create_access_token(
+            data={"sub": email}, expires_delta=access_token_expires_minutes
         )
-        reset_link = f"{settings.FRONTEND_API_URL}/resetpassword?token={access_token}"
+        reset_link = f"{settings.FRONTEND_API_URL}/PasswordResetPage?token={access_token}"
         # Send the reset link to the user's email
         logger.debug(f"Reset link: {reset_link}")
         status = self.send_email(email, reset_link)
@@ -91,17 +94,6 @@ class UserService:
             return logger.debug("Password reset email sent!")
         else:
             return logger.debug("Password reset email not sent!")
-        
-        
-    def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-        to_encode = data.copy()
-        if expires_delta:
-            expire = datetime.utcnow() + expires_delta
-        else:
-            expire = datetime.utcnow() + timedelta(minutes=15)
-        to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
-        return encoded_jwt
     
     def send_email(email: str, reset_link):
         sent = False

@@ -22,10 +22,10 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str = config("OPENAI_API_KEY", cast=str)
     VDB_API_KEY: str = config("VDB_API_KEY", cast=str)
     VDB_URL: str = config("VDB_URL", cast=str)
-    FRONTEND_API_URL: str = config("FRONTEND_API_URL_DEV", cast=str)
-    BACKEND_API_URL: str = config("BACKEND_API_URL_DEV", cast=str)
-    MY_EMAIL=config("MY_EMAIL", cast=str)
-    MY_EMAIL_PASSWORD=config("MY_EMAIL_PASSWORD", cast=str)
+    FRONTEND_API_URL: str = config("FRONTEND_API_URL", cast=str)
+    BACKEND_API_URL: str = config("BACKEND_API_URL", cast=str)
+    MY_EMAI: str = config("MY_EMAIL", cast=str)
+    MY_EMAIL_PASSWORD: str = config("MY_EMAIL_PASSWORD", cast=str)
     
     class Config:
         case_sensitive = True
