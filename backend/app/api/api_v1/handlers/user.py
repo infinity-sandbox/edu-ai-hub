@@ -9,7 +9,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
-
+from app.schemas.user_schema import PasswordResetRequest, PasswordResetConfirm
 
 
 user_router = APIRouter()
@@ -35,3 +35,12 @@ async def update_user(data: UserUpdate, current_user: User = Depends(get_current
             detail="User not found"
         )
         
+@user_router.post('/emailresetrequest', summary="Send email reset password")
+async def reset_password(request: PasswordResetRequest):
+    try:
+        return await UserService.send_email_request(request.email)
+    except pymongo.errors.OperationFailure:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found or this email is not registered!"
+        )

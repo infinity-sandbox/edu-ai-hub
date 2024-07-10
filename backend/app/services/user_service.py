@@ -7,6 +7,15 @@ import pymongo
 from app.schemas.user_schema import UserUpdate
 from logs.loggers.logger import logger_config
 logger = logger_config(__name__)
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel, EmailStr
+from datetime import datetime, timedelta
+from passlib.context import CryptContext
+from app.core.config import settings
+import smtplib
+import jwt
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
@@ -64,3 +73,50 @@ class UserService:
     
         await user.update({"$set": data.dict(exclude_unset=True)})
         return user
+    
+    @staticmethod
+    async def send_email_request(self, email: str):
+        user = await UserService.get_user_by_email(email)
+        if not user:
+            raise pymongo.errors.OperationFailure("User not found or this email is not registered!")
+        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = self.create_access_token(
+            data={"sub": email}, expires_delta=access_token_expires
+        )
+        reset_link = f"{settings.FRONTEND_API_URL}/resetpassword?token={access_token}"
+        # Send the reset link to the user's email
+        logger.debug(f"Reset link: {reset_link}")
+        status = self.send_email(email, reset_link)
+        if status:
+            return logger.debug("Password reset email sent!")
+        else:
+            return logger.debug("Password reset email not sent!")
+        
+        
+    def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+        to_encode = data.copy()
+        if expires_delta:
+            expire = datetime.utcnow() + expires_delta
+        else:
+            expire = datetime.utcnow() + timedelta(minutes=15)
+        to_encode.update({"exp": expire})
+        encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
+        return encoded_jwt
+    
+    def send_email(email: str, reset_link):
+        sent = False
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(settings.MY_EMAIL, settings.MY_EMAIL_PASSWORD)
+        message = f"""
+                    AI BOU PASSWORD REQUEST
+                    Click the reset link to reset your password.
+                    Password Reset Link: 
+                    {reset_link}
+                    This link will expire after 5 minutes.
+                """
+        server.sendmail(settings.MY_EMAIL, email, message)
+        if sent:
+            return True
+        else:
+            return False
