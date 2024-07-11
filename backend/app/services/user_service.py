@@ -112,8 +112,8 @@ class UserService:
         
         hashed_password = get_password(new_password)
         data = {"hashed_password": hashed_password}
-        
-        await user.update({"$set": data.dict(exclude_unset=True)})
+    
+        await user.update({"$set": data})
         return {"msg": "Password reset successful"}
     
 def send_email(email: str, reset_link):
