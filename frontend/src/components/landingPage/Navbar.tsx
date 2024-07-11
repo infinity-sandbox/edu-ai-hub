@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import Logo from "../../images/Logo_.svg";
+import Logo from "../../images/logo.svg";
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import Box from "@mui/material/Box";
@@ -17,50 +17,55 @@ import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../../styles/LandingPage.css"
 
 const Navbar: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const handleClick = () => {
     navigate('/Login');
   };
+
   const menuOptions = [
     {
-      text: "Home",
+      text: t('navbar.home'),
       icon: <HomeIcon />,
     },
     {
-      text: "About",
+      text: t('navbar.about'),
       icon: <InfoIcon />,
     },
     {
-      text: "Testimonials",
+      text: t('navbar.testimonials'),
       icon: <CommentRoundedIcon />,
     },
     {
-      text: "Contact",
+      text: t('navbar.contact'),
       icon: <PhoneRoundedIcon />,
     },
     {
-      text: "Cart",
+      text: t('navbar.cart'),
       icon: <ShoppingCartRoundedIcon />,
     },
   ];
+
   return (
     <nav>
       <div className="nav-logo-container">
         <img src={Logo} alt="" />
       </div>
       <div className="navbar-links-container">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        {/* <a href="">Testimonials</a> */}
-        <a href="#contact">Contact</a>
+        <a href="#home">{t('navbar.home')}</a>
+        <a href="#about">{t('navbar.about')}</a>
+        {/* <a href="#testimonials">{t('navbar.testimonials')}</a> */}
+        <a href="#contact">{t('navbar.contact')}</a>
         <a href="">
           {/* <BsCart2 className="navbar-cart-icon" /> */}
         </a>
-        <button className="primary-button" onClick={handleClick}>Log in</button>
+        <button className="primary-button" onClick={handleClick}>{t('navbar.login_button')}</button>
       </div>
       <div className="navbar-menu-container">
         <HiOutlineBars3 onClick={() => setOpenMenu(true)} />

@@ -5,8 +5,10 @@ import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import sideSvgImage from '../images/image1.svg';
+import { useTranslation } from 'react-i18next';
 
 const Login: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,9 +27,9 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
 
       // Redirect to another page after successful login
-      navigate('/Home');
+      navigate('/insideHome');
     } catch (err) {
-      setError('Invalid email or password. Please try again.');
+      setError(t('login.invalid_credentials'));
       console.log(err);
     } finally {
       setLoading(false);
@@ -43,41 +45,41 @@ const Login: React.FC = () => {
             onFinish={onFinish}
             className="login-form"
           >
-            <h1 className='loginLeable'>Login</h1>
+            <h1 className='loginLeable'>{t('login.login_label')}</h1>
             {error && <Alert message={error} type="error" showIcon />}
-            <div className='EmailText'>Email</div>
+            <div className='EmailText'>{t('login.email')}</div>
             <Form.Item className='emailInput'
               name="email"
               rules={[
-                { required: true, message: 'Please input your Email!' },
-                { type: 'email', message: 'The input is not a valid email!' },
+                { required: true, message: t('login.email_required') },
+                { type: 'email', message: t('login.email_invalid') },
               ]}
             >
               <Input
                 prefix={<UserOutlined />}
                 className='emailInput'
-                placeholder="Email"
+                placeholder={t('login.email')}
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </Form.Item>
             <div className='PasswordText'>
-              <div>Password</div>
+              <div>{t('login.password')}</div>
               <div className="forgot-link">
-                <a href="#">Forgot?</a>
+                <a href="#">{t('login.forgot')}</a>
               </div>
             </div>
             <Form.Item className='passwordInput'
               name="password"
               rules={[
-                { required: true, message: 'Please input your Password!' },
-                { min: 6, message: 'Password must be at least 6 characters!' },
+                { required: true, message: t('login.password_required') },
+                { min: 6, message: t('login.password_min') },
               ]}
             >
               <Input
                 prefix={<LockOutlined />}
                 type="password"
-                placeholder="Password"
+                placeholder={t('login.password')}
                 className='passwordInput'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -85,12 +87,12 @@ const Login: React.FC = () => {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" className="login-button" disabled={loading}>
-                {loading ? <Spin /> : 'Login now'}
+                {loading ? <Spin /> : t('login.login_now')}
               </Button>
             </Form.Item>
             <div className="signup-link">
-              <span>Don't have an account?</span>{" "}
-              <Link to="/Register">Register</Link>
+              <span>{t('login.dont_have_account')}</span>{" "}
+              <Link to="/Register">{t('login.register')}</Link>
             </div>
           </Form>
         </div>
