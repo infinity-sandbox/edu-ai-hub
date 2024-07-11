@@ -59,7 +59,7 @@ const ProfileManagement: React.FC = () => {
     setIsEditing(false);
   };
   const handleFinish = (values: UserInfo) => {
-    axios.put(`${baseUrl}/api/v1/users/profile`, values, {
+    axios.put(baseUrl + '/api/v1/users/profile', values, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Refresh-Token': refreshToken,
