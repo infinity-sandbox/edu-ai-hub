@@ -7,6 +7,8 @@ from app.services.user_service import UserService
 from typing import List
 from uuid import UUID
 from fastapi import APIRouter, Depends
+from logs.loggers.logger import logger_config
+logger = logger_config(__name__)
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
 from app.schemas.user_schema import PasswordResetRequest, PasswordResetConfirm
@@ -38,6 +40,8 @@ async def update_user(data: UserUpdate, current_user: User = Depends(get_current
 @user_router.post('/emailreset', summary="Send email reset password", response_model=PasswordResetRequest)
 async def reset_password(request: PasswordResetRequest):
     try:
+        logger.info(f"Request: {request}")
+        logger.info(f"Request email: {request.email}")
         return await UserService.send_email_request(request.email)
     except pymongo.errors.OperationFailure:
         raise HTTPException(

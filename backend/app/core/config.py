@@ -24,8 +24,9 @@ class Settings(BaseSettings):
     VDB_URL: str = config("VDB_URL", cast=str)
     FRONTEND_API_URL: str = config("FRONTEND_API_URL", cast=str)
     BACKEND_API_URL: str = config("BACKEND_API_URL", cast=str)
-    MY_EMAI: str = config("MY_EMAIL", cast=str)
+    MY_EMAIL: str = config("MY_EMAIL", cast=str)
     MY_EMAIL_PASSWORD: str = config("MY_EMAIL_PASSWORD", cast=str)
+    EMAIL_APP_PASSWORD: str = config("EMAIL_APP_PASSWORD", cast=str)
     
     class Config:
         case_sensitive = True
