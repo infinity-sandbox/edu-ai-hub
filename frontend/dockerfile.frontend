@@ -11,11 +11,8 @@ COPY tsconfig.json ./
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Configure npm to use a specific registry
-RUN npm config set registry https://registry.npmjs.org/
-
 # Clean npm cache and install dependencies with verbose logging
-RUN npm cache clean --force && npm install --legacy-peer-deps --verbose
+RUN npm install --legacy-peer-deps
 
 # Expose port 3000 (the default port for create-react-app)
 EXPOSE 3000
