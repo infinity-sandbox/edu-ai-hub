@@ -44,8 +44,8 @@ async def reset_password(request: PasswordResetRequest):
         await UserService.send_email_request(request.email)
         return JSONResponse(
             content={"message": "Reset email sent successfully!"})
-    except pymongo.errors.OperationFailure:
+    except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found or this email is not registered!"
+            detail=f"{e}"
         )
