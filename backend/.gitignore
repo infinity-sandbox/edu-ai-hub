@@ -188,8 +188,10 @@ cython_debug/
 .credentials/
 frontend-chat/
 myenv/
-prompt/ingestion/test.ipynb
-
 .tenxbot/
 server/test.py
 test_script/
+.env
+aibou.egg-info/
+logs/
+venv_aibou/

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, DatePicker, Upload, Select } from 'antd';
+import { Form, Input, Button, Checkbox, DatePicker, Upload, Select, message } from 'antd';
 import { BookOutlined, HomeOutlined, QuestionCircleOutlined, UserOutlined, LockOutlined, MailOutlined, PhoneOutlined, UploadOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
@@ -10,64 +10,39 @@ import logo from "../images/logo.svg";
 const { Option } = Select;
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [parentName, setParentName] = useState('');
-  const [parentEmail, setParentEmail] = useState('');
-  const [school, setSchool] = useState('');
-  const [classLevel, setClassLevel] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const [books, setBooks] = useState([]);
-  const [birthdate, setBirthdate] = useState<string | null>(null);
-  const [address, setAddress] = useState('');
-  const [securityQuestion, setSecurityQuestion] = useState('');
-  const [securityAnswer, setSecurityAnswer] = useState('');
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [profilePicture, setProfilePicture] = useState<any>(null);
 
-  const onFinish = () => {
+  const onFinish = (values: any) => {
+    setLoading(true);
     const registerData = {
-      username,
-      email,
-      password,
-      confirmPassword,
-      phoneNumber,
-      parentName,
-      parentEmail,
-      school,
-      classLevel,
-      agreeToTerms,
-      books,
-      birthdate,
-      address,
-      securityQuestion,
-      securityAnswer,
-      profilePicture,
+      ...values,
+      birthdate: values.birthdate ? values.birthdate.format('YYYY-MM-DD') : '',
+      upload_photo: profilePicture,
     };
-    console.log('Register data: ', registerData);
-    axios.post('/', registerData)
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
 
-    // Create JSON object
-    const json = JSON.stringify(registerData, null, 2);
-
-    // Create a blob from the JSON object and save it as a file
-    const blob = new Blob([json], { type: 'application/json' });
-    saveAs(blob, 'registerData.json');
+    axios.post('http://0.0.0.0:8000/api/v1/users/register', registerData)
+      .then(_result => {
+        message.success('Registration successful');
+        navigate('/statusPages/SuccessRegistrationPage');
+      })
+      .catch(err => {
+        message.error('Registration failed. Please try again.');
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <div className='RegisterPageAll'>
       <div className="left-side"></div>
       <div className="register-container">
-        {/* <div className="logo">
-          <img src={logo} />
-          
-        </div> */}
         <Form
+          form={form}
           name="register"
           onFinish={onFinish}
           className="register-form"
@@ -81,22 +56,16 @@ const Register: React.FC = () => {
             <Input
               prefix={<UserOutlined />}
               placeholder="Username"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your Email!' }
-              , { type: 'email', message: 'Please enter a valid Email!' }
-            ]}
+            rules={[{ required: true, message: 'Please input your Email!' }, { type: 'email', message: 'Please enter a valid Email!' }]}
           >
             <Input
               prefix={<MailOutlined />}
               placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
             />
           </Form.Item>
 
@@ -108,13 +77,11 @@ const Register: React.FC = () => {
               prefix={<LockOutlined />}
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="confirmPassword"
+            name="confirm_password"
             dependencies={['password']}
             hasFeedback
             rules={[
@@ -133,20 +100,16 @@ const Register: React.FC = () => {
               prefix={<LockOutlined />}
               type="password"
               placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="phoneNumber"
+            name="phone_number"
             rules={[{ required: true, message: 'Please input your Phone Number!' }]}
           >
             <Input
               prefix={<PhoneOutlined />}
               placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={e => setPhoneNumber(e.target.value)}
             />
           </Form.Item>
 
@@ -154,31 +117,26 @@ const Register: React.FC = () => {
             name="birthdate"
             rules={[{ required: true, message: 'Please input your Birthdate!' }]}
           >
-            <DatePicker placeholder='Enter Birthdate' style={{ width: '100%' }} onChange={(date, dateString) => setBirthdate(dateString as string)} />
+            <DatePicker placeholder='Enter Birthdate' style={{ width: '100%' }} />
           </Form.Item>
 
           <Form.Item
-            name="parentName"
+            name="parent_name"
             rules={[{ required: true, message: 'Please input your Parent Name!' }]}
           >
             <Input
               prefix={<UserOutlined />}
-              
               placeholder="Parent Name"
-              value={parentName}
-              onChange={e => setParentName(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="parentEmail"
-            rules={[{ required: true, message: 'Please input your Parent Email!' }]}
+            name="parent_email"
+            rules={[{ required: true, message: 'Please input your Parent Email!' }, { type: 'email', message: 'Please enter a valid Email!' }]}
           >
             <Input
               prefix={<MailOutlined />}
               placeholder="Parent Email"
-              value={parentEmail}
-              onChange={e => setParentEmail(e.target.value)}
             />
           </Form.Item>
 
@@ -189,19 +147,15 @@ const Register: React.FC = () => {
             <Input
               prefix={<BookOutlined />}
               placeholder="School"
-              value={school}
-              onChange={e => setSchool(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="classLevel"
+            name="user_class"
             rules={[{ required: true, message: 'Please input your Class!' }]}
           >
             <Select
               placeholder="Select your class"
-              value={classLevel}
-              onChange={value => setClassLevel(value)}
             >
               <Option value="P1">P1</Option>
               <Option value="P2">P2</Option>
@@ -219,14 +173,12 @@ const Register: React.FC = () => {
           </Form.Item>
 
           <Form.Item
-            name="books"
+            name="user_subject"
             rules={[{ required: true, message: 'Please input your Books!' }]}
           >
             <Select
               mode="multiple"
               placeholder="Select your books"
-              value={books}
-              onChange={value => setBooks(value)}
             >
               <Option value="Math">Math</Option>
               <Option value="Science">Science</Option>
@@ -243,37 +195,31 @@ const Register: React.FC = () => {
             <Input
               prefix={<HomeOutlined />}
               placeholder="Address"
-              value={address}
-              onChange={e => setAddress(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="securityQuestion"
+            name="security_question"
             rules={[{ required: true, message: 'Please input your Security Question!' }]}
           >
             <Input
               prefix={<QuestionCircleOutlined />}
               placeholder="Security Question"
-              value={securityQuestion}
-              onChange={e => setSecurityQuestion(e.target.value)}
             />
           </Form.Item>
 
           <Form.Item
-            name="securityAnswer"
+            name="security_answer"
             rules={[{ required: true, message: 'Please input your Security Answer!' }]}
           >
             <Input
               prefix={<QuestionCircleOutlined />}
               placeholder="Security Answer"
-              value={securityAnswer}
-              onChange={e => setSecurityAnswer(e.target.value)}
             />
           </Form.Item>
 
-          <Form.Item
-            name="profilePicture"
+          {/* <Form.Item
+            name="upload_photo"
             rules={[{ required: true, message: 'Please upload your Profile Picture!' }]}
           >
             <Upload
@@ -285,23 +231,20 @@ const Register: React.FC = () => {
             >
               <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
             </Upload>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="agreeToTerms"
             valuePropName="checked"
             rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('You must agree to the terms and conditions')) }]}
           >
-            <Checkbox
-              checked={agreeToTerms}
-              onChange={e => setAgreeToTerms(e.target.checked)}
-            >
+            <Checkbox>
               I agree to the terms and conditions
             </Checkbox>
           </Form.Item>
 
           <Form.Item>
-            <Button htmlType="submit" className="register-button">
+            <Button htmlType="submit" className="register-button" loading={loading}>
               Create account
             </Button>
           </Form.Item>
@@ -309,9 +252,7 @@ const Register: React.FC = () => {
             Already have an account? <Link to="/login">Login</Link>
           </div>
         </Form>
-        
       </div>
-      
     </div>
   );
 };

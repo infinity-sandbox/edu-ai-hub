@@ -19,7 +19,6 @@ class User(Document):
     address: Optional[str] = None
     security_question: Optional[str] = None
     security_answer: Optional[str] = None
-    # upload_photo: Optional[UUID] = Field(default_factory=uuid4)
     
     def __repr__(self) -> str:
         return f"<User {self.email}>"
