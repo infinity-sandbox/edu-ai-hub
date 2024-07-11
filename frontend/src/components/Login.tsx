@@ -6,20 +6,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import sideSvgImage from '../images/image1.svg';
 import { useTranslation } from 'react-i18next';
+import { jwtDecode } from 'jwt-decode';
+
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');          
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
-    
+
     loginData.append('username', values.email);
     loginData.append('password', values.password);
 
@@ -32,7 +32,12 @@ const Login: React.FC = () => {
       // Save JWT to local storage
       localStorage.setItem('token', token);
 
+      // Decode JWT token to extract user information if needed
+      const decodedToken = jwtDecode<{ exp: number }>(token);
+      console.log('Decoded Token: ', decodedToken);
+
       // Redirect to another page after successful login
+      message.success('Login successful!');
       navigate('/index');
     } catch (err) {
       setError(t('login.invalid_credentials'));
