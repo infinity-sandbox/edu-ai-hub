@@ -12,10 +12,10 @@ logger = logger_config(__name__)
 from app.models.user_model import User
 from app.api.deps.user_deps import get_current_user
 from app.schemas.user_schema import PasswordResetRequest, PasswordResetConfirm
+import jwt
 
 
 user_router = APIRouter()
-
 
 @user_router.post('/register', summary="Create new user/Register", response_model=UserOut)
 async def create_user(data: UserAuth):
@@ -44,6 +44,18 @@ async def reset_password(request: PasswordResetRequest):
         await UserService.send_email_request(request.email)
         return JSONResponse(
             content={"message": "Reset email sent successfully!"})
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"{e}"
+        )
+        
+@user_router.post("/resetpassword/confirm")
+async def reset_password_confirm(request: PasswordResetConfirm):
+    try:
+        await UserService.reset_password(request.token, request.new_password)
+        return JSONResponse(
+            content={"message": "Password reset successfully!"})
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

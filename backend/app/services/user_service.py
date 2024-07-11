@@ -17,6 +17,7 @@ import jwt
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from app.core.security import get_password, verify_password 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -38,7 +39,6 @@ class UserService:
             address=user.address,
             security_question=user.security_question,
             security_answer=user.security_answer
-            # upload_photo=user.upload_photo
         )
         await user_in.save()
         return user_in
@@ -95,7 +95,26 @@ class UserService:
             return logger.debug("Password reset email sent!")
         else:
             return logger.debug("Password reset email not sent!")
-    
+        
+    @staticmethod
+    async def reset_password(token: str, new_password: str):
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
+            email = payload.get("sub")
+            if email is None:
+                raise HTTPException(status_code=400, detail="Invalid token")
+        except jwt.PyJWTError:
+            raise HTTPException(status_code=400, detail="Invalid token")
+        
+        user = await UserService.get_user_by_email(email)
+        if not user:
+            raise HTTPException(status_code=400, detail="User not found")
+        
+        hashed_password = get_password(new_password)
+        data = {"hashed_password": hashed_password}
+        
+        await user.update({"$set": data.dict(exclude_unset=True)})
+        return {"msg": "Password reset successful"}
     
 def send_email(email: str, reset_link):
     try:
@@ -103,8 +122,7 @@ def send_email(email: str, reset_link):
         sender_email = settings.MY_EMAIL
         receiver_email = email
         subject = "AI BOU PASSWORD RESET LINK REQUEST"
-        body = f"Password Reset Link: \n \
-                {reset_link}"
+        body = f"Password Reset Link:\n{reset_link}"
 
         # Create the email message
         message = MIMEMultipart()
@@ -126,7 +144,6 @@ def send_email(email: str, reset_link):
     finally:
         server.quit()
         
-
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
