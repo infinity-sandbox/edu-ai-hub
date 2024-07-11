@@ -218,7 +218,7 @@ const Register: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="upload_photo"
             rules={[{ required: true, message: 'Please upload your Profile Picture!' }]}
           >
@@ -231,7 +231,7 @@ const Register: React.FC = () => {
             >
               <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
             </Upload>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="agreeToTerms"

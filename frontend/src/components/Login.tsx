@@ -21,12 +21,16 @@ const Login: React.FC = () => {
     setLoading(true);
     setError('');
 
+
     axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
     .then(_result => {
+        const { token } = _result.data;
+        // Save JWT to local storage
+        localStorage.setItem('token', token);     
         message.success('Login successfu!');
         navigate('/Home');
     })

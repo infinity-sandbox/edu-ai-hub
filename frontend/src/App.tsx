@@ -8,6 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SuccessRegistrationPage from './components/statusPages/successRegistrationPage';
 import ForgotPassword from "./components/forgetLink/forgetLinkPage";
 import PasswordResetPage from './components/forgetLink/emailRedirectedPage';
+import Home from './pages/Home';
 import './App.css';
  
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Register />} />
+        <Route path='/Home' element={<Home/>}/>
         <Route path='/AIBotInteraction' element={<PrivateRoute><AIBotInteraction /></PrivateRoute>} />
         <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
         <Route path='/ForgotPassword' element={<ForgotPassword />} />
