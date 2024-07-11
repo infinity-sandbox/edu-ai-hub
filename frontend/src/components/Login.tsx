@@ -4,11 +4,17 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { saveAs } from 'file-saver';
+import sideSvgImage from '../images/image1.svg'
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 import sideSvgImage from '../images/image1.svg';
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');          
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();

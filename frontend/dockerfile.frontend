@@ -13,7 +13,6 @@ COPY . .
 
 # Install dependencies
 RUN npm install --legacy-peer-deps
-RUN npm install -g serve
 
 # Build the React app
 RUN npm run build
