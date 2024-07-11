@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Typography, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
@@ -11,15 +11,15 @@ const PasswordResetPage: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  
+  const token = searchParams.get('token');
 
-  const onFinish = (values: { password: string; confirm_password: string; }) => {
+  const onFinish = (values: any) => {
     setLoading(true);
     console.log('Received values of form: ', values);
 
-    axios.post(baseUrl + '/api/v1/users/passwordreset', {
-      password: values.password,
-      confirm_password: values.confirm_password
-    })
+    axios.post(baseUrl + '/api/v1/users/passwordreset', { token, new_password: values.password })
       .then(response => {
         setLoading(false);
         console.log('Password reset successful:', response.data);
@@ -74,7 +74,7 @@ const PasswordResetPage: React.FC = () => {
               <Input.Password placeholder="Confirm New Password" />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="reset-submit-button">
+              <Button type="primary" htmlType="submit" className="reset-submit-button" loading={loading}>
                 Submit
               </Button>
             </Form.Item>
