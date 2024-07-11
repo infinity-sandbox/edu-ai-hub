@@ -1,0 +1,99 @@
+.RegisterPageAll{
+    display: flex;
+    min-height: 100vh;
+    
+}
+.register-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 2em;
+}
+
+.register-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.register-form .ant-form-item {
+    margin-bottom: 16px;
+}
+
+.register-form .register-button {
+    width: 100%;
+    background-color: #59B379;
+    color: #ffffff;
+    border: none;
+    border-radius: 5rem;
+    height: 50px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.register-form .login-link {
+    text-align: center;
+    margin-top: 20px;
+}
+.logo{
+    display: flex;
+    margin-left: 50px;
+    
+}
+.logo h1{
+    color: #1f6935;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.createAccount{
+    font-family: 
+        'URW Bookman',
+        'URW Bookman L',
+        'Georgia Pro',
+        Georgia,
+        serif;
+    color: #4c4c4c;
+}
+.logo img{
+    height: 100px;
+}
+.register-form .login-link a {
+    color: #0ca83b;
+    font-weight: 600;
+}
+.left-side {
+    flex: 1;
+    height: auto;
+    max-width: 400px;
+    background: #59B379;
+    background-image: url(../images/registerBackground.svg);
+        background-repeat: no-repeat;
+        /* Ensures the image doesn't repeat */
+        background-size: cover;
+    /* Adjust the color to match your SVG design */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.left-side img{
+    height: 300px;
+}
+/* 
+<div className="left-side"><img src= {
+    "LeftSideDesign"
+}
+
+alt="Left Side Design" /></div> */
+@media screen and (max-width: 600px) {
+    .left-side {
+        display: none;
+    }
+}
