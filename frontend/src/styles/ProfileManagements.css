@@ -1,27 +1,67 @@
-.profile-management {
-    padding: 24px;
-    background: white;
-    border-radius: 8px;
-    
-}
-.formProfileManage{
-    max-width: 600px;
-    
-}
-.profile-management .ant-form-item {
-    margin-bottom: 16px;
-}
-
-.profile-management .ant-form-item:last-child {
-    margin-bottom: 0;
-}
-
-.ant-btn {
-    background: #59B379;
-    border-color: #59B379;
-}
-
-.ant-btn:hover {
-    background: #45a061;
-    border-color: #45a061;
-}
+/* Profile View Container */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Profile View Title */
+  .profile-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  /* Profile Info Rows */
+  .profile-info {
+    text-align: left;
+    margin-top: 30px;
+  }
+  
+  .profile-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .profile-info-label {
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    flex: 1;
+    text-align: left;
+    margin-right: 10px;
+  }
+  
+  .profile-info-value {
+    font-size: 24px;
+    color: #333;
+    flex: 2;
+    text-align: left;
+  }
+  
+  /* Edit Button */
+  .edit-button {
+    margin-top: 30px;
+    font-size: 22px;
+    padding: 15px 25px;
+    width: 300px;
+    height: 40px;
+    background-color: #59B379;
+    border-radius: 5rem;
+  }
+  
+  .submit-but {
+    margin-top: 30px;
+    font-size: 16px;
+    padding: 5px 20px;
+    width: 135px;
+    height: 25px;
+    background-color: #59B379;
+    border-radius: 5rem;
+  }
