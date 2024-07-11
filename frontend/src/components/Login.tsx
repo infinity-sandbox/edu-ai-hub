@@ -4,17 +4,22 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import sideSvgImage from '../images/image1.svg';
+import { saveAs } from 'file-saver';
+import sideSvgImage from '../images/image1.svg'
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');          
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
+    
     loginData.append('username', values.email);
     loginData.append('password', values.password);
 
@@ -29,9 +34,13 @@ const Login: React.FC = () => {
     })
     .then(_result => {
         const { token } = _result.data;
+        const { access_token, refresh_token } = _result.data;
         // Save JWT to local storage
-        localStorage.setItem('token', token);     
-        message.success('Login successfu!');
+        localStorage.setItem('token', token);
+        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('refreshToken', refresh_token);   
+        // Update tokens state in parent component
+        message.success('Login successful!');
         navigate('/Home');
     })
     .catch(err => {

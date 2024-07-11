@@ -1,53 +1,72 @@
 /* Import Roboto font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-body {
-    font-family: 'Roboto', sans-serif;
-}
-
+/* Apply styles to the ai-bot-interaction container */
 .ai-bot-interaction {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f2f5;
+    margin: 0;
+    color: white;
 }
 
 .content {
-    width: 100%;
-    height: 100%;
-    padding: 24px;
+    width: 90%;
+    height: 90%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    
     position: relative;
+    background-color: #2b2e4a;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .classroom {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 100%;
     position: relative;
+    display: flex;
+}
+
+.class-header {
+    width: 100%;
+    margin-bottom: 20px;
+}   
+
+.class-header h1 {
+    text-transform: uppercase;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 10;
+    color: #ffffff;
+    font-size: 2em;
+    justify-content: center;
+}
+
+.top-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .webcam {
-    width: 200px;
-    height: 150px;
-    border: 2px solid #000;
-    border-radius: 8px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    width: 300px;
+    height: 225px;
+    border-radius: 10px;
+    border: 3px solid #ffffff50;
 }
 
 .blackboard {
-    background-color: #333;
+    background-color: #1c1e2e;
     color: #fff;
     width: 100%;
-    height: calc(100% - 80px);
-    margin-top: 20px;
+    flex-grow: 1;
     padding: 20px;
     border-radius: 10px;
     overflow-y: auto;
@@ -70,44 +89,65 @@ body {
     text-align: right;
 }
 
-.actions {
+/* Customized Select component */
+/* Specific to the custom-select class */
+.custom-select.ant-select {
+    max-width: 600px;
+    width: 50%;
+    color: white;
+    background: #ffffff;
+  }
+  
+  .custom-select .ant-select-selector {
+    background: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 10px !important;
+    height: 30px !important;
+    max-width: 900px;
     display: flex;
-    align-items: center;
+    color: white !important;
+    font-size: 18px;
+    padding: 0 20px;
+  }
+  
+  .custom-select .ant-select-arrow {
+    color: #59B379 !important;
+  }
+  
+  .custom-select.ant-select-open .ant-select-selector {
+    border-color: #59B379 !important;
+  }
+  
+  /* Specific to the custom-dropdown class */
+  .custom-dropdown.ant-select-dropdown {
+    background: #59B379 !important;
+    color: white !important;
+  }
+  
+  .custom-dropdown .ant-select-item {
+    color: white !important;
+  }
+  
+  .custom-dropdown .ant-select-item:hover,
+  .custom-dropdown .ant-select-item-option-selected {
+    background: #59B379 !important;
+    color: white !important;
+  }
+  
+
+.raise-hand-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
     margin-top: 20px;
 }
 
-.actions .ant-btn {
-    margin-right: 16px;
-    background-color: #1890ff;
-    border-color: #1890ff;
-    color: white;
+.raise-hand-button {
+    background-color: #59B379;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.actions .ant-btn:hover,
-.actions .ant-btn:focus {
-    background-color: #40a9ff;
-    border-color: #40a9ff;
-    color: white;
-}
-
-.actions .anticon {
-    font-size: 24px;
-    color: #1890ff;
-    cursor: pointer;
-}
-
-.actions .anticon:hover {
-    color: #40a9ff;
-}
-.dropdownSelectClass{
-    
-        
-        border-radius: 4px;
-        box-shadow: 0 0 4px rgb(0, 0, 0);
-        transition: all .5s ease;
-        position: relative;
-        font-size: 14px;
-        color: #000000;
-        height: 100%;
-        text-align: left
+.raise-hand-button:hover {
+    background-color: #59B379;
 }
