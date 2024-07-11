@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Alert, Spin } from 'antd';
+import { Form, Input, Button, Alert, Spin, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,13 +10,19 @@ import { useTranslation } from 'react-i18next';
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');          
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
 
-  const onFinish = async () => {
-    const loginData = { email, password };
+  const onFinish = async (values: any) => {
+    const loginData = new URLSearchParams();
+    
+    loginData.append('username', values.email);
+    loginData.append('password', values.password);
+
     setLoading(true);
     setError('');
     try {
@@ -27,7 +33,7 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
 
       // Redirect to another page after successful login
-      navigate('/insideHome');
+      navigate('/index');
     } catch (err) {
       setError(t('login.invalid_credentials'));
       console.log(err);

@@ -1,21 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Select, Layout } from 'antd';
-import { AudioOutlined, UpOutlined } from '@ant-design/icons';
+import { UpOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
-import hand from '../../images/raised-hand.svg'
+import raiseHandImage from '../../images/raised-hand.svg'
+import QuestionHistory from './QuestionHistory';
 
 const { Option } = Select;
-const { Content } = Layout;
+const { Content,Sider } = Layout;
 
 const AIBotInteraction: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [conversation, setConversation] = useState<Array<{ type: 'user' | 'ai', content: string | JSX.Element }>>([]);
   const [waitingForConfirmation, setWaitingForConfirmation] = useState(false);
   const [recognizedQuestion, setRecognizedQuestion] = useState<string | null>(null);
-  const [aiAnswering, setAiAnswering] = useState(false);
+  const [questionHistory, setQuestionHistory] = useState<Array<{ subject: string, question: string, answer: string | JSX.Element }>>([]);
   const webcamRef = useRef<Webcam>(null);
+
+  useEffect(() => {
+    if (selectedClass) {
+      promptUserForQuestion();
+    }
+  }, [selectedClass]);
 
   const handleClassSelect = (value: string) => {
     setSelectedClass(value);
@@ -72,7 +79,11 @@ const AIBotInteraction: React.FC = () => {
         ...prevConversation, 
         { type: 'ai', content: aiContent }
       ]);
-      setAiAnswering(false);
+
+       setQuestionHistory(prevHistory => [
+        ...prevHistory,
+        { subject: selectedClass!, question: recognizedQuestion!, answer: aiContent }
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -81,14 +92,7 @@ const AIBotInteraction: React.FC = () => {
     setRecognizedQuestion(null);
   };
 
-  const handleHandClick = () => {
-    if (aiAnswering) {
-      setConversation(prevConversation => [
-        ...prevConversation, 
-        { type: 'ai', content: 'Is there any question?' }
-      ]);
-      setAiAnswering(false);
-    }
+  const promptUserForQuestion = () => {
     handleVoiceInput();
   };
 
@@ -97,7 +101,13 @@ const AIBotInteraction: React.FC = () => {
       <Content className="content">
         {!selectedClass ? (
           <div>
-            <Select onChange={handleClassSelect} className='dropdownSelectClass' placeholder="Select a class" style={{ width: '100%' }}>
+            <h1 style={{color:'white'}}>Select Class</h1>
+            <Select 
+                onChange={handleClassSelect} 
+                placeholder="Select a class" 
+                dropdownClassName="custom-dropdown"
+                className="custom-select"
+                >
               <Option value="english">English</Option>
               <Option value="math">Math</Option>
               <Option value="science">Science</Option>
@@ -106,12 +116,17 @@ const AIBotInteraction: React.FC = () => {
           </div>
         ) : (
           <div className="classroom">
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              className="webcam"
-            />
+            <div className="class-header">
+              <h1>{selectedClass} Class</h1>
+            </div>
+            <div className="top-section">
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                className="webcam"
+              />
+            </div>
             <div className="blackboard">
               {conversation.map((entry, index) => (
                 <div key={index} className={`message ${entry.type}`}>
@@ -120,17 +135,22 @@ const AIBotInteraction: React.FC = () => {
                 </div>
               ))}
             </div>
-            <div className="actions">
-              <Button 
-                style={{color:"white",backgroundColor:"white",border:"0px"}}
-                onClick={handleHandClick} 
-                disabled={waitingForConfirmation}
-              ><img src={hand} style={{height:"40px"}}/></Button>
-              <AudioOutlined onClick={handleVoiceInput} style={{ fontSize: '24px', marginLeft: '16px', cursor: 'pointer' }} />
+            <div className="raise-hand-container">
+              <Button
+                type="primary"
+                shape="round"
+                
+                size="large"
+                onClick={handleVoiceInput}
+                className="raise-hand-button"
+              ><img style={{height:'40px'}} src={raiseHandImage}/></Button>
             </div>
           </div>
         )}
       </Content>
+     <Sider width={300} className="question-history-sider">
+        <QuestionHistory history={questionHistory} />
+      </Sider>
     </Layout>
   );
 };

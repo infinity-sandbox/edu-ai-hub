@@ -1,0 +1,12 @@
+[
+    {
+        "number": 10,
+        "self_module": "__main__",
+        "module": "tests.test_logs.test_log"
+    },
+    {
+        "number": 12,
+        "self_module": "__main__",
+        "module": "tests.test_logs.test_log"
+    }
+]

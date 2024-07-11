@@ -20,6 +20,9 @@ function App() {
         <Route path='/Register' element={<Register />} />
         <Route path='/index' element={<PrivateRoute><AppLayout/></PrivateRoute>}/>
         <Route path='/AIBotInteraction' element={<PrivateRoute><AIBotInteraction /></PrivateRoute>} />
+        <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
+        <Route path='/ForgotPassword' element={<ForgotPassword />} />
+        <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
       </Routes>
     </Layout>
     </BrowserRouter>

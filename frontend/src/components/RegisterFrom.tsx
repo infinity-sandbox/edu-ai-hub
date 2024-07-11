@@ -36,13 +36,6 @@ const Register: React.FC = () => {
       .finally(() => {
         setLoading(false);
       });
-
-    // Create JSON object
-    const json = JSON.stringify(registerData, null, 2);
-
-    // Create a blob from the JSON object and save it as a file
-    const blob = new Blob([json], { type: 'application/json' });
-    saveAs(blob, 'registerData.json');
   };
 
   return (
@@ -159,10 +152,12 @@ const Register: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+          className='class'
             name="user_class"
             rules={[{ required: true, message: t('register.class_required') }]}
           >
             <Select
+            
               placeholder={t('register.class')}
             >
               <Option value="P1">P1</Option>
@@ -181,12 +176,14 @@ const Register: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+          className='books'
             name="user_subject"
             rules={[{ required: true, message: t('register.books_required') }]}
           >
             <Select
               mode="multiple"
               placeholder={t('register.books')}
+              
             >
               <Option value="Math">Math</Option>
               <Option value="Science">Science</Option>

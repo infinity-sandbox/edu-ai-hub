@@ -15,7 +15,7 @@ interface UserInfo {
   address: string;
   securityQuestion: string;
   securityAnswer: string;
-  profilePicture: string;
+
 }
 
 const ProfileManagement: React.FC = () => {
@@ -29,11 +29,12 @@ const ProfileManagement: React.FC = () => {
     parentEmail: '',
     school: '',
     classLevel: '',
+    
     birthdate: '',
     address: '',
     securityQuestion: '',
     securityAnswer: '',
-    profilePicture: ''
+  // profilePicture: ''
   });
   const [isEdited, setIsEdited] = useState(false);
 
@@ -50,7 +51,7 @@ const ProfileManagement: React.FC = () => {
       address: '123 Main St',
       securityQuestion: 'What is your pet\'s name?',
       securityAnswer: 'Fluffy',
-      profilePicture: ''
+      //profilePicture: ''
     };
     setUserInfo(fetchedUserInfo);
     form.setFieldsValue(fetchedUserInfo);
