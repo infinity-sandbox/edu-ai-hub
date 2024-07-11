@@ -7,6 +7,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import sideSvgImage from '../images/image1.svg'
 import { useForm } from "react-hook-form";
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 
 const Login: React.FC = () => {
@@ -28,7 +29,7 @@ const Login: React.FC = () => {
     setError('');
 
 
-    axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData, {
+    axios.post(baseUrl + "/api/v1/auth/login", loginData, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }

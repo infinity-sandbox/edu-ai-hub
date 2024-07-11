@@ -6,6 +6,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
 import logo from "../images/logo.svg";
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const { Option } = Select;
 
@@ -23,7 +24,7 @@ const Register: React.FC = () => {
       upload_photo: profilePicture,
     };
 
-    axios.post('http://0.0.0.0:8000/api/v1/users/register', registerData)
+    axios.post(baseUrl + '/api/v1/users/register', registerData)
       .then(_result => {
         message.success('Registration successful');
         navigate('/statusPages/SuccessRegistrationPage');
