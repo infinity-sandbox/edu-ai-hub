@@ -7,9 +7,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import sideSvgImage from '../images/image1.svg'
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import sideSvgImage from '../images/image1.svg';
 
 
 const Login: React.FC = () => {
