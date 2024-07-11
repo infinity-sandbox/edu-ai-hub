@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/ProfileManagements.css';
+
+
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
-
-
 const { Option } = Select;
 
 
@@ -75,21 +76,59 @@ const ProfileManagement: React.FC = () => {
   return (
     <div>
       {!isEditing ? (
-        <div>
-          <h2>Profile View</h2>
-          <p>Username: {userInfo.username}</p>
-          <p>Phone Number: {userInfo.phone_number}</p>
-          <p>Birthdate: {userInfo.birthdate}</p>
-          <p>Parent Name: {userInfo.parent_name}</p>
-          <p>Parent Email: {userInfo.parent_email}</p>
-          <p>School: {userInfo.school}</p>
-          <p>Class: {userInfo.user_class}</p>
-          <p>Subjects: {userInfo.user_subject.join(', ')}</p>
-          <p>Address: {userInfo.address}</p>
-          <p>Security Question: {userInfo.security_question}</p>
-          <p>Security Answer: {userInfo.security_answer}</p>
-          <Button type="primary" onClick={handleEditClick}>Edit</Button>
+        <div className="profile-container">
+        <h2 className="profile-title">Profile View</h2>
+        <div className="profile-info">
+          <div className="profile-info-row">
+            <span className="profile-info-label">Username:</span>
+            <span className="profile-info-value">{userInfo.username}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Phone Number:</span>
+            <span className="profile-info-value">{userInfo.phone_number}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Birthdate:</span>
+            <span className="profile-info-value">{userInfo.birthdate}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Parent Name:</span>
+            <span className="profile-info-value">{userInfo.parent_name}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Parent Email:</span>
+            <span className="profile-info-value">{userInfo.parent_email}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">School:</span>
+            <span className="profile-info-value">{userInfo.school}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Class:</span>
+            <span className="profile-info-value">{userInfo.user_class}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Subjects:</span>
+            <span className="profile-info-value">{userInfo.user_subject.join(', ')}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Address:</span>
+            <span className="profile-info-value">{userInfo.address}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Security Question:</span>
+            <span className="profile-info-value">{userInfo.security_question}</span>
+          </div>
+          <div className="profile-info-row">
+            <span className="profile-info-label">Security Answer:</span>
+            <span className="profile-info-value">{userInfo.security_answer}</span>
+          </div>
         </div>
+        <Button className="edit-button" type="primary" onClick={handleEditClick}>
+          Edit
+        </Button>
+      </div>
+      
       ) : (
         <Form
           initialValues={userInfo}
@@ -180,8 +219,8 @@ const ProfileManagement: React.FC = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">Submit</Button>
-            <Button onClick={handleCancelClick} style={{ marginLeft: '10px' }}>Cancel</Button>
+            <Button type="primary" htmlType="submit" className='submit-but'>Submit</Button>
+            <Button onClick={handleCancelClick} style={{ marginLeft: '10px' }} className='submit-but'>Cancel</Button>
           </Form.Item>
         </Form>
       )}

@@ -1,10 +1,10 @@
 .site-layout-background {
-    background: #59B379;
+    background: #316c45;
 }
 .sidebarMenu{
     background: #59B379;
     background-image: linear-gradient(180deg, 
-        #68f599,#59B379);
+        #31b961,#59B379);
     
 }
 .sidebarMenu:hover{
@@ -15,7 +15,7 @@
 }
 
 .menu-button {
-    display: none;
+    display: none;  
     padding: 20px;
 }
 
