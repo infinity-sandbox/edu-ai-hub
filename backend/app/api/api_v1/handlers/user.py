@@ -40,9 +40,10 @@ async def update_user(data: UserUpdate, current_user: User = Depends(get_current
 @user_router.post('/emailreset', summary="Send email reset password", response_model=PasswordResetRequest)
 async def reset_password(request: PasswordResetRequest):
     try:
-        logger.info(f"Request: {request}")
         logger.info(f"Request email: {request.email}")
-        return await UserService.send_email_request(request.email)
+        await UserService.send_email_request(request.email)
+        return JSONResponse(
+            content={"message": "Reset email sent successfully!"})
     except pymongo.errors.OperationFailure:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

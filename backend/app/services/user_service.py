@@ -14,6 +14,9 @@ from passlib.context import CryptContext
 from app.core.config import settings
 import smtplib
 import jwt
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -96,17 +99,26 @@ class UserService:
     
 def send_email(email: str, reset_link):
     try:
+        # Email details
+        sender_email = settings.MY_EMAIL
+        receiver_email = email
+        subject = "AI BOU PASSWORD RESET LINK REQUEST"
+        body = f"Password Reset Link: \n \
+                {reset_link}"
+
+        # Create the email message
+        message = MIMEMultipart()
+        message["From"] = sender_email
+        message["To"] = receiver_email
+        message["Subject"] = subject
+        message.attach(MIMEText(body, "plain"))
+        # Convert the message to a string
+        email_string = message.as_string()
+        
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(settings.MY_EMAIL, settings.EMAIL_APP_PASSWORD)
-        message = f"""
-                    AI BOU PASSWORD REQUEST
-                    Click the reset link to reset your password.
-                    Password Reset Link: 
-                    {reset_link}
-                    This link will expire after 5 minutes.
-                """
-        server.sendmail(settings.MY_EMAIL, email, message)
+        server.sendmail(settings.MY_EMAIL, email, email_string)
         return True
     except Exception as e:
         logger.error(f"Error: {e}")
