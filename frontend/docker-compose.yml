@@ -4,7 +4,7 @@ services:
     container_name: frontend
     build:
       context: ./
-      dockerfile: dockerfile.frontend  # Specify your custom Dockerfile name here
+      dockerfile: dockerfile.frontend
     image: frontend:latest
     restart: unless-stopped
     expose:
