@@ -6,10 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import sideSvgImage from '../images/image1.svg'
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import sideSvgImage from '../images/image1.svg';
 
 
 const Login: React.FC = () => {
@@ -37,7 +33,7 @@ const Login: React.FC = () => {
         const { token } = _result.data;
         // Save JWT to local storage
         localStorage.setItem('token', token);     
-        message.success('Login successfu!');
+        message.success('Login successful!');
         navigate('/Home');
     })
     .catch(err => {

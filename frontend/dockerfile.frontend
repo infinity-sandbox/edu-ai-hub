@@ -1,5 +1,5 @@
 # Use Node.js version 20.15.0 as a parent image
-FROM node:20.15.0 as build
+FROM node:20.15.0
 
 # Set the working directory in the container
 WORKDIR /frontend
@@ -11,20 +11,14 @@ COPY tsconfig.json ./
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Install dependencies
-RUN npm install --legacy-peer-deps
+# Configure npm to use a specific registry
+RUN npm config set registry https://registry.npmjs.org/
 
-# Build the React app
-RUN npm run build
+# Clean npm cache and install dependencies with verbose logging
+RUN npm cache clean --force && npm install --legacy-peer-deps --verbose
 
-# Stage 2: Use a smaller base image for the production build
-FROM nginx:alpine
+# Expose port 3000 (the default port for create-react-app)
+EXPOSE 3000
 
-# Copy the built React app from the previous stage to the nginx html directory
-COPY --from=build /frontend/build /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the React app
+CMD ["npm", "start"]
