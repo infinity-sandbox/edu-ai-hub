@@ -98,6 +98,30 @@
     "login": "Login",
     "registration_successful": "Registration successful",
     "registration_failed": "Registration failed. Please try again."
+  },
+    "passwordReset": {
+    "reset_password": "Reset Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "password_required": "Please input your new password!",
+    "confirm_password_required": "Please confirm your new password!",
+    "passwords_not_match": "The two passwords do not match!",
+    "submit": "Submit",
+    "reset_successful": "Password reset successful!",
+    "go_to_login": "Go to Login",
+    "submitting": "Submitting...",
+    "reset_failed": "Failed to reset password. Please try again."
+  },
+  "forgotPassword": {
+    "forgot_password": "Forgot Password",
+    "input_email": "Input your email here",
+    "email_required": "Please input your email!",
+    "enter_email": "Enter your email",
+    "submit": "Submit",
+    "check_email": "Check your email",
+    "reset_link_sent": "A reset link has been sent to {email}",
+    "send_failed": "Failed to send password reset email. Please try again.",
+    "email_sent_success": "Password reset email sent successfully"
   }
 
 }

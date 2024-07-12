@@ -5,10 +5,9 @@ import Logo from "../../images/logo.svg";
 
 interface HomeProps {
   username: string;
-  onLogout: () => void;
 }
 
-const Home: React.FC<HomeProps> = ({ username, onLogout }) => {
+const Home: React.FC<HomeProps> = ({ username}) => {
   const { t } = useTranslation();
 
   return (

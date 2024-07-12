@@ -1,51 +1,53 @@
+// src/pages/Login.js
 import React, { useState } from 'react';
 import { Form, Input, Button, Alert, Spin, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import sideSvgImage from '../images/image1.svg';
 import { useTranslation } from 'react-i18next';
-import { jwtDecode } from 'jwt-decode';
+import sideSvgImage from '../images/image1.svg';
 
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');          
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
-
     loginData.append('username', values.email);
     loginData.append('password', values.password);
 
     setLoading(true);
     setError('');
-    try {
-      const response = await axios.post('http://0.0.0.0:8000/api/v1/auth/login', loginData);
-      const { token } = response.data;
 
-      // Save JWT to local storage
-      localStorage.setItem('token', token);
-
-      // Decode JWT token to extract user information if needed
-      const decodedToken = jwtDecode<{ exp: number }>(token);
-      console.log('Decoded Token: ', decodedToken);
-
-      // Redirect to another page after successful login
-      message.success('Login successful!');
-      navigate('/index');
-    } catch (err) {
-      setError(t('login.invalid_credentials'));
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    axios.post(baseUrl+"p/api/v1/auth/login", loginData, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    .then(_result => {
+        const { token } = _result.data;
+        const { access_token, refresh_token } = _result.data;
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('refreshToken', refresh_token);   
+        message.success(t('login.login_successful'));
+        navigate('/AppLayout');
+    })
+    .catch(err => {
+        message.error(t("login.invalid_credentials"));
+        console.error(err);
+    })
+    .finally(() => {
+        setLoading(false);
+    });
+  }
 
   return (
     <div className='LoginPage'>
@@ -77,7 +79,7 @@ const Login: React.FC = () => {
             <div className='PasswordText'>
               <div>{t('login.password')}</div>
               <div className="forgot-link">
-                <a href="#">{t('login.forgot')}</a>
+                <Link to="/ForgotPassword">{t('login.forgot')}</Link>
               </div>
             </div>
             <Form.Item className='passwordInput'
@@ -102,7 +104,7 @@ const Login: React.FC = () => {
               </Button>
             </Form.Item>
             <div className="signup-link">
-              <span>{t('login.dont_have_account')}</span>{" "}
+              <span>{t("login.dont_have_account")}</span>{" "}
               <Link to="/Register">{t('login.register')}</Link>
             </div>
           </Form>

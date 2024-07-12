@@ -1,36 +1,38 @@
-// ForgotPassword.tsx
+// src/pages/ForgotPassword.js
 import React, { useState } from 'react';
 import { Form, Input, Button, Typography, message } from 'antd';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/ForgotPassword.css';
-import axios from 'axios';
-const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const { Title } = Typography;
 
 const ForgotPassword: React.FC = () => {
+  const { t } = useTranslation();
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [resetSuccess, setResetSuccess] = useState(false); // State to track reset success
+  const [resetSuccess, setResetSuccess] = useState(false);
 
   const onFinish = (values: { email: string }) => {
     setLoading(true);
     console.log('Received values of form: ', values);
     setSubmittedEmail(values.email);
-    
+
     axios.post(baseUrl + '/api/v1/users/emailreset', { email: values.email })
       .then(response => {
         setLoading(false);
         console.log('Password reset email sent successfully:', response.data);
-        message.success('Password reset email sent successfully');
-        setResetSuccess(true); // Set reset success state
+        message.success(t('forgotPassword.email_sent_success'));
+        setResetSuccess(true);
       })
       .catch(error => {
         setLoading(false);
         console.error('Failed to send password reset email:', error);
-        message.error('Failed to send password reset email. Please try again.');
-        setResetSuccess(false); // Reset success state on error
+        message.error(t('forgotPassword.send_failed'));
+        setResetSuccess(false);
       });
   };
 
@@ -38,12 +40,12 @@ const ForgotPassword: React.FC = () => {
     <div className="forgot-password-container">
       {submittedEmail && resetSuccess ? (
         <div>
-          <Title level={2} style={{ color: '#353935' }}>Check your email</Title>
-          <p style={{ color: '#353935' }}>A reset link has been sent to {submittedEmail}</p>
+          <Title level={2} style={{ color: '#353935' }}>{t('forgotPassword.check_email')}</Title>
+          <p style={{ color: '#353935' }}>{t('forgotPassword.reset_link_sent', { email: submittedEmail })}</p>
         </div>
       ) : (
         <>
-          <Title level={2} className="forgot-password-heading" style={{ color: '#353935' }}>Forgot Password</Title>
+          <Title level={2} className="forgot-password-heading" style={{ color: '#353935' }}>{t('forgotPassword.forgot_password')}</Title>
           <Form
             name="forgot_password"
             onFinish={onFinish}
@@ -52,18 +54,18 @@ const ForgotPassword: React.FC = () => {
           >
             <Form.Item
               name="email"
-              label="Input your email here"
-              rules={[{ required: true, message: 'Please input your email!' }]}
+              label={t('forgotPassword.input_email')}
+              rules={[{ required: true, message: t('forgotPassword.email_required') }]}
             >
-              <Input 
-              className="email-input" 
-              placeholder="Enter your email"
-              style={{ border: "1px solid #d9d9d9", borderRadius: "5rem" }}
+              <Input
+                className="email-input"
+                placeholder={t('forgotPassword.enter_email')}
+                style={{ border: "1px solid #d9d9d9", borderRadius: "5rem" }}
               />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="forgot-password-button green-button" loading={loading}>
-                Submit
+                {t('forgotPassword.submit')}
               </Button>
             </Form.Item>
           </Form>

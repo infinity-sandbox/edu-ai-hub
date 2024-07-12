@@ -45,7 +45,8 @@ const ViewProfile: React.FC = () => {
       case 'aibot-class':
         return <AIBotInteraction/>
       case 'home':
-        return <Home username={username} onLogout={handleSignOut}/>
+        return <Home username={username} />
+
       default:
         return <div>{t('Welcome to the', {selectedPage})} page!</div>;
     }

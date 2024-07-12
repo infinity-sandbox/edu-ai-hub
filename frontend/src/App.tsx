@@ -8,6 +8,9 @@ import PrivateRoute from './components/PrivateRoute';
 import AppLayout from './pages/AppLayout';
 import Layout from './components/Layout';
 import './App.css';
+import SuccessRegistrationPage from '../src/components/statusPages/successRegistrationPage'
+import ForgotPassword from '../src/components/forgetLink/forgetLinkPage'
+import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
 
 
 function App() {
@@ -18,11 +21,11 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Register />} />
-        <Route path='/index' element={<PrivateRoute><AppLayout/></PrivateRoute>}/>
+        <Route path='/AppLayout' element={<AppLayout/>}/>
         <Route path='/AIBotInteraction' element={<PrivateRoute><AIBotInteraction /></PrivateRoute>} />
-        {/* <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
+         <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
         <Route path='/ForgotPassword' element={<ForgotPassword />} />
-        <Route path='/PasswordResetPage' element={<PasswordResetPage />} /> */}
+        <Route path='/PasswordResetPage' element={<PasswordResetPage />} /> 
       </Routes>
     </Layout>
     </BrowserRouter>
