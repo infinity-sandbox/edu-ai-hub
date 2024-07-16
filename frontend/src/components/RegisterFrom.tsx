@@ -28,7 +28,7 @@ const Register: React.FC = () => {
     axios.post(baseUrl + '/api/v1/users/register', registerData)
       .then(_result => {
         message.success(t('register.registration_successful'));
-        navigate('/login');
+        navigate('/statusPages/SuccessRegistrationPage');
       })
       .catch(err => {
         message.error(t('register.registration_failed'));
@@ -223,21 +223,6 @@ const Register: React.FC = () => {
               placeholder={t('register.security_answer')}
             />
           </Form.Item>
-
-          {/* <Form.Item
-            name="upload_photo"
-            rules={[{ required: true, message: 'Please upload your Profile Picture!' }]}
-          >
-            <Upload
-              beforeUpload={file => {
-                setProfilePicture(file);
-                return false;
-              }}
-              listType="picture"
-            >
-              <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
-            </Upload>
-          </Form.Item> */}
 
           <Form.Item
             name="agreeToTerms"

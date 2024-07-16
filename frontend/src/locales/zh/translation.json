@@ -39,11 +39,13 @@
     "parent_email": "家长邮箱",
     "school": "学校",
     "class_level": "年级",
+    "subject": "科目",
     "birthdate": "出生日期",
     "address": "地址",
     "security_question": "安全问题",
     "security_answer": "安全答案",
-    "submit": "提交"
+    "submit": "提交",
+    "edit_profile": "编辑资料"
   },
 "login": {
     "login_label": "登录",

@@ -39,12 +39,15 @@
     "parent_email": "Parent Email",
     "school": "School",
     "class_level": "Class Level",
+    "subject": "Subject",
     "birthdate": "Birthdate",
     "address": "Address",
     "security_question": "Security Question",
     "security_answer": "Security Answer",
-    "submit": "Submit"
+    "submit": "Submit",
+    "edit_profile": "Edit Profile"
   },
+
   "login": {
     "login_label": "Login",
     "email": "Email",
