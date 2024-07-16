@@ -12,8 +12,6 @@ import { useForm } from "react-hook-form";
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 
-const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
-
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
