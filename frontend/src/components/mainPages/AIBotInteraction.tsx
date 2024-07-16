@@ -4,15 +4,18 @@ import { UpOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
+import raiseHandImage from '../../images/raised-hand.svg'
+import QuestionHistory from './QuestionHistory';
 
 const { Option } = Select;
-const { Content } = Layout;
+const { Content,Sider } = Layout;
 
 const AIBotInteraction: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [conversation, setConversation] = useState<Array<{ type: 'user' | 'ai', content: string | JSX.Element }>>([]);
   const [waitingForConfirmation, setWaitingForConfirmation] = useState(false);
   const [recognizedQuestion, setRecognizedQuestion] = useState<string | null>(null);
+  const [questionHistory, setQuestionHistory] = useState<Array<{ subject: string, question: string, answer: string | JSX.Element }>>([]);
   const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
@@ -76,6 +79,11 @@ const AIBotInteraction: React.FC = () => {
         ...prevConversation, 
         { type: 'ai', content: aiContent }
       ]);
+
+       setQuestionHistory(prevHistory => [
+        ...prevHistory,
+        { subject: selectedClass!, question: recognizedQuestion!, answer: aiContent }
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -109,7 +117,7 @@ const AIBotInteraction: React.FC = () => {
         ) : (
           <div className="classroom">
             <div className="class-header">
-              <h1>Class: {selectedClass}</h1>
+              <h1>{selectedClass} Class</h1>
             </div>
             <div className="top-section">
               <Webcam
@@ -131,15 +139,18 @@ const AIBotInteraction: React.FC = () => {
               <Button
                 type="primary"
                 shape="round"
-                icon={<UpOutlined />}
+                
                 size="large"
                 onClick={handleVoiceInput}
                 className="raise-hand-button"
-              >Hand Raise</Button>
+              ><img style={{height:'40px'}} src={raiseHandImage}/></Button>
             </div>
           </div>
         )}
       </Content>
+     <Sider width={300} className="question-history-sider">
+        <QuestionHistory history={questionHistory} />
+      </Sider>
     </Layout>
   );
 };

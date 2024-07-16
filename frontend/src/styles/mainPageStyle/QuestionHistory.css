@@ -1,0 +1,24 @@
+.question-history {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.question-history h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #59B379;
+}
+
+.history-item {
+    margin-bottom: 10px;
+    color: black;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}

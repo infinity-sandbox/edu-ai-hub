@@ -5,25 +5,29 @@ import Register from './pages/Register';
 import AIBotInteraction from './components/mainPages/AIBotInteraction';
 import LandingPage from './pages/LandingPage';
 import PrivateRoute from './components/PrivateRoute';
-import SuccessRegistrationPage from './components/statusPages/successRegistrationPage';
-import ForgotPassword from "./components/forgetLink/forgetLinkPage";
-import PasswordResetPage from './components/forgetLink/emailRedirectedPage';
-import Home from './pages/Home';
+import AppLayout from './pages/AppLayout';
+import Layout from './components/Layout';
 import './App.css';
- 
+import SuccessRegistrationPage from '../src/components/statusPages/successRegistrationPage'
+import ForgotPassword from '../src/components/forgetLink/forgetLinkPage'
+import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
+
+
 function App() {
   return (
     <BrowserRouter>
+    <Layout>
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Register />} />
-        <Route path='/Home' element={<Home/>}/>
+        <Route path='/AppLayout' element={<AppLayout/>}/>
         <Route path='/AIBotInteraction' element={<PrivateRoute><AIBotInteraction /></PrivateRoute>} />
-        <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
+         <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
         <Route path='/ForgotPassword' element={<ForgotPassword />} />
-        <Route path='/PasswordResetPage' element={<PasswordResetPage />} />
+        <Route path='/PasswordResetPage' element={<PasswordResetPage />} /> 
       </Routes>
+    </Layout>
     </BrowserRouter>
   );
 }
