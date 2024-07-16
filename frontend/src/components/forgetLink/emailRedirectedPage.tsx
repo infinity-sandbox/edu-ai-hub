@@ -1,18 +1,22 @@
+// src/pages/PasswordResetPage.js
 import React, { useState } from 'react';
 import { Form, Input, Button, Typography, message } from 'antd';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const { Title } = Typography;
 
 const PasswordResetPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  
+
   const token = searchParams.get('token');
 
   const onFinish = (values: any) => {
@@ -24,15 +28,15 @@ const PasswordResetPage: React.FC = () => {
         setLoading(false);
         console.log('Password reset successful:', response.data);
         setResetSuccess(true);
-        setIsSubmitted(true); // Set isSubmitted to true after successful reset
-        message.success('Password reset successful!');
+        setIsSubmitted(true);
+        message.success(t('passwordReset.reset_successful'));
       })
       .catch(error => {
         setLoading(false);
         setResetSuccess(false);
         setIsSubmitted(false);
         console.error('Password reset failed:', error);
-        message.error('Failed to reset password. Please try again.');
+        message.error(t('passwordReset.reset_failed'));
       });
   };
 
@@ -45,53 +49,53 @@ const PasswordResetPage: React.FC = () => {
       <div style={{ width: '300px', textAlign: 'center' }}>
         {!isSubmitted && (
           <Title level={2} style={{ marginBottom: '20px', color: '#353935' }}>
-            Reset Password
+            {t('passwordReset.reset_password')}
           </Title>
         )}
         {!isSubmitted ? (
           <Form name="reset_password" onFinish={onFinish}>
             <Form.Item
               name="password"
-              rules={[{ required: true, message: 'Please input your new password!' }]}
+              rules={[{ required: true, message: t('passwordReset.password_required') }]}
             >
-              <Input.Password placeholder="New Password" />
+              <Input.Password placeholder={t('passwordReset.new_password')} />
             </Form.Item>
             <Form.Item
               name="confirm_password"
               dependencies={['password']}
               rules={[
-                { required: true, message: 'Please confirm your new password!' },
+                { required: true, message: t('passwordReset.confirm_password_required') },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
                     if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error('The two passwords do not match!'));
+                    return Promise.reject(new Error(t('passwordReset.passwords_not_match')));
                   },
                 }),
               ]}
             >
-              <Input.Password placeholder="Confirm New Password" />
+              <Input.Password placeholder={t('passwordReset.confirm_password')} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="reset-submit-button" loading={loading}>
-                Submit
+                {t('passwordReset.submit')}
               </Button>
             </Form.Item>
           </Form>
         ) : (isSubmitted && resetSuccess) ? (
           <div>
             <Title level={3} style={{ color: '#353935' }}>
-              Password reset successful!
+              {t('passwordReset.reset_successful')}
             </Title>
             <Button type="primary" onClick={handleRedirectToLogin} className="reset-login-button">
-              Go to Login
+              {t('passwordReset.go_to_login')}
             </Button>
           </div>
         ) : (
             <div>
                 <Title level={3} style={{ color: '#353935' }}>
-                    Submitting...
+                    {t('passwordReset.submitting')}
                 </Title>
             </div>
         )}

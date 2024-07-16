@@ -3,6 +3,7 @@ import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/ProfileManagements.css';
+import { useTranslation } from 'react-i18next';
 
 
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
@@ -24,6 +25,7 @@ interface UserInfo {
 }
 
 const ProfileManagement: React.FC = () => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ const ProfileManagement: React.FC = () => {
     setIsEditing(false);
   };
   const handleFinish = (values: UserInfo) => {
-    axios.put(`${baseUrl}/api/v1/users/profile`, values, {
+    axios.put(baseUrl + '/api/v1/users/profile', values, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Refresh-Token': refreshToken,
@@ -77,55 +79,55 @@ const ProfileManagement: React.FC = () => {
     <div>
       {!isEditing ? (
         <div className="profile-container">
-        <h2 className="profile-title">Profile View</h2>
+        <h2 className="profile-title">{t('profile_management.view_profile')}</h2>
         <div className="profile-info">
           <div className="profile-info-row">
-            <span className="profile-info-label">Username:</span>
+            <span className="profile-info-label">{t('profile_management.username')}</span>
             <span className="profile-info-value">{userInfo.username}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Phone Number:</span>
+            <span className="profile-info-label">{t('profile_management.phone_number')}</span>
             <span className="profile-info-value">{userInfo.phone_number}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Birthdate:</span>
+            <span className="profile-info-label">{t('profile_management.birthdate')}</span>
             <span className="profile-info-value">{userInfo.birthdate}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Parent Name:</span>
+            <span className="profile-info-label">{t('profile_management.parent_name')}</span>
             <span className="profile-info-value">{userInfo.parent_name}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Parent Email:</span>
+            <span className="profile-info-label">{t('profile_management.parent_email')}</span>
             <span className="profile-info-value">{userInfo.parent_email}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">School:</span>
+            <span className="profile-info-label">{t('profile_management.school')}</span>
             <span className="profile-info-value">{userInfo.school}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Class:</span>
+            <span className="profile-info-label">{t('profile_management.class_level')}</span>
             <span className="profile-info-value">{userInfo.user_class}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Subjects:</span>
+            <span className="profile-info-label">{t('profile_management.subject')}</span>
             <span className="profile-info-value">{userInfo.user_subject.join(', ')}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Address:</span>
+            <span className="profile-info-label">{t('profile_management.address')}</span>
             <span className="profile-info-value">{userInfo.address}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Security Question:</span>
+            <span className="profile-info-label">{t('profile_management.security_question')}</span>
             <span className="profile-info-value">{userInfo.security_question}</span>
           </div>
           <div className="profile-info-row">
-            <span className="profile-info-label">Security Answer:</span>
+            <span className="profile-info-label">{t('profile_management.security_answer')}</span>
             <span className="profile-info-value">{userInfo.security_answer}</span>
           </div>
         </div>
         <Button className="edit-button" type="primary" onClick={handleEditClick}>
-          Edit
+          <span className="profile-info-label">{t('profile_management.edit_profile')}</span>
         </Button>
       </div>
       

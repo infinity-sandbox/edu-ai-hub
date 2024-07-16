@@ -5,9 +5,12 @@ import Navbar from "./Navbar";
 import { FiArrowRight } from "react-icons/fi";
 import '../../styles/LandingPage.css';
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  
   const handleClick = () => {
     navigate('/Register');
   };
@@ -21,14 +24,13 @@ const Home: React.FC = () => {
         </div>
         <div className="home-text-section">
           <h1 className="primary-heading">
-            Your Favorite Learning Adventures with AI
+            {t('home.primary_heading')}
           </h1>
           <p className="primary-text">
-          Explore interactive experiences that spark curiosity and creativity for kids, 
-          blending fun with educational insights.
+            {t('home.primary_text')}
           </p>
           <button className="secondary-button" onClick={handleClick}>
-            Register <FiArrowRight />{" "}
+            {t('home.register_button')} <FiArrowRight />{" "}
           </button>
         </div>
         <div className="home-image-section">

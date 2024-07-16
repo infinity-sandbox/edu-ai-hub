@@ -1,34 +1,35 @@
+// src/pages/Login.js
 import React, { useState } from 'react';
 import { Form, Input, Button, Alert, Spin, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import sideSvgImage from '../images/image1.svg';
 import { saveAs } from 'file-saver';
-import sideSvgImage from '../images/image1.svg'
 import { useForm } from "react-hook-form";
 
 
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
+
 const Login: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');          
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
-    
     loginData.append('username', values.email);
     loginData.append('password', values.password);
 
     setLoading(true);
     setError('');
 
-
-    axios.post("http://0.0.0.0:8000/api/v1/auth/login", loginData, {
+    axios.post(baseUrl+"/api/v1/auth/login", loginData, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -36,22 +37,20 @@ const Login: React.FC = () => {
     .then(_result => {
         const { token } = _result.data;
         const { access_token, refresh_token } = _result.data;
-        // Save JWT to local storage
-        localStorage.setItem('token', token);
+        localStorage.setItem('authToken', token);
         localStorage.setItem('accessToken', access_token);
         localStorage.setItem('refreshToken', refresh_token);   
-        // Update tokens state in parent component
-        message.success('Login successful!');
-        navigate('/Home');
+        message.success(t('login.login_successful'));
+        navigate('/AppLayout');
     })
     .catch(err => {
-        message.error("Invalid email or password. Please try again.");
+        message.error(t("login.invalid_credentials"));
         console.error(err);
     })
     .finally(() => {
         setLoading(false);
     });
-}
+  }
 
   return (
     <div className='LoginPage'>
@@ -62,41 +61,41 @@ const Login: React.FC = () => {
             onFinish={onFinish}
             className="login-form"
           >
-            <h1 className='loginLeable'>Login</h1>
+            <h1 className='loginLeable'>{t('login.login_label')}</h1>
             {error && <Alert message={error} type="error" showIcon />}
-            <div className='EmailText'>Email</div>
+            <div className='EmailText'>{t('login.email')}</div>
             <Form.Item className='emailInput'
               name="email"
               rules={[
-                { required: true, message: 'Please input your Email!' },
-                { type: 'email', message: 'The input is not a valid email!' },
+                { required: true, message: t('login.email_required') },
+                { type: 'email', message: t('login.email_invalid') },
               ]}
             >
               <Input
                 prefix={<UserOutlined />}
                 className='emailInput'
-                placeholder="Email"
+                placeholder={t('login.email')}
                 value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </Form.Item>
             <div className='PasswordText'>
-              <div>Password</div>
+              <div>{t('login.password')}</div>
               <div className="forgot-link">
-                <Link to="/ForgotPassword">Forgot?</Link>
+                <Link to="/ForgotPassword">{t('login.forgot')}</Link>
               </div>
             </div>
             <Form.Item className='passwordInput'
               name="password"
               rules={[
-                { required: true, message: 'Please input your Password!' },
-                { min: 6, message: 'Password must be at least 6 characters!' },
+                { required: true, message: t('login.password_required') },
+                { min: 6, message: t('login.password_min') },
               ]}
             >
               <Input
                 prefix={<LockOutlined />}
                 type="password"
-                placeholder="Password"
+                placeholder={t('login.password')}
                 className='passwordInput'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -104,12 +103,12 @@ const Login: React.FC = () => {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" className="login-button" disabled={loading}>
-                {loading ? <Spin /> : 'Login now'}
+                {loading ? <Spin /> : t('login.login_now')}
               </Button>
             </Form.Item>
             <div className="signup-link">
-              <span>Don't have an account?</span>{" "}
-              <Link to="/Register">Register</Link>
+              <span>{t("login.dont_have_account")}</span>{" "}
+              <Link to="/Register">{t('login.register')}</Link>
             </div>
           </Form>
         </div>

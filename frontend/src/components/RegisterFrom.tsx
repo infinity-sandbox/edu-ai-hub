@@ -5,11 +5,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
-import logo from "../images/logo.svg";
+import { useTranslation } from 'react-i18next';
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const { Option } = Select;
 
 const Register: React.FC = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -23,13 +25,13 @@ const Register: React.FC = () => {
       upload_photo: profilePicture,
     };
 
-    axios.post('http://0.0.0.0:8000/api/v1/users/register', registerData)
+    axios.post(baseUrl + '/api/v1/users/register', registerData)
       .then(_result => {
-        message.success('Registration successful');
+        message.success(t('register.registration_successful'));
         navigate('/statusPages/SuccessRegistrationPage');
       })
       .catch(err => {
-        message.error('Registration failed. Please try again.');
+        message.error(t('register.registration_failed'));
         console.error(err);
       })
       .finally(() => {
@@ -47,36 +49,36 @@ const Register: React.FC = () => {
           onFinish={onFinish}
           className="register-form"
         >
-          <h1 className='createAccount'>Create your account</h1>
+          <h1 className='createAccount'>{t('register.create_account')}</h1>
 
           <Form.Item
             name="username"
-            rules={[{ required: true, message: 'Please input your Username!' }]}
+            rules={[{ required: true, message: t('register.username_required') }]}
           >
             <Input
               prefix={<UserOutlined />}
-              placeholder="Username"
+              placeholder={t('register.username')}
             />
           </Form.Item>
 
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your Email!' }, { type: 'email', message: 'Please enter a valid Email!' }]}
+            rules={[{ required: true, message: t('register.email_required') }, { type: 'email', message: t('register.email_invalid') }]}
           >
             <Input
               prefix={<MailOutlined />}
-              placeholder="Email"
+              placeholder={t('register.email')}
             />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
+            rules={[{ required: true, message: t('register.password_required') }]}
           >
             <Input
               prefix={<LockOutlined />}
               type="password"
-              placeholder="Password"
+              placeholder={t('register.password')}
             />
           </Form.Item>
 
@@ -85,13 +87,13 @@ const Register: React.FC = () => {
             dependencies={['password']}
             hasFeedback
             rules={[
-              { required: true, message: 'Please confirm your Password!' },
+              { required: true, message: t('register.confirm_password_required') },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                  return Promise.reject(new Error(t('register.passwords_do_not_match')));
                 },
               }),
             ]}
@@ -99,63 +101,65 @@ const Register: React.FC = () => {
             <Input
               prefix={<LockOutlined />}
               type="password"
-              placeholder="Confirm Password"
+              placeholder={t('register.confirm_password')}
             />
           </Form.Item>
 
           <Form.Item
             name="phone_number"
-            rules={[{ required: true, message: 'Please input your Phone Number!' }]}
+            rules={[{ required: true, message: t('register.phone_number_required') }]}
           >
             <Input
               prefix={<PhoneOutlined />}
-              placeholder="Phone Number"
+              placeholder={t('register.phone_number')}
             />
           </Form.Item>
 
           <Form.Item
             name="birthdate"
-            rules={[{ required: true, message: 'Please input your Birthdate!' }]}
+            rules={[{ required: true, message: t('register.birthdate_required') }]}
           >
-            <DatePicker placeholder='Enter Birthdate' style={{ width: '100%' }} />
+            <DatePicker placeholder={t('register.birthdate')} style={{ width: '100%' }} />
           </Form.Item>
 
           <Form.Item
             name="parent_name"
-            rules={[{ required: true, message: 'Please input your Parent Name!' }]}
+            rules={[{ required: true, message: t('register.parent_name_required') }]}
           >
             <Input
               prefix={<UserOutlined />}
-              placeholder="Parent Name"
+              placeholder={t('register.parent_name')}
             />
           </Form.Item>
 
           <Form.Item
             name="parent_email"
-            rules={[{ required: true, message: 'Please input your Parent Email!' }, { type: 'email', message: 'Please enter a valid Email!' }]}
+            rules={[{ required: true, message: t('register.parent_email_required') }, { type: 'email', message: t('register.parent_email_invalid') }]}
           >
             <Input
               prefix={<MailOutlined />}
-              placeholder="Parent Email"
+              placeholder={t('register.parent_email')}
             />
           </Form.Item>
 
           <Form.Item
             name="school"
-            rules={[{ required: true, message: 'Please input your School!' }]}
+            rules={[{ required: true, message: t('register.school_required') }]}
           >
             <Input
               prefix={<BookOutlined />}
-              placeholder="School"
+              placeholder={t('register.school')}
             />
           </Form.Item>
 
           <Form.Item
+          className='class'
             name="user_class"
-            rules={[{ required: true, message: 'Please input your Class!' }]}
+            rules={[{ required: true, message: t('register.class_required') }]}
           >
             <Select
-              placeholder="Select your class"
+            
+              placeholder={t('register.class')}
             >
               <Option value="P1">P1</Option>
               <Option value="P2">P2</Option>
@@ -173,12 +177,14 @@ const Register: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+          className='books'
             name="user_subject"
-            rules={[{ required: true, message: 'Please input your Books!' }]}
+            rules={[{ required: true, message: t('register.books_required') }]}
           >
             <Select
               mode="multiple"
-              placeholder="Select your books"
+              placeholder={t('register.books')}
+              
             >
               <Option value="Math">Math</Option>
               <Option value="Science">Science</Option>
@@ -190,66 +196,51 @@ const Register: React.FC = () => {
 
           <Form.Item
             name="address"
-            rules={[{ required: true, message: 'Please input your Address!' }]}
+            rules={[{ required: true, message: t('register.address_required') }]}
           >
             <Input
               prefix={<HomeOutlined />}
-              placeholder="Address"
+              placeholder={t('register.address')}
             />
           </Form.Item>
 
           <Form.Item
             name="security_question"
-            rules={[{ required: true, message: 'Please input your Security Question!' }]}
+            rules={[{ required: true, message: t('register.security_question_required') }]}
           >
             <Input
               prefix={<QuestionCircleOutlined />}
-              placeholder="Security Question"
+              placeholder={t('register.security_question')}
             />
           </Form.Item>
 
           <Form.Item
             name="security_answer"
-            rules={[{ required: true, message: 'Please input your Security Answer!' }]}
+            rules={[{ required: true, message: t('register.security_answer_required') }]}
           >
             <Input
               prefix={<QuestionCircleOutlined />}
-              placeholder="Security Answer"
+              placeholder={t('register.security_answer')}
             />
           </Form.Item>
-
-          {/* <Form.Item
-            name="upload_photo"
-            rules={[{ required: true, message: 'Please upload your Profile Picture!' }]}
-          >
-            <Upload
-              beforeUpload={file => {
-                setProfilePicture(file);
-                return false;
-              }}
-              listType="picture"
-            >
-              <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
-            </Upload>
-          </Form.Item> */}
 
           <Form.Item
             name="agreeToTerms"
             valuePropName="checked"
-            rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error('You must agree to the terms and conditions')) }]}
+            rules={[{ validator: (_, value) => value ? Promise.resolve() : Promise.reject(new Error(t('register.agree_to_terms_required'))) }]}
           >
             <Checkbox>
-              I agree to the terms and conditions
+              {t('register.agree_to_terms')}
             </Checkbox>
           </Form.Item>
 
           <Form.Item>
             <Button htmlType="submit" className="register-button" loading={loading}>
-              Create account
+              {t('register.create_account_button')}
             </Button>
           </Form.Item>
           <div className="login-link">
-            Already have an account? <Link to="/login">Login</Link>
+            {t('register.already_have_account')} <Link to="/login">{t('register.login')}</Link>
           </div>
         </Form>
       </div>

@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
+import { useTranslation } from 'react-i18next';
+import Home from '../components/mainPages';
 import Sidebar from '../components/SideNav/Sidebar';
 import ProfileManagement from '../components/ProfileManagements/ProfileManagement';
-import '../styles/Home.css';
+import '../styles/AppLayout.css';
 import AIBotInteraction from '../components/mainPages/AIBotInteraction';
 
 const { Content } = Layout;
 
 const ViewProfile: React.FC = () => {
   const [selectedPage, setSelectedPage] = useState('home');
+   const [username, setUsername] = useState('John Doe');
+  const { t } = useTranslation();
 
   const handleNavSelect = (key: string) => {
     if (key === 'sign-out') {
@@ -40,8 +44,11 @@ const ViewProfile: React.FC = () => {
         return <ProfileManagement />;
       case 'aibot-class':
         return <AIBotInteraction/>
+      case 'home':
+        return <Home username={username} />
+
       default:
-        return <div>Welcome to the {selectedPage} page!</div>;
+        return <div>{t('Welcome to the', {selectedPage})} page!</div>;
     }
   };
 
