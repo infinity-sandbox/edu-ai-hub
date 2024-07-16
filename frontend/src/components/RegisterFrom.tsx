@@ -6,8 +6,8 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import '../styles/RegisterForm.css';
 import { useTranslation } from 'react-i18next';
+import logo from "../images/logo.svg";
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
-
 const { Option } = Select;
 
 const Register: React.FC = () => {

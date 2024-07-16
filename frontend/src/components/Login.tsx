@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import sideSvgImage from '../images/image1.svg';
 import { saveAs } from 'file-saver';
 import { useForm } from "react-hook-form";
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
@@ -29,7 +30,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setError('');
 
-    axios.post(baseUrl+"/api/v1/auth/login", loginData, {
+    axios.post(baseUrl + "/api/v1/auth/login", loginData, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
