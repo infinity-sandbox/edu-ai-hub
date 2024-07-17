@@ -1,3 +1,14 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import jwt
+import smtplib
+from pydantic import ValidationError
+from fastapi import HTTPException, status
+from app.core.config import settings
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
+from pydantic import BaseModel, EmailStr
+from fastapi import FastAPI, HTTPException, Depends
 from typing import Optional
 from uuid import UUID
 from app.schemas.user_schema import UserAuth
@@ -8,19 +19,6 @@ from app.schemas.user_schema import UserUpdate
 from app.schemas.auth_schema import TokenSchema, TokenPayload
 from logs.loggers.logger import logger_config
 logger = logger_config(__name__)
-from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel, EmailStr
-from datetime import datetime, timedelta
-from passlib.context import CryptContext
-from app.core.config import settings
-from fastapi import HTTPException, status
-from pydantic import ValidationError
-import smtplib
-import jwt
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from app.core.security import get_password, verify_password 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -45,10 +43,11 @@ class UserService:
         )
         await user_in.save()
         return user_in
-    
+
     @staticmethod
     async def authenticate(email: str, password: str) -> Optional[User]:
-        logger.debug(f"Authenticating user with email: {email} and password: {password} ...")
+        logger.debug(
+            f"Authenticating user with email: {email} and password: {password} ...")
         user = await UserService.get_user_by_email(email=email)
         logger.info(f"User found: {user}")
         if not user:
@@ -58,33 +57,35 @@ class UserService:
             logger.info(f"Password does not match: {user}")
             return None
         return user
-    
+
     @staticmethod
     async def get_user_by_email(email: str) -> Optional[User]:
         user = await User.find_one(User.email == email)
         return user
-        
+
     @staticmethod
     async def get_user_by_id(id: UUID) -> Optional[User]:
         user = await User.find_one(User.user_id == id)
         return user
-    
+
     @staticmethod
     async def update_user(id: UUID, data: UserUpdate) -> User:
         user = await User.find_one(User.user_id == id)
         if not user:
             raise pymongo.errors.OperationFailure("User not found")
-    
+
         await user.update({"$set": data.dict(exclude_unset=True)})
         return user
-        
+
     @staticmethod
     async def send_email_request(email: str):
         user = await UserService.get_user_by_email(email)
         if not user:
-            raise pymongo.errors.OperationFailure("User not found or this email is not registered!")
-        access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        
+            raise pymongo.errors.OperationFailure(
+                "User not found or this email is not registered!")
+        access_token_expires = timedelta(
+            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+
         access_token = UserService.create_access_token(
             data={"sub": email}, expires_delta=access_token_expires
         )
@@ -96,27 +97,28 @@ class UserService:
             return logger.debug("Password reset email sent!")
         else:
             return logger.debug("Password reset email not sent!")
-        
+
     @staticmethod
     async def reset_password(token: str, new_password: str):
         try:
-            payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
+            payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[
+                                 settings.ALGORITHM])
             email = payload.get("sub")
             if email is None:
                 raise HTTPException(status_code=400, detail="Invalid token")
         except jwt.PyJWTError:
             raise HTTPException(status_code=400, detail="Invalid token")
-        
+
         user = await UserService.get_user_by_email(email)
         if not user:
             raise HTTPException(status_code=400, detail="User not found")
-        
+
         hashed_password = get_password(new_password)
         data = {"hashed_password": hashed_password}
-    
+
         await user.update({"$set": data})
-        return {"msg": "Password reset successful"}  
-      
+        return {"msg": "Password reset successful"}
+
     @staticmethod
     def send_email(email: str, reset_link):
         try:
@@ -134,7 +136,7 @@ class UserService:
             message.attach(MIMEText(body, "plain"))
             # Convert the message to a string
             email_string = message.as_string()
-            
+
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
             server.login(settings.MY_EMAIL, settings.EMAIL_APP_PASSWORD)
@@ -145,7 +147,7 @@ class UserService:
             return False
         finally:
             server.quit()
-    
+
     @staticmethod
     def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         to_encode = data.copy()
@@ -154,14 +156,16 @@ class UserService:
         else:
             expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
+        encoded_jwt = jwt.encode(
+            to_encode, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
         return encoded_jwt
-        
+
     @staticmethod
     async def decode_token(access_token: str, refresh_token: str):
         try:
             payload = jwt.decode(
-                refresh_token, settings.JWT_REFRESH_SECRET_KEY, algorithms=[settings.ALGORITHM]
+                refresh_token, settings.JWT_REFRESH_SECRET_KEY, algorithms=[
+                    settings.ALGORITHM]
             )
             token_data = TokenPayload(**payload)
         except (jwt.JWTError, ValidationError):
@@ -177,4 +181,3 @@ class UserService:
                 detail="Invalid token for user",
             )
         return user
-    
