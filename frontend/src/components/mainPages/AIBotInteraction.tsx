@@ -122,25 +122,26 @@ const AIBotInteraction: React.FC = () => {
             <div className="class-header">
               <h1>{selectedClass} Class</h1>
             </div>
-               {isCaptureEnable || (
-        <button onClick={() => setCaptureEnable(true)}><PlayCircleOutlined /></button>
+      
+            <div className="top-section">
+                       {isCaptureEnable || (
+        <Button onClick={() => setCaptureEnable(true)}><PlayCircleOutlined /></Button>
       )}
       {isCaptureEnable && (
         <>
           <div>
-            <button onClick={() => setCaptureEnable(false)}><PauseOutlined /> </button>
+            <Button style={{ backgroundColor: 'white' }} onClick={() => setCaptureEnable(false)}><PauseOutlined /> </Button>
           </div>
-            <div className="top-section">
-              
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 className="webcam"
               />
-            </div>
-        </>
+                </>
       )}
+            </div>
+      
             <div className="blackboard">
               {conversation.map((entry, index) => (
                 <div key={index} className={`message ${entry.type}`}>
