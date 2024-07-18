@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Select, Layout } from 'antd';
-import { UpOutlined } from '@ant-design/icons';
+import { UpOutlined, PlayCircleOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
@@ -19,7 +19,8 @@ const AIBotInteraction: React.FC = () => {
   const [recognizedQuestion, setRecognizedQuestion] = useState<string | null>(null);
   const [questionHistory, setQuestionHistory] = useState<Array<{ subject: string, question: string, answer: string | JSX.Element }>>([]);
   const webcamRef = useRef<Webcam>(null);
-
+  const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
+  
   useEffect(() => {
     if (selectedClass) {
       promptUserForQuestion();
@@ -121,7 +122,16 @@ const AIBotInteraction: React.FC = () => {
             <div className="class-header">
               <h1>{selectedClass} Class</h1>
             </div>
+               {isCaptureEnable || (
+        <button onClick={() => setCaptureEnable(true)}><PlayCircleOutlined /></button>
+      )}
+      {isCaptureEnable && (
+        <>
+          <div>
+            <button onClick={() => setCaptureEnable(false)}>end </button>
+          </div>
             <div className="top-section">
+              
               <Webcam
                 audio={false}
                 ref={webcamRef}
@@ -129,6 +139,8 @@ const AIBotInteraction: React.FC = () => {
                 className="webcam"
               />
             </div>
+        </>
+      )}
             <div className="blackboard">
               {conversation.map((entry, index) => (
                 <div key={index} className={`message ${entry.type}`}>
