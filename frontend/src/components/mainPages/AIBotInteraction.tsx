@@ -4,13 +4,13 @@ import { UpOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
-import raiseHandImage from '../../images/raised-hand.svg'
+import raiseHandImage from '../../images/raised-hand.svg';
 import QuestionHistory from './QuestionHistory';
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "../Experience";
 
 const { Option } = Select;
-const { Content,Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const AIBotInteraction: React.FC = () => {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
@@ -82,7 +82,7 @@ const AIBotInteraction: React.FC = () => {
         { type: 'ai', content: aiContent }
       ]);
 
-       setQuestionHistory(prevHistory => [
+      setQuestionHistory(prevHistory => [
         ...prevHistory,
         { subject: selectedClass!, question: recognizedQuestion!, answer: aiContent }
       ]);
@@ -99,17 +99,17 @@ const AIBotInteraction: React.FC = () => {
   };
 
   return (
-    <Layout className="ai-bot-interaction">
+    <Layout className="layout ai-bot-interaction">
       <Content className="content">
         {!selectedClass ? (
           <div>
-            <h1 style={{color:'white'}}>Select Class</h1>
+            <h1 style={{ color: 'white' }}>Select Class</h1>
             <Select 
-                onChange={handleClassSelect} 
-                placeholder="Select a class" 
-                dropdownClassName="custom-dropdown"
-                className="custom-select"
-                >
+              onChange={handleClassSelect} 
+              placeholder="Select a class" 
+              dropdownClassName="custom-dropdown"
+              className="custom-select"
+            >
               <Option value="english">English</Option>
               <Option value="math">Math</Option>
               <Option value="science">Science</Option>
@@ -141,21 +141,22 @@ const AIBotInteraction: React.FC = () => {
               <Button
                 type="primary"
                 shape="round"
-                
                 size="large"
                 onClick={handleVoiceInput}
                 className="raise-hand-button"
-              ><img style={{height:'40px'}} src={raiseHandImage}/></Button>
+              ><img style={{ height: '40px' }} src={raiseHandImage} /></Button>
             </div>
           </div>
         )}
       </Content>
-     <Sider width={400} className="question-history-sider">
+      
+      <Sider width={400} className="custom-sider" style={{ backgroundColor: '#59B379' }}>
         <Canvas shadows camera={{ position: [0, 0, 8], fov: 42 }}>
-          <color attach="background" args={["#ececec"]} />
-      <Experience />
-    </Canvas>
+         
+          <Experience />
+        </Canvas>
       </Sider>
+      
     </Layout>
   );
 };

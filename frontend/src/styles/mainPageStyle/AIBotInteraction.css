@@ -2,10 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 /* Apply styles to the ai-bot-interaction container */
+/* Adjust this part of your CSS */
+.layout .ai-bot-interaction .custom-sider {
+    background-color: #59B379 !important;
+}
 .ai-bot-interaction {
     height: 100vh;
     display: flex;
-
+   
 
 }
 
@@ -62,8 +66,8 @@
 }
 
 .blackboard {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #000000;
+    color: #ffffff;
     width: 100%;
     flex-grow: 1;
     padding: 20px;
@@ -152,6 +156,9 @@
 
 .raise-hand-button:hover {
     background-color: #59B379;
+}
+.layout .custom-sider {
+    background-color: #59B379 !important;
 }
 @media screen and (max-width: 600px) {
     .ai-bot-interaction Layout{
