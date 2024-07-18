@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Select, Layout } from 'antd';
-import { UpOutlined, PlayCircleOutlined} from '@ant-design/icons';
+import { UpOutlined, PlayCircleOutlined,PauseOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
@@ -128,7 +128,7 @@ const AIBotInteraction: React.FC = () => {
       {isCaptureEnable && (
         <>
           <div>
-            <button onClick={() => setCaptureEnable(false)}>end </button>
+            <button onClick={() => setCaptureEnable(false)}><PauseOutlined /> </button>
           </div>
             <div className="top-section">
               
