@@ -6,6 +6,8 @@ import Webcam from 'react-webcam';
 import '../../styles/mainPageStyle/AIBotInteraction.css';
 import raiseHandImage from '../../images/raised-hand.svg'
 import QuestionHistory from './QuestionHistory';
+import { Canvas } from "@react-three/fiber";
+import { Experience } from "../Experience";
 
 const { Option } = Select;
 const { Content,Sider } = Layout;
@@ -148,8 +150,11 @@ const AIBotInteraction: React.FC = () => {
           </div>
         )}
       </Content>
-     <Sider width={300} className="question-history-sider">
-        <QuestionHistory history={questionHistory} />
+     <Sider width={400} className="question-history-sider">
+        <Canvas shadows camera={{ position: [0, 0, 8], fov: 42 }}>
+          <color attach="background" args={["#ececec"]} />
+      <Experience />
+    </Canvas>
       </Sider>
     </Layout>
   );
