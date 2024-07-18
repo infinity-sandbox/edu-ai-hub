@@ -5,8 +5,8 @@
 .ai-bot-interaction {
     height: 100vh;
     display: flex;
-    
-    
+
+
 }
 
 .content {
@@ -35,7 +35,7 @@
 .class-header {
     width: 100%;
     margin-bottom: 20px;
-}   
+}
 
 .class-header h1 {
     text-transform: uppercase;
@@ -90,14 +90,14 @@
 
 /* Customized Select component */
 .ant-select {
-width: 300px;
+    width: 300px;
     max-width: 100%;
     font-size: 1.2em;
     color: white;
     background-color: #ffffff !important;
     border: none;
     border-radius: 5px;
-    
+
 }
 
 .ant-select-selector {
@@ -110,32 +110,32 @@ width: 300px;
     color: rgb(0, 0, 0) !important;
     font-size: 18px;
     padding: 0 20px;
-  }
-  
-  .custom-select .ant-select-arrow {
+}
+
+.custom-select .ant-select-arrow {
     color: #59B379 !important;
-  }
-  
-  /* .custom-select.ant-select-open .ant-select-selector {
+}
+
+/* .custom-select.ant-select-open .ant-select-selector {
     border-color: #59B379 !important;
   }
    */
-  /* Specific to the custom-dropdown class */
-  .custom-dropdown.ant-select-dropdown {
+/* Specific to the custom-dropdown class */
+.custom-dropdown.ant-select-dropdown {
     background: #13351f !important;
     color: white !important;
-  }
-  
-  .custom-dropdown .ant-select-item {
+}
+
+.custom-dropdown .ant-select-item {
     color: white !important;
-  }
-  
-  .custom-dropdown .ant-select-item:hover,
-  .custom-dropdown .ant-select-item-option-selected {
+}
+
+.custom-dropdown .ant-select-item:hover,
+.custom-dropdown .ant-select-item-option-selected {
     background: #59B379 !important;
     color: white !important;
-  }
-  
+}
+
 
 .raise-hand-container {
     display: flex;
@@ -152,4 +152,26 @@ width: 300px;
 
 .raise-hand-button:hover {
     background-color: #59B379;
+}
+@media screen and (max-width: 600px) {
+    .ai-bot-interaction Layout{
+        display: flex;
+        padding: 5px;
+    }
+    .question-history-sider{
+        display: none;
+    }
+    .webcam{
+        margin: 15px; 
+    }
+    .top-section{
+        padding: 5px;
+    }
+}
+/* Responsive design for very small screens */
+@media screen and (max-width: 480px) {
+    .content {
+        width: 100%;
+        padding: 10px;
+    }
 }
