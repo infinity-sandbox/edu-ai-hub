@@ -125,7 +125,7 @@ class UserService:
             # Email details
             sender_email = settings.MY_EMAIL
             receiver_email = email
-            subject = "AI BOU PASSWORD RESET LINK REQUEST"
+            subject = "PASSWORD RESET LINK REQUEST: AI BOU"
             body = f"Password Reset Link:\n{reset_link}"
 
             # Create the email message
