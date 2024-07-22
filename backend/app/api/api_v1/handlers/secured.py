@@ -46,8 +46,10 @@ async def get_user_profile(
 
 @secured_router.post("/bot/send", summary="Sending Bot payload")
 async def send_bot_payload():
+    # NOTE: THIS FUNCTION WILL SEND BOT PAYLOAD TO THE USER
     pass
 
 @secured_router.post("/bot/get", summary="Getting Bot payload")
 async def get_bot_payload():
+    # NOTE: THIS FUNCTION WILL FETCH BOT PAYLOAD FROM THE USER
     pass
