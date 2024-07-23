@@ -1,0 +1,9 @@
+{
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 14.5,
+  "editor.minimap.sectionHeaderFontSize": 9,
+  "debug.console.fontSize": 12,
+  "terminal.integrated.fontSize": 14.5,
+  "chat.editor.fontSize": 12,
+  "markdown.preview.fontSize": 14
+}
