@@ -3,9 +3,7 @@
 
 /* Apply styles to the ai-bot-interaction container */
 /* Adjust this part of your CSS */
-.layout .ai-bot-interaction .custom-sider {
-    background-color: #59B379 !important;
-}
+
 .ai-bot-interaction {
     height: 100vh;
     display: flex;
@@ -70,7 +68,7 @@
 
 .blackboard {
     background-color: #ffffff;
-    color: #000000;
+    color: #2e2e2e;
     width: 100%;
     flex-grow: 1;
     padding: 20px;
@@ -138,6 +136,7 @@
     color: rgb(0, 0, 0) !important;
     font-size: 18px;
     padding: 0 20px;
+    position: absolute;
 }
 
 .custom-select .ant-select-arrow {
@@ -181,9 +180,7 @@
 .raise-hand-button:hover {
     background-color: #59B379;
 }
-.layout .custom-sider {
-    background-color: #59B379 !important;
-}
+
 @media screen and (max-width: 600px) {
     .ai-bot-interaction Layout{
         display: flex;
