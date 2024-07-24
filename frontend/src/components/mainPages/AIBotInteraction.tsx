@@ -9,6 +9,8 @@ import '../../styles/mainPageStyle/AIBotInteraction.css';
 
 const { Content, Sider } = Layout;
 
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
+
 const AIBotInteraction: React.FC = () => {
   const [question, setQuestion] = useState<string>('');
   const [mispronunciations, setMispronunciations] = useState<string[]>([]);
@@ -20,29 +22,44 @@ const AIBotInteraction: React.FC = () => {
   const [isClassSelected, setIsClassSelected] = useState<boolean>(false); // Track if class is selected
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [exampleContent, setExampleContent] = useState<{ type: 'text' | 'image', content: string } | null>(null);
+  const [selectedClass, setSelectedClass] = useState<string>('');
 
   useEffect(() => {
-    // Fetch data from backend on component mount
-    const fetchData = async () => {
+    if (!selectedClass) return;
+
+    const fetchClassData = async () => {
       try {
-        const response = await axios.get('/api/bot-interaction'); // Replace with your actual endpoint
+        const response = await axios.post(`${baseUrl}/bot/class/frist`, { selectedClass });
         const data = response.data;
-        
+
         setQuestion(data.question);
         setMispronunciations(data.mispronunciations);
         setKeywords(data.keywords);
-        setAudioUrl(data.audioUrl);
-        setLipsync(data.lipsync);
+        setAudioUrl(data.audio_url);
+        setLipsync(data.json_data);
         setImage(data.image);
         setCorrectAnswer(data.correctAnswer);
         setExampleContent(data.exampleContent); // Set example content
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error sending selected class:', error);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchClassData();
+
+    const captureImage = () => {
+      // if (webcamRef.current) {
+      //   const imageSrc = webcamRef.current.getScreenshot();
+      //   if (imageSrc) {
+      //     axios.post('/api/upload-image', { image: imageSrc })
+      //       .catch((error) => console.error('Error uploading image:', error));
+      //   }
+      // }
+    };
+
+    const intervalId = setInterval(captureImage, 5000);
+    return () => clearInterval(intervalId);
+  }, [selectedClass]);
 
   const handleVoiceInput = async (voiceBlob: Blob) => {
     // Send voiceBlob to backend and get data
@@ -71,7 +88,8 @@ const AIBotInteraction: React.FC = () => {
     setIsAudioPlaying(true);
   };
 
-  const handleClassSelection = () => {
+  const handleClassSelection = (selectedClass: string) => {
+    setSelectedClass(selectedClass);
     setIsClassSelected(true);
     startAudioPlayback();
   };
@@ -87,6 +105,7 @@ const AIBotInteraction: React.FC = () => {
         correctAnswer={correctAnswer}
         onClassSelected={handleClassSelection} // Pass the handler
         exampleContent={exampleContent} // Pass example content
+        selectedClass={selectedClass}
       />
       {isClassSelected && (
         <Sider width={400} className="custom-sider" style={{ backgroundColor: '#59B379' }}>
