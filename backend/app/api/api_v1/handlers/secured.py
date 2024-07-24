@@ -21,6 +21,9 @@ import io, os
 from Rhubarb_Lip_Sync_1_13_0_macOS.install import convert_audio_to_json
 from app.services.openai_service import text_to_speech, speech_to_text
 from app.schemas.bot_schema import SubjectSelection
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
+import os
 
 secured_router = APIRouter()
 
@@ -55,27 +58,22 @@ async def bot_payload_first(subject: SubjectSelection):
     logger.info(f"selectedClass: {subject.selectedClass}")
     if not subject.selectedClass:
         raise HTTPException(status_code=400, detail="selectedClass query parameter is required")
-    # Define paths for audio files
-    # NOTE: update with google drive path for the sound
-    wav_file_path = "/Users/abelmitiku/sandbox/edu-ai-hub/backend/Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.wav"  # Update with your path
-    webm_file_path = "/Users/abelmitiku/sandbox/edu-ai-hub/backend/Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.webm"
-    takling_text = "Hello Mr. Abel, how are you doing today? I admire your work with miki. My name is ai bou."
+
+    # Define paths for audio files within the static directory
+    wav_file_path = "static/new_file.wav"
+    webm_file_path = "static/new_file.webm"
+    talking_text = "Hello Mr. Abel, how are you doing today? I admire your work with miki. My name is ai bou."
+
     # Generate audio file
-    text_to_speech(takling_text, webm_file_path, wav_file_path)
-    # output_json_path="Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.json"
+    text_to_speech(talking_text, webm_file_path, wav_file_path)
     json_content = convert_audio_to_json(wav_file_path)
-    # audio_path: str, 
-    #                       output_json_path: str = "", 
-    #                       is_json: bool = False
-    # Create JSON data (replace with your logic to calculate actual duration)
+
+    # Create JSON data
     json_data = json_content
-    
-    # Serve the audio file
-    audio_file = open(wav_file_path, "rb")
-    audio_response = StreamingResponse(audio_file, media_type="audio/wav")
 
     return {
-        "audio_url": wav_file_path,  # URL to access the audio file
+        "audio_url": f"/static/new_file.wav",  # URL to access the audio file
         "json_data": json_data,
         "question": "What is English grammar?"
     }
+

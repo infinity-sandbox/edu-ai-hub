@@ -30,6 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount the static directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 @app.get("/")
 async def serve_frontend():
     return JSONResponse(

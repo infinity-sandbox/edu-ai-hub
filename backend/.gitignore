@@ -23,6 +23,7 @@ downloads/
 Rhubarb-Lip-Sync-1.13.0-macOS/
 Rhubarb_Lip_Sync_1_13_0_macOS/
 eggs/
+backend/static
 .eggs/
 lib/
 lib64/
