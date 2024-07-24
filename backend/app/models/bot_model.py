@@ -11,24 +11,23 @@ from app.core.config import settings
 
 class Bot(Document):
     session_uuid: UUID = Field(default_factory=uuid4) # Interaction id (Link to weaviate db)
-    bot_id: str = settings.BOT_ID # put bot name, bot id, bot description on settings then call them here
+    bot_id: str = settings.BOT_ID
     user_id: Link[User] # Link to the User model
-    bot_name: str
-    bot_description: Optional[str] = None
+    bot_name: Optional[str] = settings.BOT_NAME
+    bot_description: Optional[str] = settings.BOT_DESCRIPTION
     created_at: datetime = Field(default_factory=datetime.utcnow)
     query: str
     response: str
     respondent_id: str # will hold the respondent user id or the bot id (mainly for chatroom)
     input_metadata: Dict[str, Union[str, bool]] # used to hold voice path, question or not, ...
     output_metadata: Dict[str, Union[str, bool]] # used to hold voice path, question or not, ...
-    # message_id: UUID = Field(default_factory=uuid4) # FIXME: remove this one b/c of session_uuid 
+    message_id: UUID = Field(default_factory=uuid4) # FIXME: remove this one b/c of session_uuid 
     session_id: UUID = Field(default_factory=uuid4)
     chunk_ids: Optional[List[str]] = None
     response_time: Optional[datetime] = None # ouput response - input response
     token: Optional[Dict[str, str]] = None # dict of input token and output token
-    model: Optional[str] = None # name of the model
+    model: Optional[str] = settings.MODEL # name of the model
     role: str # for now admin and user only (role of the session user)
-    # regenerated: Optional[bool] = False
     rating: Optional[Dict[str, Union[int, bool]]] = None
     is_chatroom: Optional[bool] = False
     is_botclass: Optional[bool] = False
