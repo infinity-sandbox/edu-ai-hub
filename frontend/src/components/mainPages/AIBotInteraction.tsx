@@ -68,7 +68,7 @@ const AIBotInteraction: React.FC = () => {
       const formData = new FormData();
       formData.append('voice', voiceBlob);
 
-      const response = await axios.post('/api/voice-input', formData, {
+      const response = await axios.post(baseUrl+'/api/v1/secured/upload-audio', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
