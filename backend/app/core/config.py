@@ -15,8 +15,11 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 # minutes
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7   # 7 days
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ["http://localhost:3000",
-                                              "http://localhost:8000",
-                                              "http://localhost"]
+                                              "http://localhost",
+                                              "http://0.0.0.0:3000",
+                                              "http://0.0.0.0",
+                                              "http://0.0.0.0:8000",
+                                              "https://aibou.vercel.app"]
     PROJECT_NAME: str = "AIBOU"
     MONGO_CONNECTION_STRING: str = config("MONGO_CONNECTION_STRING", cast=str)
     OPENAI_API_KEY: str = config("OPENAI_API_KEY", cast=str)
@@ -27,6 +30,10 @@ class Settings(BaseSettings):
     MY_EMAIL: str = config("MY_EMAIL", cast=str)
     MY_EMAIL_PASSWORD: str = config("MY_EMAIL_PASSWORD", cast=str)
     EMAIL_APP_PASSWORD: str = config("EMAIL_APP_PASSWORD", cast=str)
+    BOT_ID: str = config("BOT_ID", cast=str)
+    BOT_NAME: str = 'aibou_assistant'
+    BOT_DESCRIPTION: str = 'Aibou Assistant for class management and support.'
+    MODEL: str = config("MODEL", cast=str)
     
     class Config:
         case_sensitive = True

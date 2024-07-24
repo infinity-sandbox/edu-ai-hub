@@ -18,7 +18,7 @@ from fastapi import APIRouter, Query
 secured_router = APIRouter()
 
 
-@secured_router.put('/profile', summary="Update user info by user_id", response_model=UserOut)
+@secured_router.put('/profile/update', summary="Update user info by user_id", response_model=UserOut)
 async def update_user(
     data: UserUpdate,
     authorization: str = Header(...),
@@ -33,7 +33,7 @@ async def update_user(
             detail="User not found"
         )
         
-@secured_router.get("/profileview", response_model=UserUpdate)
+@secured_router.get("/profile/view", response_model=UserUpdate)
 async def get_user_profile(
     access_token: str = Query(..., alias="access_token"),
     refresh_token: str = Query(..., alias="refresh_token"),
@@ -44,12 +44,7 @@ async def get_user_profile(
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@secured_router.post("/bot/send", summary="Sending Bot payload")
-async def send_bot_payload():
-    # NOTE: THIS FUNCTION WILL SEND BOT PAYLOAD TO THE USER
+@secured_router.post("/bot/class/first#1", summary="First interaction of bot class")
+async def bot_payload_first():
     pass
 
-@secured_router.post("/bot/get", summary="Getting Bot payload")
-async def get_bot_payload():
-    # NOTE: THIS FUNCTION WILL FETCH BOT PAYLOAD FROM THE USER
-    pass
