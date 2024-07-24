@@ -50,12 +50,12 @@ async def get_user_profile(
     return user
 
 @secured_router.post("/bot/class/first", summary="First interaction of bot class")
-async def bot_payload_first(subject: str):
+async def bot_payload_first(selectedClass: str):
     # Define paths for audio files
     # NOTE: update with google drive path for the sound
     wav_file_path = "Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.wav"  # Update with your path
     webm_file_path = "Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.webm"
-    takling_text = "Hello Mr. Abel, how are you doing today?"
+    takling_text = "Hello Mr. Abel, how are you doing today? I admire your work with miki. My name is ai bou."
     # Generate audio file
     text_to_speech(takling_text, webm_file_path, wav_file_path)
     # output_json_path="Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.json"

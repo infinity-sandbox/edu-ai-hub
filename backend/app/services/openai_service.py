@@ -23,6 +23,7 @@ def text_to_speech(input_text: str, webm_file_path: str, wav_file_path: str):
         voice="nova",
         input=input_text
     )
+    # logger.info(f"response: {response}")
     with open(webm_file_path, "wb") as f:
         response.stream_to_file(webm_file_path)
         
