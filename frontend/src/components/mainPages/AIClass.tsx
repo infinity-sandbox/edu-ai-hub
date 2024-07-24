@@ -13,25 +13,25 @@ const { Content } = Layout;
 
 interface AIClassProps {
   question: string;
-  mispronunciations: string[];
-  keywords: string[];
+  // mispronunciations: string[];
+  // keywords: string[];
   // onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
-  correctAnswer: string;
+  // correctAnswer: string;
   onClassSelected: (selectedClass: string) => void;
-  exampleContent: { type: 'text' | 'image', content: string } | null;
+  // exampleContent: { type: 'text' | 'image', content: string } | null;
   selectedClass: string;
 }
 
 const AIClass: React.FC<AIClassProps> = ({
   question,
-  mispronunciations,
-  keywords,
+  // mispronunciations,
+  // keywords,
   // onVoiceInput,
   image,
-  correctAnswer,
+  // correctAnswer,
   onClassSelected,
-  exampleContent,
+  // exampleContent,
   selectedClass,
 }) => {
   const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
@@ -63,11 +63,11 @@ const AIClass: React.FC<AIClassProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (exampleContent) {
-      setIsModalVisible(true);
-    }
-  }, [exampleContent]);
+  // useEffect(() => {
+  //   if (exampleContent) {
+  //     setIsModalVisible(true);
+  //   }
+  // }, [exampleContent]);
 
   return (
     <Content className="content">
@@ -123,20 +123,20 @@ const AIClass: React.FC<AIClassProps> = ({
               {question.split(' ').map((word, index) => (
                 <span
                   key={index}
-                  className={mispronunciations.includes(word) ? 'highlight' : ''}
+                  // className={mispronunciations.includes(word) ? 'highlight' : ''}
                 >
                   {word}{' '}
                 </span>
               ))}
             </p>
             <div className="keywords">
-              {keywords.length > 0 && (
+              {/* {keywords.length > 0 && (
                 <ul>
                   {keywords.map((keyword, index) => (
                     <li key={index}>{keyword}</li>
                   ))}
                 </ul>
-              )}
+              )} */}
             </div>
             {image && <img src={image} alt="Related visual content" />}
           </div>
@@ -156,11 +156,11 @@ const AIClass: React.FC<AIClassProps> = ({
       )}
 
       <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
-        {exampleContent?.type === 'text' ? (
+        {/* {exampleContent?.type === 'text' ? (
           <p>{exampleContent.content}</p>
         ) : (
           <img src={exampleContent?.content} alt="Example" />
-        )}
+        )} */}
       </Modal>
     </Content>
   );

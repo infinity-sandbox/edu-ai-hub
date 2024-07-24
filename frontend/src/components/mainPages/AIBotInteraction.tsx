@@ -99,13 +99,13 @@ const AIBotInteraction: React.FC = () => {
     <Layout className="layout ai-bot-interaction">
       <AIClass
         question={question}
-        mispronunciations={mispronunciations}
-        keywords={keywords}
+        // mispronunciations={mispronunciations}
+        // keywords={keywords}
         // onVoiceInput={handleVoiceInput}
         image={image}
-        correctAnswer={correctAnswer}
+        // correctAnswer={correctAnswer}
         onClassSelected={handleClassSelection} // Pass the handler
-        exampleContent={exampleContent} // Pass example content
+        // exampleContent={exampleContent} // Pass example content
         selectedClass={selectedClass}
       />
       {isClassSelected && (
