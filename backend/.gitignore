@@ -15,10 +15,13 @@ __pycache__/
 prompt/extraction/data
 server/dist_*
 .vscode/
+test_modules/
 build/
 develop-eggs/
 # dist/
 downloads/
+Rhubarb-Lip-Sync-1.13.0-macOS/
+Rhubarb_Lip_Sync_1_13_0_macOS/
 eggs/
 .eggs/
 lib/
