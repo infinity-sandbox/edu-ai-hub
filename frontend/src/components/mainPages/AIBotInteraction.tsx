@@ -29,7 +29,8 @@ const AIBotInteraction: React.FC = () => {
 
     const fetchClassData = async () => {
       try {
-        const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/first={selectedClass}');
+        const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/first', { 
+          selectedClass: selectedClass });
         const data = response.data;
 
         setQuestion(data.question);
