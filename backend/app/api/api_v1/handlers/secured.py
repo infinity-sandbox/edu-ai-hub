@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Header, status
+from fastapi import APIRouter, HTTPException, Header, status, Query
 from app.schemas.user_schema import UserAuth, UserOut, UserUpdate
 import pymongo
 from app.models.user_model import User
@@ -20,6 +20,7 @@ from pydantic import BaseModel
 import io, os
 from Rhubarb_Lip_Sync_1_13_0_macOS.install import convert_audio_to_json
 from app.services.openai_service import text_to_speech, speech_to_text
+from app.schemas.bot_schema import SubjectSelection
 
 secured_router = APIRouter()
 
@@ -50,11 +51,14 @@ async def get_user_profile(
     return user
 
 @secured_router.post("/bot/class/first", summary="First interaction of bot class")
-async def bot_payload_first(selectedClass: str):
+async def bot_payload_first(subject: SubjectSelection):
+    logger.info(f"selectedClass: {subject.selectedClass}")
+    if not subject.selectedClass:
+        raise HTTPException(status_code=400, detail="selectedClass query parameter is required")
     # Define paths for audio files
     # NOTE: update with google drive path for the sound
-    wav_file_path = "Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.wav"  # Update with your path
-    webm_file_path = "Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.webm"
+    wav_file_path = "/Users/abelmitiku/sandbox/edu-ai-hub/backend/Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.wav"  # Update with your path
+    webm_file_path = "/Users/abelmitiku/sandbox/edu-ai-hub/backend/Rhubarb_Lip_Sync_1_13_0_macOS/audio/new_file.webm"
     takling_text = "Hello Mr. Abel, how are you doing today? I admire your work with miki. My name is ai bou."
     # Generate audio file
     text_to_speech(takling_text, webm_file_path, wav_file_path)

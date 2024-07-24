@@ -34,12 +34,12 @@ const AIBotInteraction: React.FC = () => {
         const data = response.data;
 
         setQuestion(data.question);
-        setMispronunciations(data.mispronunciations);
-        setKeywords(data.keywords);
+        // setMispronunciations(data.mispronunciations);
+        // setKeywords(data.keywords);
         setAudioUrl(data.audio_url);
         setLipsync(data.json_data);
-        setImage(data.image);
-        setCorrectAnswer(data.correctAnswer);
+        // setImage(data.image);
+        // setCorrectAnswer(data.correctAnswer);
         setExampleContent(data.exampleContent); // Set example content
       } catch (error) {
         console.error('Error sending selected class:', error);
