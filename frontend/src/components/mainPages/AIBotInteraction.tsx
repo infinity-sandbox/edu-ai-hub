@@ -36,7 +36,7 @@ const AIBotInteraction: React.FC = () => {
         setQuestion(data.question);
         // setMispronunciations(data.mispronunciations);
         // setKeywords(data.keywords);
-        setAudioUrl(data.audio_url);
+        setAudioUrl(`${baseUrl}/audio/new_file.wav`);
         setLipsync(data.json_data);
         // setImage(data.image);
         // setCorrectAnswer(data.correctAnswer);
