@@ -62,28 +62,28 @@ const AIBotInteraction: React.FC = () => {
     return () => clearInterval(intervalId);
   }, [selectedClass]);
 
-  // const handleVoiceInput = async (voiceBlob: Blob) => {
-  //   // Send voiceBlob to backend and get data
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append('voice', voiceBlob);
+  const handleVoiceInput = async (voiceBlob: Blob) => {
+    // Send voiceBlob to backend and get data
+    try {
+      const formData = new FormData();
+      formData.append('voice', voiceBlob);
 
-  //     const response = await axios.post('/api/voice-input', formData, {
-  //       headers: { 'Content-Type': 'multipart/form-data' }
-  //     });
+      const response = await axios.post('/api/voice-input', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       
-  //     const data = response.data;
+      const data = response.data;
       
-  //     setMispronunciations(data.mispronunciations);
-  //     setKeywords(data.keywords);
-  //     setImage(data.image);
-  //     setAudioUrl(data.audioUrl);
-  //     setLipsync(data.lipsync);
-  //     setExampleContent(data.exampleContent); // Update example content
-  //   } catch (error) {
-  //     console.error('Error handling voice input:', error);
-  //   }
-  // };
+      setMispronunciations(data.mispronunciations);
+      setKeywords(data.keywords);
+      setImage(data.image);
+      setAudioUrl(data.audioUrl);
+      setLipsync(data.lipsync);
+      setExampleContent(data.exampleContent); // Update example content
+    } catch (error) {
+      console.error('Error handling voice input:', error);
+    }
+  };
 
   const startAudioPlayback = () => {
     setIsAudioPlaying(true);
@@ -101,7 +101,7 @@ const AIBotInteraction: React.FC = () => {
         question={question}
         // mispronunciations={mispronunciations}
         // keywords={keywords}
-        // onVoiceInput={handleVoiceInput}
+        onVoiceInput={handleVoiceInput}
         image={image}
         // correctAnswer={correctAnswer}
         onClassSelected={handleClassSelection} // Pass the handler

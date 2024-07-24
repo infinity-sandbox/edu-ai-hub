@@ -15,7 +15,7 @@ interface AIClassProps {
   question: string;
   // mispronunciations: string[];
   // keywords: string[];
-  // onVoiceInput: (voiceBlob: Blob) => Promise<void>;
+  onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
   // correctAnswer: string;
   onClassSelected: (selectedClass: string) => void;
@@ -27,7 +27,7 @@ const AIClass: React.FC<AIClassProps> = ({
   question,
   // mispronunciations,
   // keywords,
-  // onVoiceInput,
+  onVoiceInput,
   image,
   // correctAnswer,
   onClassSelected,
@@ -51,7 +51,7 @@ const AIClass: React.FC<AIClassProps> = ({
 
       newRecorder.ondataavailable = (event) => {
         const audioData = event.data;
-        // onVoiceInput(audioData);
+        onVoiceInput(audioData);
       };
     });
   };
