@@ -1,5 +1,3 @@
-// AIClass.tsx
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -22,6 +20,7 @@ interface AIClassProps {
   correctAnswer: string;
   onClassSelected: (selectedClass: string) => void;
   exampleContent: { type: 'text' | 'image', content: string } | null;
+  selectedClass: string;
 }
 
 const AIClass: React.FC<AIClassProps> = ({
@@ -33,8 +32,8 @@ const AIClass: React.FC<AIClassProps> = ({
   correctAnswer,
   onClassSelected,
   exampleContent,
+  selectedClass,
 }) => {
-  const [selectedClass, setSelectedClass] = useState('');
   const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -42,26 +41,6 @@ const AIClass: React.FC<AIClassProps> = ({
 
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
-
-  const handleClassChange = (value: string) => {
-    setSelectedClass(value);
-    onClassSelected(value);
-  };
-
-  useEffect(() => {
-    const captureImage = () => {
-      // if (webcamRef.current) {
-      //   const imageSrc = webcamRef.current.getScreenshot();
-      //   if (imageSrc) {
-      //     axios.post('/api/upload-image', { image: imageSrc })
-      //       .catch((error) => console.error('Error uploading image:', error));
-      //   }
-      // }
-    };
-
-    const intervalId = setInterval(captureImage, 5000);
-    return () => clearInterval(intervalId);
-  }, [selectedClass]);
 
   const handleStartRecording = () => {
     setIsRecording(true);
@@ -96,7 +75,7 @@ const AIClass: React.FC<AIClassProps> = ({
         <div>
           <h1 style={{ color: 'white' }}>Select Class</h1>
           <Select
-            onChange={handleClassChange}
+            onChange={onClassSelected}
             placeholder="Select a class"
             dropdownClassName="custom-dropdown"
             className="custom-select"
@@ -107,49 +86,82 @@ const AIClass: React.FC<AIClassProps> = ({
           </Select>
         </div>
       ) : (
-        <>
-          <h1 style={{ color: 'white' }}>AI Class</h1>
-          <h2 style={{ color: 'white' }}>{question}</h2>
-          <h3 style={{ color: 'white' }}>Mispronunciations: {mispronunciations.join(', ')}</h3>
-          <h3 style={{ color: 'white' }}>Keywords: {keywords.join(', ')}</h3>
-          {image && <img src={image} alt="Image" />}
-          <h3 style={{ color: 'white' }}>Correct Answer: {correctAnswer}</h3>
-          {isCaptureEnable && (
-            <>
-              <Webcam
-                ref={webcamRef}
-                audio={false}
-                screenshotFormat="image/jpeg"
-                style={{ display: 'none' }}
-              />
-              <Button onClick={() => setCaptureEnable(false)} style={{ display: 'none' }}>Enable Webcam</Button>
-            </>
-          )}
-          <Button
-            type="primary"
-            shape="round"
-            onMouseDown={handleStartRecording}
-            onMouseUp={handleStopRecording}
-            className="raise-hand-button"
-          >
-            <img src={raiseHand} alt="Raise Hand" className="raise-hand-icon" />
-          </Button>
-          <Modal
-            title="Example Content"
-            visible={isModalVisible}
-            onOk={() => setIsModalVisible(false)}
-            onCancel={() => setIsModalVisible(false)}
-          >
-            {exampleContent && (
-              exampleContent.type === 'text' ? (
-                <p>{exampleContent.content}</p>
-              ) : (
-                <img src={exampleContent.content} alt="Example" />
-              )
+        <div className="classroom">
+          <div className="class-header">
+            <h1>{selectedClass} Class</h1>
+          </div>
+          <div className="top-section">
+            {isCaptureEnable || (
+              <Button
+                style={{ position: 'fixed', backgroundColor: "#59B379", border: 'none', fontSize: '60px' }}
+                onClick={() => setCaptureEnable(true)}
+              >
+                <CameraOutlined />
+              </Button>
             )}
-          </Modal>
-        </>
+            {isCaptureEnable && (
+              <>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  className="webcam"
+                />
+                <div>
+                  <Button
+                    style={{ color: 'red', position: 'fixed', backgroundColor: "#59B379", border: 'none', fontSize: '30px' }}
+                    onClick={() => setCaptureEnable(false)}
+                  >
+                    <b>X</b>
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="blackboard">
+            <p>
+              {question.split(' ').map((word, index) => (
+                <span
+                  key={index}
+                  className={mispronunciations.includes(word) ? 'highlight' : ''}
+                >
+                  {word}{' '}
+                </span>
+              ))}
+            </p>
+            <div className="keywords">
+              {keywords.length > 0 && (
+                <ul>
+                  {keywords.map((keyword, index) => (
+                    <li key={index}>{keyword}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            {image && <img src={image} alt="Related visual content" />}
+          </div>
+          <div className="raise-hand">
+            <Button
+              onMouseDown={handleStartRecording}
+              onMouseUp={handleStopRecording}
+              onTouchStart={handleStartRecording}
+              onTouchEnd={handleStopRecording}
+            >
+              Raise Hand
+              <img src={raiseHand} style={{ height: '30px' }} />
+            </Button>
+            {isRecording && <div className="recording-indicator">Recording...</div>}
+          </div>
+        </div>
       )}
+
+      <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
+        {exampleContent?.type === 'text' ? (
+          <p>{exampleContent.content}</p>
+        ) : (
+          <img src={exampleContent?.content} alt="Example" />
+        )}
+      </Modal>
     </Content>
   );
 };
