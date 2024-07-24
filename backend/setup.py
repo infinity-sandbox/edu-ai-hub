@@ -28,5 +28,8 @@ setup(
     ],
     include_package_data=True,
     install_requires=requirements,
-    extras_require={"dev": ["pytest", "wheel", "twine", "black", "setuptools"]}
+    extras_require={"dev": ["pytest", "wheel", "twine", "black", "setuptools"]},
+    dependency_links=[
+        "git+ssh://git@github.com/InfinityCodebase/edu-ai-hub.git@1495d35da70fc4e64be4028c3de9c0c2f636760b#egg=aibou&subdirectory=backend"
+    ]
 )
