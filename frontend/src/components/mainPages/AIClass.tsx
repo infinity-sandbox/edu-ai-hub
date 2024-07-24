@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Webcam from 'react-webcam';
-import { Button, Select, Layout } from 'antd';
+import { Button, Select, Layout, Modal } from 'antd';
 import '../../styles/mainPageStyle/AIClass.css';
+import '../../styles/mainPageStyle/AIBotInteraction.css';
 import { CameraOutlined } from '@ant-design/icons';
-import raiseHand from '../../images/raised-hand.svg'
+import raiseHand from '../../images/raised-hand.svg';
+
 const { Option } = Select;
 const { Content } = Layout;
 
@@ -14,6 +17,9 @@ interface AIClassProps {
   keywords: string[];
   onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
+  correctAnswer: string;
+  onClassSelected: () => void;
+  exampleContent: { type: 'text' | 'image', content: string } | null;
 }
 
 const AIClass: React.FC<AIClassProps> = ({
@@ -22,25 +28,43 @@ const AIClass: React.FC<AIClassProps> = ({
   keywords,
   onVoiceInput,
   image,
+  correctAnswer,
+  onClassSelected,
+  exampleContent,
 }) => {
   const [selectedClass, setSelectedClass] = useState('');
   const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const webcamRef = useRef<Webcam>(null);
+  const navigate = useNavigate();
 
   const handleClassChange = (value: string) => {
     setSelectedClass(value);
+    onClassSelected();
   };
 
   useEffect(() => {
     if (!selectedClass) return;
 
+    const sendSelectedClass = async () => {
+      try {
+        await axios.post('/bot/class/frist', { selectedClass });
+      } catch (error) {
+        console.error('Error sending selected class:', error);
+      }
+    };
+
+    sendSelectedClass();
+
     const captureImage = () => {
       if (webcamRef.current) {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
-          axios.post('/api/upload-image', { image: imageSrc });
+          axios.post('/api/upload-image', { image: imageSrc })
+            .catch((error) => console.error('Error uploading image:', error));
         }
       }
     };
@@ -70,6 +94,12 @@ const AIClass: React.FC<AIClassProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (exampleContent) {
+      setIsModalVisible(true);
+    }
+  }, [exampleContent]);
+
   return (
     <Content className="content">
       {!selectedClass ? (
@@ -92,33 +122,33 @@ const AIClass: React.FC<AIClassProps> = ({
             <h1>{selectedClass} Class</h1>
           </div>
           <div className="top-section">
-              {isCaptureEnable || (
-                <Button 
-                  style={{ position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'60px' }} 
-                  onClick={() => setCaptureEnable(true)}
-                >
-                  <CameraOutlined />
-                </Button>
-              )}
-              {isCaptureEnable && (
-                <>
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              className="webcam"
-            />
-               <div>
-                    <Button 
-                      style={{ color: 'red', position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'30px' }} 
-                      onClick={() => setCaptureEnable(false)}
-                    >
-                      <b>X</b> 
-                    </Button>
-                  </div>
-                </>
-              )}
-            </div>
+            {isCaptureEnable || (
+              <Button 
+                style={{ position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'60px' }} 
+                onClick={() => setCaptureEnable(true)}
+              >
+                <CameraOutlined />
+              </Button>
+            )}
+            {isCaptureEnable && (
+              <>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  className="webcam"
+                />
+                <div>
+                  <Button 
+                    style={{ color: 'red', position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'30px' }} 
+                    onClick={() => setCaptureEnable(false)}
+                  >
+                    <b>X</b> 
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
           <div className="blackboard">
             <p>
               {question.split(' ').map((word, index) => (
@@ -143,7 +173,6 @@ const AIClass: React.FC<AIClassProps> = ({
           </div>
           <div className="raise-hand">
             <Button
-              
               onMouseDown={handleStartRecording}
               onMouseUp={handleStopRecording}
               onTouchStart={handleStartRecording}
@@ -156,6 +185,14 @@ const AIClass: React.FC<AIClassProps> = ({
           </div>
         </div>
       )}
+
+      <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
+        {exampleContent?.type === 'text' ? (
+          <p>{exampleContent.content}</p>
+        ) : (
+          <img src={exampleContent?.content} alt="Example" />
+        )}
+      </Modal>
     </Content>
   );
 };

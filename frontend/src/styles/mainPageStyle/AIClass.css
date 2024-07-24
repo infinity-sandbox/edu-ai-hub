@@ -33,8 +33,8 @@ select {
 }
 
 .blackboard {
-    background-color: #ffffff;
-    color: #2e2e2e;
+    background-color: #2e2e2e;
+    color: #ffffff;
     width: 100%;
     flex-grow: 1;
     padding: 20px;
@@ -59,13 +59,14 @@ select {
 
 .raise-hand {
     margin-top: 20px;
+    color: #59B379;
 }
 
 button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #ffffff;
-    color: #45a065;
+    color: #181616;
     border: none;
     border-radius: 5px;
     cursor: pointer;

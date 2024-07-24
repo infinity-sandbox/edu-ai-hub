@@ -18,9 +18,9 @@ const visemeMapping = {
 export function Avatar({ audioUrl, lipsync, ...props }) {
   const [animation, setAnimation] = useState('Idle');
   const audio = useMemo(() => (audioUrl ? new Audio(audioUrl) : null), [audioUrl]);
-  const { nodes, materials } = useGLTF('/models/669774bdaefec8673fd48836.glb');
-  const { animations: idleAnimations } = useFBX('/animations/Idle.fbx');
-  const { animations: talkingAnimations } = useFBX('/animations/Talking.fbx');
+  const { nodes, materials } = useGLTF('./models/669774bdaefec8673fd48836.glb');
+  const { animations: idleAnimations } = useFBX('./animations/Idle.fbx');
+  const { animations: talkingAnimations } = useFBX('./animations/Talking.fbx');
 
   idleAnimations[0].name = 'Idle';
   talkingAnimations[0].name = 'Talking';
@@ -168,4 +168,4 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
   );
 }
 
-useGLTF.preload('/models/669774bdaefec8673fd48836.glb');
+useGLTF.preload('./models/669774bdaefec8673fd48836.glb');
