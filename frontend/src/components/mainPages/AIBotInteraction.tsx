@@ -22,24 +22,20 @@ const AIBotInteraction: React.FC = () => {
   const [isClassSelected, setIsClassSelected] = useState<boolean>(false); // Track if class is selected
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [exampleContent, setExampleContent] = useState<{ type: 'text' | 'image', content: string } | null>(null);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState<string>('');
 
   useEffect(() => {
     if (!selectedClass) return;
 
     const fetchClassData = async () => {
       try {
-        const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/first', { 
+        const response = await axios.post(`${baseUrl}/api/v1/secured/bot/class/first`, { 
           selectedClass: selectedClass });
         const data = response.data;
 
         setQuestion(data.question);
-        // setMispronunciations(data.mispronunciations);
-        // setKeywords(data.keywords);
         setAudioUrl(`${baseUrl}/static/new_file.wav`);
         setLipsync(data.json_data);
-        // setImage(data.image);
-        // setCorrectAnswer(data.correctAnswer);
         setExampleContent(data.exampleContent); // Set example content
       } catch (error) {
         console.error('Error sending selected class:', error);
@@ -63,25 +59,24 @@ const AIBotInteraction: React.FC = () => {
   }, [selectedClass]);
 
   const handleVoiceInput = async (voiceBlob: Blob) => {
-    // Send voiceBlob to backend and get data
-    try {
-      const formData = new FormData();
-      formData.append('voice', voiceBlob);
+    const formData = new FormData();
+    formData.append('file', voiceBlob, 'recorded.wav'); // Ensure 'file' matches backend
 
-      const response = await axios.post(baseUrl+'/api/v1/secured/upload-audio', formData, {
+    try {
+      const response = await axios.post(`${baseUrl}/api/v1/secured/upload-audio`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
       const data = response.data;
       
-      setMispronunciations(data.mispronunciations);
-      setKeywords(data.keywords);
-      setImage(data.image);
-      setAudioUrl(data.audioUrl);
-      setLipsync(data.lipsync);
-      setExampleContent(data.exampleContent); // Update example content
+      setMispronunciations(data.mispronunciations || []);
+      setKeywords(data.keywords || []);
+      setImage(data.image || null);
+      setAudioUrl(data.file_url || null); // Ensure this matches what the backend sends
+      setLipsync(data.lipsync || null);
+      setExampleContent(data.exampleContent || null); // Update example content
     } catch (error) {
-      console.error('Error handling voice input:', error);
+      console.error('Error handling voice input:',);
     }
   };
 
@@ -99,13 +94,9 @@ const AIBotInteraction: React.FC = () => {
     <Layout className="layout ai-bot-interaction">
       <AIClass
         question={question}
-        // mispronunciations={mispronunciations}
-        // keywords={keywords}
         onVoiceInput={handleVoiceInput}
         image={image}
-        // correctAnswer={correctAnswer}
-        onClassSelected={handleClassSelection} // Pass the handler
-        // exampleContent={exampleContent} // Pass example content
+        onClassSelected={handleClassSelection}
         selectedClass={selectedClass}
       />
       {isClassSelected && (
