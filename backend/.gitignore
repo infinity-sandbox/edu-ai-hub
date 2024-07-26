@@ -25,6 +25,7 @@ Rhubarb_Lip_Sync_1_13_0_macOS/
 eggs/
 .eggs/
 lib/
+static/
 lib64/
 parts/
 sdist/
