@@ -125,6 +125,17 @@
     "reset_link_sent": "A reset link has been sent to {email}",
     "send_failed": "Failed to send password reset email. Please try again.",
     "email_sent_success": "Password reset email sent successfully"
-  }
+  },
+      "AIClass": {
+        "selectClass": "Select Class",
+        "selectPlaceholder": "Select a class",
+        "english": "English",
+        "math": "Math",
+        "science": "Science",
+        "class": "{{selectedClass}} Class",
+        "correctAnswer": "Correct Answer",
+        "raiseHand": "Raise Hand",
+        "recording": "Recording..."
+      }
 
 }

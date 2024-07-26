@@ -1,0 +1,17 @@
+{
+  "phonemes": [
+    { "id": "A", "mouthShape": "mouth-open", "duration": 0.1 },
+    { "id": "E", "mouthShape": "mouth-wide", "duration": 0.1 },
+    { "id": "I", "mouthShape": "mouth-smile", "duration": 0.1 },
+    { "id": "O", "mouthShape": "mouth-pucker", "duration": 0.1 },
+    { "id": "U", "mouthShape": "mouth-pucker", "duration": 0.1 },
+    { "id": "B", "mouthShape": "mouth-closed", "duration": 0.1 },
+    { "id": "P", "mouthShape": "mouth-closed", "duration": 0.1 },
+    { "id": "M", "mouthShape": "mouth-closed", "duration": 0.1 }
+  ],
+  "animations": [
+    { "startTime": 0.0, "phonemeSequence": "A-I-O-U" },
+    { "startTime": 1.0, "phonemeSequence": "B-P-M" },
+    { "startTime": 2.0, "phonemeSequence": "A-E-I" }
+  ]
+}

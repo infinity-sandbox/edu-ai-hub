@@ -17,3 +17,6 @@ class Metadata(BaseModel):
 class JSONResponseModel(BaseModel):
     metadata: Metadata
     mouthCues: List[MouthCue]
+    
+class SubjectSelection(BaseModel):
+    selectedClass: str

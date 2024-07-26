@@ -1,156 +1,113 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button, Select, Layout } from 'antd';
-import { UpOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Webcam from 'react-webcam';
+import AIClass from './AIClass'; // Ensure correct import path
+import { Avatar } from './Avatar';
+import { Layout } from 'antd';
+import { Canvas } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
 import '../../styles/mainPageStyle/AIBotInteraction.css';
-import raiseHandImage from '../../images/raised-hand.svg'
-import QuestionHistory from './QuestionHistory';
 
-const { Option } = Select;
-const { Content,Sider } = Layout;
+const { Content, Sider } = Layout;
+
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const AIBotInteraction: React.FC = () => {
-  const [selectedClass, setSelectedClass] = useState<string | null>(null);
-  const [conversation, setConversation] = useState<Array<{ type: 'user' | 'ai', content: string | JSX.Element }>>([]);
-  const [waitingForConfirmation, setWaitingForConfirmation] = useState(false);
-  const [recognizedQuestion, setRecognizedQuestion] = useState<string | null>(null);
-  const [questionHistory, setQuestionHistory] = useState<Array<{ subject: string, question: string, answer: string | JSX.Element }>>([]);
-  const webcamRef = useRef<Webcam>(null);
+  const [question, setQuestion] = useState<string>('');
+  const [mispronunciations, setMispronunciations] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [lipsync, setLipsync] = useState<any>(null); // Use appropriate type
+  const [image, setImage] = useState<string | null>(null);
+  const [correctAnswer, setCorrectAnswer] = useState<string>('');
+  const [isClassSelected, setIsClassSelected] = useState<boolean>(false); // Track if class is selected
+  const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
+  const [exampleContent, setExampleContent] = useState<{ type: 'text' | 'image', content: string } | null>(null);
+  const [selectedClass, setSelectedClass] = useState<string>('');
 
   useEffect(() => {
-    if (selectedClass) {
-      promptUserForQuestion();
-    }
-  }, [selectedClass]);
+    if (!selectedClass) return;
 
-  const handleClassSelect = (value: string) => {
-    setSelectedClass(value);
-    setConversation(prevConversation => [
-      ...prevConversation, 
-      { type: 'ai', content: 'Please ask your question.' }
-    ]);
-  };
+    const fetchClassData = async () => {
+      try {
+        const response = await axios.post(`${baseUrl}/api/v1/secured/bot/class/first`, { 
+          selectedClass: selectedClass });
+        const data = response.data;
 
-  const handleVoiceInput = () => {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';
-    recognition.start();
-
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-
-      if (waitingForConfirmation) {
-        if (transcript.toLowerCase() === 'yes') {
-          handleRaiseHand();
-        } else if (transcript.toLowerCase() === 'no') {
-          setConversation(prevConversation => [
-            ...prevConversation, 
-            { type: 'ai', content: 'Please ask your question again.' }
-          ]);
-          setWaitingForConfirmation(false);
-        }
-      } else {
-        setRecognizedQuestion(transcript);
-        setConversation(prevConversation => [
-          ...prevConversation, 
-          { type: 'user', content: transcript },
-          { type: 'ai', content: `Did you ask: "${transcript}"? Please say "yes" or "no".` }
-        ]);
-        setWaitingForConfirmation(true);
+        setQuestion(data.question);
+        setAudioUrl(`${baseUrl}/static/new_file.wav`);
+        setLipsync(data.json_data);
+        setExampleContent(data.exampleContent); // Set example content
+      } catch (error) {
+        console.error('Error sending selected class:', error);
       }
     };
-  };
 
-  const handleRaiseHand = async () => {
+    fetchClassData();
+
+    const captureImage = () => {
+      // if (webcamRef.current) {
+      //   const imageSrc = webcamRef.current.getScreenshot();
+      //   if (imageSrc) {
+      //     axios.post('/api/upload-image', { image: imageSrc })
+      //       .catch((error) => console.error('Error uploading image:', error));
+      //   }
+      // }
+    };
+
+    const intervalId = setInterval(captureImage, 5000);
+    return () => clearInterval(intervalId);
+  }, [selectedClass]);
+
+  const handleVoiceInput = async (voiceBlob: Blob) => {
+    const formData = new FormData();
+    formData.append('file', voiceBlob, 'recorded.wav'); // Ensure 'file' matches backend
+
     try {
-      const imageSrc = webcamRef.current?.getScreenshot();
-      const res = await axios.post('/api/ai', { image: imageSrc, question: recognizedQuestion });
-      const aiResponse = res.data.answer;
-      let aiContent: string | JSX.Element;
-
-      if (res.data.type === 'image') {
-        aiContent = <img src={aiResponse} alt="AI Response" />;
-      } else {
-        aiContent = aiResponse;
-      }
-
-      setConversation(prevConversation => [
-        ...prevConversation, 
-        { type: 'ai', content: aiContent }
-      ]);
-
-       setQuestionHistory(prevHistory => [
-        ...prevHistory,
-        { subject: selectedClass!, question: recognizedQuestion!, answer: aiContent }
-      ]);
+      const response = await axios.post(`${baseUrl}/api/v1/secured/upload-audio`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      
+      const data = response.data;
+      
+      setMispronunciations(data.mispronunciations || []);
+      setKeywords(data.keywords || []);
+      setImage(data.image || null);
+      setAudioUrl(data.file_url || null); // Ensure this matches what the backend sends
+      setLipsync(data.lipsync || null);
+      setExampleContent(data.exampleContent || null); // Update example content
     } catch (error) {
-      console.error(error);
+      console.error('Error handling voice input:',);
     }
-
-    setWaitingForConfirmation(false);
-    setRecognizedQuestion(null);
   };
 
-  const promptUserForQuestion = () => {
-    handleVoiceInput();
+  const startAudioPlayback = () => {
+    setIsAudioPlaying(true);
+  };
+
+  const handleClassSelection = (selectedClass: string) => {
+    setSelectedClass(selectedClass);
+    setIsClassSelected(true);
+    startAudioPlayback();
   };
 
   return (
-    <Layout className="ai-bot-interaction">
-      <Content className="content">
-        {!selectedClass ? (
-          <div>
-            <h1 style={{color:'white'}}>Select Class</h1>
-            <Select 
-                onChange={handleClassSelect} 
-                placeholder="Select a class" 
-                dropdownClassName="custom-dropdown"
-                className="custom-select"
-                >
-              <Option value="english">English</Option>
-              <Option value="math">Math</Option>
-              <Option value="science">Science</Option>
-              {/* Add more classes as needed */}
-            </Select>
-          </div>
-        ) : (
-          <div className="classroom">
-            <div className="class-header">
-              <h1>{selectedClass} Class</h1>
-            </div>
-            <div className="top-section">
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                className="webcam"
-              />
-            </div>
-            <div className="blackboard">
-              {conversation.map((entry, index) => (
-                <div key={index} className={`message ${entry.type}`}>
-                  {entry.type === 'user' ? 'You: ' : 'AI: '}
-                  {entry.content}
-                </div>
-              ))}
-            </div>
-            <div className="raise-hand-container">
-              <Button
-                type="primary"
-                shape="round"
-                
-                size="large"
-                onClick={handleVoiceInput}
-                className="raise-hand-button"
-              ><img style={{height:'40px'}} src={raiseHandImage}/></Button>
-            </div>
-          </div>
-        )}
-      </Content>
-     <Sider width={300} className="question-history-sider">
-        <QuestionHistory history={questionHistory} />
-      </Sider>
+    <Layout className="layout ai-bot-interaction">
+      <AIClass
+        question={question}
+        onVoiceInput={handleVoiceInput}
+        image={image}
+        onClassSelected={handleClassSelection}
+        selectedClass={selectedClass}
+      />
+      {isClassSelected && (
+        <Sider width={400} className="custom-sider" style={{ backgroundColor: '#59B379' }}>
+          <Canvas shadows camera={{ position: [0, 0, 8], fov: 42 }}>
+            <OrbitControls />
+            <Avatar position={[0, -3, 0]} scale={2} audioUrl={audioUrl} lipsync={lipsync} isPlaying={isAudioPlaying} />
+            <Environment preset="sunset" />
+          </Canvas>
+        </Sider>
+      )}
     </Layout>
   );
 };
