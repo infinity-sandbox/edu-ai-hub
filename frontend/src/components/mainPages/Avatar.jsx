@@ -30,7 +30,7 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
 
   useEffect(() => {
     if (audio) {
-      const handleAudioPlay = () => setAnimation('Talking');
+      const handleAudioPlay = () => setAnimation('Idle');
       const handleAudioPause = () => setAnimation('Idle');
       const handleAudioEnd = () => setAnimation('Idle');
 

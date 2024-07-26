@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate  } from 'react-router-dom'; // Import useNavigate 
 import axios from 'axios';
 import AIClass from './AIClass'; // Ensure correct import path
 import { Avatar } from './Avatar';
@@ -9,9 +10,8 @@ import '../../styles/mainPageStyle/AIBotInteraction.css';
 
 const { Content, Sider } = Layout;
 
-const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
-
 const AIBotInteraction: React.FC = () => {
+  const navigate = useNavigate (); // Initialize useNavigate 
   const [question, setQuestion] = useState<string>('');
   const [mispronunciations, setMispronunciations] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -22,45 +22,42 @@ const AIBotInteraction: React.FC = () => {
   const [isClassSelected, setIsClassSelected] = useState<boolean>(false); // Track if class is selected
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [exampleContent, setExampleContent] = useState<{ type: 'text' | 'image', content: string } | null>(null);
-  const [selectedClass, setSelectedClass] = useState('');
 
   useEffect(() => {
-    if (!selectedClass) return;
-
-    const fetchClassData = async () => {
+    // Fetch data from backend on component mount
+    const fetchData = async () => {
       try {
-        const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/first', { 
-          selectedClass: selectedClass });
+        const response = await axios.get('http://127.0.0.1:8000/api/bot-interaction'); // Replace with your actual endpoint
         const data = response.data;
-
+        
         setQuestion(data.question);
-        // setMispronunciations(data.mispronunciations);
-        // setKeywords(data.keywords);
-        setAudioUrl(`${baseUrl}/static/new_file.wav`);
-        setLipsync(data.json_data);
-        // setImage(data.image);
-        // setCorrectAnswer(data.correctAnswer);
+        setMispronunciations(data.mispronunciations);
+        setKeywords(data.keywords);
+        setAudioUrl(data.audioUrl);
+        setLipsync(data.lipsync);
+        setImage(data.image);
+        setCorrectAnswer(data.correctAnswer);
         setExampleContent(data.exampleContent); // Set example content
       } catch (error) {
-        console.error('Error sending selected class:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchClassData();
+    fetchData();
 
-    const captureImage = () => {
-      // if (webcamRef.current) {
-      //   const imageSrc = webcamRef.current.getScreenshot();
-      //   if (imageSrc) {
-      //     axios.post('/api/upload-image', { image: imageSrc })
-      //       .catch((error) => console.error('Error uploading image:', error));
-      //   }
-      // }
+    // Listen for the signal from backend
+    const eventSource = new EventSource('http://127.0.0.1:8000/api/signal'); // Replace with your actual endpoint
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.signal === 'redirect_to_chat') {
+       navigate('/chat'); // Redirect to ChatRoom
+      }
     };
 
-    const intervalId = setInterval(captureImage, 5000);
-    return () => clearInterval(intervalId);
-  }, [selectedClass]);
+    return () => {
+      eventSource.close();
+    };
+  }, [navigate]);
 
   const handleVoiceInput = async (voiceBlob: Blob) => {
     // Send voiceBlob to backend and get data
@@ -68,7 +65,7 @@ const AIBotInteraction: React.FC = () => {
       const formData = new FormData();
       formData.append('voice', voiceBlob);
 
-      const response = await axios.post(baseUrl+'/api/v1/secured/upload-audio', formData, {
+      const response = await axios.post('http://127.0.0.1:8000/api/voice-input', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
@@ -89,8 +86,7 @@ const AIBotInteraction: React.FC = () => {
     setIsAudioPlaying(true);
   };
 
-  const handleClassSelection = (selectedClass: string) => {
-    setSelectedClass(selectedClass);
+  const handleClassSelection = () => {
     setIsClassSelected(true);
     startAudioPlayback();
   };
@@ -99,14 +95,13 @@ const AIBotInteraction: React.FC = () => {
     <Layout className="layout ai-bot-interaction">
       <AIClass
         question={question}
-        // mispronunciations={mispronunciations}
-        // keywords={keywords}
+        mispronunciations={mispronunciations}
+        keywords={keywords}
         onVoiceInput={handleVoiceInput}
         image={image}
-        // correctAnswer={correctAnswer}
+        correctAnswer={correctAnswer}
         onClassSelected={handleClassSelection} // Pass the handler
-        // exampleContent={exampleContent} // Pass example content
-        selectedClass={selectedClass}
+        exampleContent={exampleContent} // Pass example content
       />
       {isClassSelected && (
         <Sider width={400} className="custom-sider" style={{ backgroundColor: '#59B379' }}>

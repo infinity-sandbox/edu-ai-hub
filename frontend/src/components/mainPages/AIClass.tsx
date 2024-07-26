@@ -11,29 +11,29 @@ import raiseHand from '../../images/raised-hand.svg';
 const { Option } = Select;
 const { Content } = Layout;
 
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 interface AIClassProps {
   question: string;
-  // mispronunciations: string[];
-  // keywords: string[];
+  mispronunciations: string[];
+  keywords: string[];
   onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
-  // correctAnswer: string;
-  onClassSelected: (selectedClass: string) => void;
-  // exampleContent: { type: 'text' | 'image', content: string } | null;
-  selectedClass: string;
+  correctAnswer: string;
+  onClassSelected: () => void;
+  exampleContent: { type: 'text' | 'image', content: string } | null;
 }
 
 const AIClass: React.FC<AIClassProps> = ({
   question,
-  // mispronunciations,
-  // keywords,
+  mispronunciations = [], // Default to empty array
+  keywords = [], // Default to empty array
   onVoiceInput,
   image,
-  // correctAnswer,
+  correctAnswer,
   onClassSelected,
-  // exampleContent,
-  selectedClass,
+  exampleContent,
 }) => {
+  const [selectedClass, setSelectedClass] = useState('');
   const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
@@ -41,6 +41,38 @@ const AIClass: React.FC<AIClassProps> = ({
 
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
+
+  const handleClassChange = (value: string) => {
+    setSelectedClass(value);
+    onClassSelected();
+  };
+
+  useEffect(() => {
+    if (!selectedClass) return;
+
+    const sendSelectedClass = async () => {
+      try {
+        await axios.post('http://127.0.0.1:8000/bot/class/frist', { selectedClass });
+      } catch (error) {
+        console.error('Error sending selected class:', error);
+      }
+    };
+
+    sendSelectedClass();
+
+    const captureImage = () => {
+      if (webcamRef.current) {
+        const imageSrc = webcamRef.current.getScreenshot();
+        if (imageSrc) {
+          axios.post('/api/upload-image', { image: imageSrc })
+            .catch((error) => console.error('Error uploading image:', error));
+        }
+      }
+    };
+
+    const intervalId = setInterval(captureImage, 5000);
+    return () => clearInterval(intervalId);
+  }, [selectedClass]);
 
   const handleStartRecording = () => {
     setIsRecording(true);
@@ -51,7 +83,17 @@ const AIClass: React.FC<AIClassProps> = ({
 
       newRecorder.ondataavailable = (event) => {
         const audioData = event.data;
-        onVoiceInput(audioData);
+        const formData = new FormData();
+        formData.append('voice', audioData, 'voice.wav');
+        
+        axios.post('http://127.0.0.1:8000/api/voice-input', formData)
+          .then(response => {
+            console.log('Voice input sent successfully:', response.data);
+            onVoiceInput(audioData);
+          })
+          .catch(error => {
+            console.error('Error sending voice input:', error.response || error.message);
+          });
       };
     });
   };
@@ -63,11 +105,11 @@ const AIClass: React.FC<AIClassProps> = ({
     }
   };
 
-  // useEffect(() => {
-  //   if (exampleContent) {
-  //     setIsModalVisible(true);
-  //   }
-  // }, [exampleContent]);
+  useEffect(() => {
+    if (question && mispronunciations && keywords && exampleContent) {
+      setIsModalVisible(true);
+    }
+  }, [question, mispronunciations, keywords, exampleContent]);
 
   return (
     <Content className="content">
@@ -75,7 +117,7 @@ const AIClass: React.FC<AIClassProps> = ({
         <div>
           <h1 style={{ color: 'white' }}>Select Class</h1>
           <Select
-            onChange={onClassSelected}
+            onChange={handleClassChange}
             placeholder="Select a class"
             dropdownClassName="custom-dropdown"
             className="custom-select"
@@ -92,8 +134,8 @@ const AIClass: React.FC<AIClassProps> = ({
           </div>
           <div className="top-section">
             {isCaptureEnable || (
-              <Button
-                style={{ position: 'fixed', backgroundColor: "#59B379", border: 'none', fontSize: '60px' }}
+              <Button 
+                style={{ position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'60px' }} 
                 onClick={() => setCaptureEnable(true)}
               >
                 <CameraOutlined />
@@ -108,11 +150,11 @@ const AIClass: React.FC<AIClassProps> = ({
                   className="webcam"
                 />
                 <div>
-                  <Button
-                    style={{ color: 'red', position: 'fixed', backgroundColor: "#59B379", border: 'none', fontSize: '30px' }}
+                  <Button 
+                    style={{ color: 'red', position:'fixed', backgroundColor:"#59B379", border:'none', fontSize:'30px' }} 
                     onClick={() => setCaptureEnable(false)}
                   >
-                    <b>X</b>
+                    <b>X</b> 
                   </Button>
                 </div>
               </>
@@ -123,20 +165,20 @@ const AIClass: React.FC<AIClassProps> = ({
               {question.split(' ').map((word, index) => (
                 <span
                   key={index}
-                  // className={mispronunciations.includes(word) ? 'highlight' : ''}
+                  className={mispronunciations.includes(word) ? 'highlight' : ''}
                 >
                   {word}{' '}
                 </span>
               ))}
             </p>
             <div className="keywords">
-              {/* {keywords.length > 0 && (
+              {keywords.length > 0 && (
                 <ul>
                   {keywords.map((keyword, index) => (
                     <li key={index}>{keyword}</li>
                   ))}
                 </ul>
-              )} */}
+              )}
             </div>
             {image && <img src={image} alt="Related visual content" />}
           </div>
@@ -148,7 +190,7 @@ const AIClass: React.FC<AIClassProps> = ({
               onTouchEnd={handleStopRecording}
             >
               Raise Hand
-              <img src={raiseHand} style={{ height: '30px' }} />
+              <img src={raiseHand} style={{height:'30px'}}/>
             </Button>
             {isRecording && <div className="recording-indicator">Recording...</div>}
           </div>
@@ -156,11 +198,11 @@ const AIClass: React.FC<AIClassProps> = ({
       )}
 
       <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
-        {/* {exampleContent?.type === 'text' ? (
+        {exampleContent?.type === 'text' ? (
           <p>{exampleContent.content}</p>
         ) : (
           <img src={exampleContent?.content} alt="Example" />
-        )} */}
+        )}
       </Modal>
     </Content>
   );
