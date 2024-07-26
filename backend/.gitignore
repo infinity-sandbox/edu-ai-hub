@@ -26,6 +26,7 @@ eggs/
 backend/static
 .eggs/
 lib/
+static/
 lib64/
 parts/
 sdist/
