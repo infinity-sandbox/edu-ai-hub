@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate  } from 'react-router-dom'; // Import useNavigate 
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import AIClass from './AIClass'; // Ensure correct import path
 import { Avatar } from './Avatar';
@@ -11,7 +11,7 @@ import '../../styles/mainPageStyle/AIBotInteraction.css';
 const { Content, Sider } = Layout;
 
 const AIBotInteraction: React.FC = () => {
-  const navigate = useNavigate (); // Initialize useNavigate 
+  const navigate = useNavigate(); // Initialize useNavigate
   const [question, setQuestion] = useState<string>('');
   const [mispronunciations, setMispronunciations] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -50,7 +50,7 @@ const AIBotInteraction: React.FC = () => {
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.signal === 'redirect_to_chat') {
-       navigate('/chat'); // Redirect to ChatRoom
+        navigate('/chat'); // Redirect to ChatRoom
       }
     };
 

@@ -12,7 +12,7 @@ COPY tsconfig.json ./
 COPY . .
 
 # Clean npm cache and install dependencies with verbose logging
-RUN npm install
+RUN npm install --force
 
 # Expose port 3000 (the default port for create-react-app)
 EXPOSE 3000

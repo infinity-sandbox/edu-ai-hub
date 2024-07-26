@@ -14,24 +14,26 @@ const { Content } = Layout;
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 interface AIClassProps {
   question: string;
-  mispronunciations: string[];
+   mispronunciations: string[];
   keywords: string[];
   onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
   correctAnswer: string;
   onClassSelected: () => void;
   exampleContent: { type: 'text' | 'image', content: string } | null;
+  selectedClass: string;
 }
 
 const AIClass: React.FC<AIClassProps> = ({
   question,
-  mispronunciations = [], // Default to empty array
-  keywords = [], // Default to empty array
+  mispronunciations,
+  keywords,
   onVoiceInput,
   image,
   correctAnswer,
   onClassSelected,
   exampleContent,
+  
 }) => {
   const [selectedClass, setSelectedClass] = useState('');
   const [isCaptureEnable, setCaptureEnable] = useState<boolean>(true);
@@ -105,11 +107,11 @@ const AIClass: React.FC<AIClassProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (question && mispronunciations && keywords && exampleContent) {
-      setIsModalVisible(true);
-    }
-  }, [question, mispronunciations, keywords, exampleContent]);
+  // useEffect(() => {
+  //   if (exampleContent) {
+  //     setIsModalVisible(true);
+  //   }
+  // }, [exampleContent]);
 
   return (
     <Content className="content">
@@ -165,20 +167,20 @@ const AIClass: React.FC<AIClassProps> = ({
               {question.split(' ').map((word, index) => (
                 <span
                   key={index}
-                  className={mispronunciations.includes(word) ? 'highlight' : ''}
+                  // className={mispronunciations.includes(word) ? 'highlight' : ''}
                 >
                   {word}{' '}
                 </span>
               ))}
             </p>
             <div className="keywords">
-              {keywords.length > 0 && (
+              {/* {keywords.length > 0 && (
                 <ul>
                   {keywords.map((keyword, index) => (
                     <li key={index}>{keyword}</li>
                   ))}
                 </ul>
-              )}
+              )} */}
             </div>
             {image && <img src={image} alt="Related visual content" />}
           </div>
@@ -190,7 +192,7 @@ const AIClass: React.FC<AIClassProps> = ({
               onTouchEnd={handleStopRecording}
             >
               Raise Hand
-              <img src={raiseHand} style={{height:'30px'}}/>
+              <img src={raiseHand} style={{ height: '30px' }} />
             </Button>
             {isRecording && <div className="recording-indicator">Recording...</div>}
           </div>
@@ -198,11 +200,11 @@ const AIClass: React.FC<AIClassProps> = ({
       )}
 
       <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
-        {exampleContent?.type === 'text' ? (
+        {/* {exampleContent?.type === 'text' ? (
           <p>{exampleContent.content}</p>
         ) : (
           <img src={exampleContent?.content} alt="Example" />
-        )}
+        )} */}
       </Modal>
     </Content>
   );
