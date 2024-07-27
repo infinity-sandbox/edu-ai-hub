@@ -9,6 +9,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import '../../styles/mainPageStyle/AIBotInteraction.css';
 
 const { Content, Sider } = Layout;
+const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const AIBotInteraction: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -23,64 +24,80 @@ const AIBotInteraction: React.FC = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [exampleContent, setExampleContent] = useState<{ type: 'text' | 'image', content: string } | null>(null);
 
-  useEffect(() => {
-    // Fetch data from backend on component mount
-    const fetchData = async () => {
+  useEffect(()=>{
+    if (!setIsClassSelected) return;
+      const sendSelectedClass = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/bot-interaction'); // Replace with your actual endpoint
+        const response= await axios.post('https://c5e0-196-191-221-6.ngrok-free.app/api/v1/secured/bot/class/interaction/first', { setIsClassSelected });
         const data = response.data;
-        
-        setQuestion(data.question);
-        setMispronunciations(data.mispronunciations);
-        setKeywords(data.keywords);
         setaudio_url(data.audio_url);
         setjson_data(data.json_data);
-        setImage(data.image);
-        setCorrectAnswer(data.correctAnswer);
-        setExampleContent(data.exampleContent); // Set example content
+        setQuestion(data.question);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error sending selected class:', error);
       }
     };
 
-    fetchData();
+    sendSelectedClass();
+  })
+  // useEffect(() => {
+  //   // Fetch data from backend on component mount
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://127.0.0.1:8000/api/bot-interaction'); // Replace with your actual endpoint
+  //       const data = response.data;
+        
+  //       setQuestion(data.question);
+  //       setMispronunciations(data.mispronunciations);
+  //       setKeywords(data.keywords);
+  //       setaudio_url(data.audio_url);
+  //       setjson_data(data.json_data);
+  //       setImage(data.image);
+  //       setCorrectAnswer(data.correctAnswer);
+  //       setExampleContent(data.exampleContent); // Set example content
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    // Listen for the signal from backend
-    const eventSource = new EventSource('http://127.0.0.1:8000/api/signal'); // Replace with your actual endpoint
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.signal === 'redirect_to_chat') {
-        navigate('/chat'); // Redirect to ChatRoom
-      }
-    };
+  //   fetchData();
 
-    return () => {
-      eventSource.close();
-    };
-  }, [navigate]);
+  //   // Listen for the signal from backend
+  //   const eventSource = new EventSource('http://127.0.0.1:8000/api/signal'); // Replace with your actual endpoint
+  //   eventSource.onmessage = (event) => {
+  //     const data = JSON.parse(event.data);
+  //     if (data.signal === 'redirect_to_chat') {
+  //       navigate('/chat'); // Redirect to ChatRoom
+  //     }
+  //   };
 
-  const handleVoiceInput = async (voiceBlob: Blob) => {
-    // Send voiceBlob to backend and get data
-    try {
-      const formData = new FormData();
-      formData.append('voice', voiceBlob);
+  //   return () => {
+  //     eventSource.close();
+  //   };
+  // }, [navigate]);
 
-      const response = await axios.post('http://127.0.0.1:8000/api/voice-input', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+  // const handleVoiceInput = async (voiceBlob: Blob) => {
+  //   // Send voiceBlob to backend and get data
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('voice', voiceBlob);
+
+  //     const response = await axios.post('http://127.0.0.1:8000/api/voice-input', formData, {
+  //       headers: { 'Content-Type': 'multipart/form-data' }
+  //     });
       
-      const data = response.data;
+  //     const data = response.data;
       
-      setMispronunciations(data.mispronunciations);
-      setKeywords(data.keywords);
-      setImage(data.image);
-      setaudio_url(data.audio_url);
-      setjson_data(data.json_data);
-      setExampleContent(data.exampleContent); // Update example content
-    } catch (error) {
-      console.error('Error handling voice input:', error);
-    }
-  };
+  //     setMispronunciations(data.mispronunciations);
+  //     setKeywords(data.keywords);
+  //     setImage(data.image);
+  //     setaudio_url(data.audio_url);
+  //     setjson_data(data.json_data);
+  //     setExampleContent(data.exampleContent); // Update example content
+  //   } catch (error) {
+  //     console.error('Error handling voice input:', error);
+  //   }
+  // };
 
   const startAudioPlayback = () => {
     setIsAudioPlaying(true);
@@ -97,7 +114,7 @@ const AIBotInteraction: React.FC = () => {
         question={question}
         mispronunciations={mispronunciations}
         keywords={keywords}
-        onVoiceInput={handleVoiceInput}
+        // onVoiceInput={handleVoiceInput}
         image={image}
         correctAnswer={correctAnswer}
         onClassSelected={handleClassSelection} // Pass the handler
