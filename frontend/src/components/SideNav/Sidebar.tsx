@@ -29,10 +29,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect }) => {
 
   const menu = (
     <Menu
-      className='sidebarMenu'
+      className="sidebar-menu"
       mode="inline"
       defaultSelectedKeys={['home']}
-      style={{ height: '100%', borderRight: 0 }}
       onClick={handleMenuClick}
     >
       <Menu.Item key="home">{t('Sidebar.Home')}</Menu.Item>
@@ -49,13 +48,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelect }) => {
   return (
     <>
       <Button className="menu-button" type="primary" onClick={showDrawer}>
-        <MenuOutlined />  
+        <MenuOutlined />
       </Button>
-      <Sider className="site-layout-background sider-desktop">
-        {menu}
-      </Sider>
       <Drawer
-        title={t('Sidebar.Menu')}
+        title={<span className="drawer-title">{t('Sidebar.menu')}</span>}
         placement="left"
         closable={false}
         onClose={onClose}
