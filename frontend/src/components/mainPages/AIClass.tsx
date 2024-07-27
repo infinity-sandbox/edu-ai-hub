@@ -38,9 +38,10 @@ const AIClass: React.FC<AIClassProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const [recorder, setRecorder] = useState<MediaRecorder | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   const webcamRef = useRef<Webcam>(null);
-  const navigate = useNavigate();
 
   const handleClassChange = (value: string) => {
     setSelectedClass(value);
@@ -52,7 +53,12 @@ const AIClass: React.FC<AIClassProps> = ({
 
     const sendSelectedClass = async () => {
       try {
-        await axios.post('http://127.0.0.1:8000/bot/class/frist', { selectedClass });
+        await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/first', {selectedClass} ,{  headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Refresh-Token': refreshToken,
+          'Content-Type': 'application/json'
+        }});
+
       } catch (error) {
         console.error('Error sending selected class:', error);
       }
@@ -61,13 +67,13 @@ const AIClass: React.FC<AIClassProps> = ({
     sendSelectedClass();
 
     const captureImage = () => {
-      // if (webcamRef.current) {
-      //   const imageSrc = webcamRef.current.getScreenshot();
-      //   if (imageSrc) {
-      //     axios.post('/api/upload-image', { image: imageSrc })
-      //       .catch((error) => console.error('Error uploading image:', error));
-      //   }
-      // }
+      if (webcamRef.current) {
+        const imageSrc = webcamRef.current.getScreenshot();
+        if (imageSrc) {
+          axios.post('/api/upload-image', { image: imageSrc })
+            .catch((error) => console.error('Error uploading image:', error));
+        }
+      }
     };
 
     const intervalId = setInterval(captureImage, 5000);

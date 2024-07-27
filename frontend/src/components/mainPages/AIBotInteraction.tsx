@@ -15,8 +15,8 @@ const AIBotInteraction: React.FC = () => {
   const [question, setQuestion] = useState<string>('');
   const [mispronunciations, setMispronunciations] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [lipsync, setLipsync] = useState<any>(null); // Use appropriate type
+  const [audio_url, setaudio_url] = useState<string | null>(null);
+  const [json_data, setjson_data] = useState<any>(null); // Use appropriate type
   const [image, setImage] = useState<string | null>(null);
   const [correctAnswer, setCorrectAnswer] = useState<string>('');
   const [isClassSelected, setIsClassSelected] = useState<boolean>(false); // Track if class is selected
@@ -33,8 +33,8 @@ const AIBotInteraction: React.FC = () => {
         setQuestion(data.question);
         setMispronunciations(data.mispronunciations);
         setKeywords(data.keywords);
-        setAudioUrl(data.audioUrl);
-        setLipsync(data.lipsync);
+        setaudio_url(data.audio_url);
+        setjson_data(data.json_data);
         setImage(data.image);
         setCorrectAnswer(data.correctAnswer);
         setExampleContent(data.exampleContent); // Set example content
@@ -74,8 +74,8 @@ const AIBotInteraction: React.FC = () => {
       setMispronunciations(data.mispronunciations);
       setKeywords(data.keywords);
       setImage(data.image);
-      setAudioUrl(data.audioUrl);
-      setLipsync(data.lipsync);
+      setaudio_url(data.audio_url);
+      setjson_data(data.json_data);
       setExampleContent(data.exampleContent); // Update example content
     } catch (error) {
       console.error('Error handling voice input:', error);
@@ -107,7 +107,7 @@ const AIBotInteraction: React.FC = () => {
         <Sider width={400} className="custom-sider" style={{ backgroundColor: '#59B379' }}>
           <Canvas shadows camera={{ position: [0, 0, 8], fov: 42 }}>
             <OrbitControls />
-            <Avatar position={[0, -3, 0]} scale={2} audioUrl={audioUrl} lipsync={lipsync} isPlaying={isAudioPlaying} />
+            <Avatar position={[0, -3, 0]} scale={2} audio_url={audio_url} json_data={json_data} isPlaying={isAudioPlaying} />
             <Environment preset="sunset" />
           </Canvas>
         </Sider>

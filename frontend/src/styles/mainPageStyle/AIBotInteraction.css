@@ -19,7 +19,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: #59B379;
+    
     padding: 20px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
@@ -44,7 +44,7 @@
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-top: 10;
-    color: #ffffff;
+    color: #000000;
     font-size: 2em;
     justify-content: center;
 }
@@ -164,23 +164,6 @@
 }
 
 
-.raise-hand-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.raise-hand-button {
-    background-color: #ffffff;
-    color: #59B379;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.raise-hand-button:hover {
-    background-color: #59B379;
-}
 
 @media screen and (max-width: 600px) {
     .ai-bot-interaction Layout{

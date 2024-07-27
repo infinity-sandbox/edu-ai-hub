@@ -11,6 +11,8 @@
     "@mui/styles": "^5.0.0",
     "@react-three/drei": "^9.108.4",
     "@react-three/fiber": "^8.16.8",
+    "@tensorflow-models/handpose": "^0.1.0",
+    "@tensorflow/tfjs": "^4.20.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

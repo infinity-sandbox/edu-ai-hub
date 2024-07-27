@@ -53,7 +53,7 @@ const ViewProfile: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh',overflow: 'hidden' }}>
       <Sidebar onSelect={handleNavSelect} />
       <Layout>
         <Content style={{ padding: '24px', minHeight: '280px' }}>

@@ -15,9 +15,9 @@ const visemeMapping = {
   X: 'viseme_PP'
 };
 
-export function Avatar({ audioUrl, lipsync, ...props }) {
+export function Avatar({ audio_url, json_data, ...props }) {
   const [animation, setAnimation] = useState('Idle');
-  const audio = useMemo(() => (audioUrl ? new Audio(audioUrl) : null), [audioUrl]);
+  const audio = useMemo(() => (audio_url ? new Audio(audio_url) : null), [audio_url]);
   const { nodes, materials } = useGLTF('./models/669774bdaefec8673fd48836.glb');
   const { animations: idleAnimations } = useFBX('./animations/Idle.fbx');
   const { animations: talkingAnimations } = useFBX('./animations/Talking.fbx');
@@ -61,7 +61,7 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
   // }, [animation, actions]);
 
   useFrame(() => {
-    if (audio && lipsync && lipsync.mouthCues && Array.isArray(lipsync.mouthCues)) {
+    if (audio && json_data && json_data.mouthCues && Array.isArray(json_data.mouthCues)) {
       const currentAudioTime = audio.currentTime;
 
       if (audio.paused || audio.ended) {
@@ -80,8 +80,8 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
         }
       });
 
-      for (let i = 0; i < lipsync.mouthCues.length; i++) {
-        const mouthCue = lipsync.mouthCues[i];
+      for (let i = 0; i < json_data.mouthCues.length; i++) {
+        const mouthCue = json_data.mouthCues[i];
         if (currentAudioTime >= mouthCue.start && currentAudioTime <= mouthCue.end) {
           const viseme = visemeMapping[mouthCue.value];
           const headIndex = nodes?.Wolf3D_Head?.morphTargetDictionary?.[viseme];
