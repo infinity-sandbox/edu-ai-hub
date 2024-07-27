@@ -93,6 +93,16 @@ async def bot_payload_first(subject: SubjectSelection,
 
 
 
+
+
+
+
+
+
+
+
+
+
 # @secured_router.post("/upload-audio", summary="Upload audio file")
 # async def upload_audio(file: UploadFile = File(...)):
 #     try:
