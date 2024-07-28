@@ -2,32 +2,31 @@ import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import AIBotInteraction from './components/mainPages/AIBotInteraction';
+import AIClass from './components/mainPages/AIClass';
 import LandingPage from './pages/LandingPage';
 import PrivateRoute from './components/PrivateRoute';
-import AppLayout from './pages/AppLayout';
-import Layout from './components/Layout';
+import Home from './components/mainPages/Home';
 import './App.css';
 import SuccessRegistrationPage from '../src/components/statusPages/successRegistrationPage'
 import ForgotPassword from '../src/components/forgetLink/forgetLinkPage'
 import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
+import ProfileManagement from '../src/components/ProfileManagements/ProfileManagement'
 
 
 function App() {
   return (
     <BrowserRouter>
-    <Layout>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/Register' element={<Register />} />
-        <Route path='/AppLayout' element={<PrivateRoute><AppLayout/></PrivateRoute>}/>
-        <Route path='/AIBotInteraction' element={<PrivateRoute><AIBotInteraction /></PrivateRoute>} />
-         <Route path='/statusPages/SuccessRegistrationPage' element={<SuccessRegistrationPage />} />
-        <Route path='/ForgotPassword' element={<ForgotPassword />} />
-        <Route path='/PasswordResetPage' element={<PasswordResetPage />} /> 
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/home' element={<PrivateRoute><Home/></PrivateRoute>}/>
+        <Route path='/aibot-class' element={<PrivateRoute><AIClass /></PrivateRoute>} />
+          <Route path='/status-pages/success-registration-page' element={<SuccessRegistrationPage />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/password-reset-page' element={<PasswordResetPage />} /> 
+        <Route path='/profile-management' element={<PrivateRoute><ProfileManagement/></PrivateRoute>}/>
       </Routes>
-    </Layout>
     </BrowserRouter>
   );
 }

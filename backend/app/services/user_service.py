@@ -192,8 +192,11 @@ class UserService:
         user_id = str(user_id)
         # TODO: Latter generate a complex session id to manage everything
         session_id = str(uuid.uuid4())
-        wav_file_path = f"{root_path}/{user_id}/{session_id}.wav"
-        webm_file_path = f"{root_path}/{user_id}/{session_id}.webm"
+        #
+        session_id = session_id.replace('-', '_')
+        user_id = user_id.replace('-', '_')
+        wav_file_path = f"{root_path}/{user_id}__{session_id}.wav"
+        webm_file_path = f"{root_path}/{user_id}__{session_id}.webm"
         return wav_file_path, webm_file_path
 
     @staticmethod

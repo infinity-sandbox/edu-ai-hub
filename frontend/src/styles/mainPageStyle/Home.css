@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* Defines the duration and easing of the transition */
+  }
+  
+  .fade.show {
+    opacity: 1; /* When the show class is added, opacity transitions to 1 */
+  }
+
+
+.insideHome-container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    font-family: 'Arial', sans-serif;
+}
+
+.button-container {
+    position: relative;
+    width: 400px; /* Adjust width */
+    height: 400px; /* Adjust height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.circle-button {
+    position: absolute;
+    width: 120px; /* Increase size */
+    height: 120px; /* Increase size */
+    font-size: 1em;
+    color: #000000;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, font-size 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.circle-button img,
+.circle-button figcaption {
+    transition: transform 0.3s ease, font-size 0.3s ease, margin-top 0.3s ease; /* Smooth transition */
+}
+
+.circle-button img {
+    width: 70px; /* Increase size */
+    height: 70px; /* Increase size */
+}
+
+.circle-button:hover {
+    background-color: transparent; /* Remove background color */
+    transform: scale(1.2); /* Slightly increase the button size for a smooth effect */
+}
+
+.circle-button:hover img,
+.circle-button:hover figcaption {
+    transform: scale(1.2); /* Increase the scale for a larger hover effect */
+}
+
+.circle-button:hover figcaption {
+    font-size: larger; /* Optionally, increase the font size for a smoother text size transition */
+    margin-top: 13px; /* Add margin to space out the text and image */
+}
+
+/* Positioning using circular layout */
+.circle-button:nth-child(1) {
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(-140px);
+}
+
+.circle-button:nth-child(2) {
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%) translateX(140px);
+}
+
+.circle-button:nth-child(3) {
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%) translateX(-140px);
+}
+
+.circle-button:nth-child(4) {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(140px);
+}
+
+.circle-button:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.homeWithImage {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+.homeWithImage .babe {
+    height: 500px;
+}
+
+@media (max-width: 768px) {
+    .homeWithImage {
+        flex-direction: column;
+    }
+}

@@ -70,7 +70,7 @@ async def bot_payload_first(subject: SubjectSelection,
         wav_file_path, webm_file_path = await UserService.audio_path_generator(user.user_id)
         logger.debug(f"output voice assistant text  : {output_voice_text}\nformatted question: {formatted_question}\nwav file path: {wav_file_path}, webm file path: {webm_file_path}\n")
         # Generate audio file
-        OpenAIService.text_to_speech(output_voice_text, webm_file_path, wav_file_path)
+        await OpenAIService.text_to_speech(output_voice_text, webm_file_path, wav_file_path)
         json_content = convert_audio_to_json(wav_file_path)
 
         return BotFirstResponse(
