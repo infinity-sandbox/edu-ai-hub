@@ -10,12 +10,14 @@ import { CameraOutlined } from '@ant-design/icons';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import { Avatar } from './Avatar';
+import Sidebar from '../SideNav/Sidebar';
 
 const { Option } = Select;
 const { Content, Sider } = Layout;
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 const AIClass: React.FC = () => {
+  const navigate = useNavigate();
   const [question, setQuestion] = useState<string>('What is the capital of France?');
   const [mispronunciations, setMispronunciations] = useState<string[]>(['capital']);
   const [keywords, setKeywords] = useState<string[]>(['Paris', 'France', 'capital']);
@@ -33,6 +35,9 @@ const AIClass: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const handleNavigation = (path: string) => {
+    navigate(path); // Navigate to the specified path
+  };
 
   const webcamRef = useRef<Webcam>(null);
 
@@ -98,6 +103,7 @@ const AIClass: React.FC = () => {
 
   return (
     <Layout className="layout ai-class-container">
+      <Sidebar handleNavigation={handleNavigation} />
       {!selectedClass ? (
         <div className="subject-selection">
           <h1>Select Class</h1>
@@ -152,7 +158,13 @@ const AIClass: React.FC = () => {
                   </ul>
                 )}
               </div>
-              {image && <img src={image} alt="Related visual content" />}
+              <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
+                {exampleContent?.type === 'text' ? (
+                  <p>{exampleContent.content}</p>
+                ) : (
+                  <img src={exampleContent?.content} alt="Example visual content" />
+                )}
+              </Modal>
             </div>
           </Content>
           <Sider width={400} className="custom-sider">
@@ -163,15 +175,7 @@ const AIClass: React.FC = () => {
             </Canvas>
           </Sider>
         </div>
-      )}
-
-      <Modal title="Example" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
-        {exampleContent?.type === 'text' ? (
-          <p>{exampleContent.content}</p>
-        ) : (
-          <img src={exampleContent?.content} alt="Example visual content" />
-        )}
-      </Modal>
+      )}      
     </Layout>
   );
 };

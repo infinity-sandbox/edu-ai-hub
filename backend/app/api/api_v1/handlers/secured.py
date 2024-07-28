@@ -82,6 +82,14 @@ async def bot_payload_first(subject: SubjectSelection,
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@secured_router.post("/bot/class/interaction/image", summary="Image interaction of bot class", response_model=BotFirstResponse)
+async def bot_payload_first(subject: SubjectSelection, 
+                            authorization: str = Header(...),
+                            refresh_token: str = Header(...)
+                            ):
+    pass
+    # TODO: you will send image at every 5 second
+    # TODO: i will respond with the image classification and from the frontend you will trigger specific endpoint (with d/t prompt based on the face recognition)
 
 
 
@@ -91,48 +99,17 @@ async def bot_payload_first(subject: SubjectSelection,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# @secured_router.post("/upload-audio", summary="Upload audio file")
-# async def upload_audio(file: UploadFile = File(...)):
+# @secured_router.post("/bot/class/interaction/second", summary="Second interaction of bot class")
+# async def bot_payload_second(file: UploadFile = File(...), 
+#                             authorization: str = Header(...),
+#                             refresh_token: str = Header(...)
+#                           ):
 #     try:
-#         # Get the next counter value
-#         counter = get_next_counter_value() + 1
-#         # Update the counter file
-#         update_counter_file(counter)
-        
-#         # Create file name
-#         file_name = f"recorded_{counter}.wav"
-#         file_location = f"static/{file_name}"
-        
+#         file_location = ""
 #         with open(file_location, "wb") as buffer:
 #             shutil.copyfileobj(file.file, buffer)
+#         logger.info(f"File uploaded successfully to {file_location}")
 #         return JSONResponse(content={"info": "File uploaded successfully", "file_url": file_location})
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 
-
-# # File to keep track of the counter
-# COUNTER_FILE = "static/counter.txt"
-
-# def get_next_counter_value():
-#     if os.path.exists(COUNTER_FILE):
-#         with open(COUNTER_FILE, "r") as f:
-#             counter = int(f.read().strip())
-#     else:
-#         counter = 0
-#     return counter
-
-# def update_counter_file(counter):
-#     with open(COUNTER_FILE, "w") as f:
-#         f.write(str(counter))
