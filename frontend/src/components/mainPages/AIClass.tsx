@@ -16,7 +16,7 @@ interface AIClassProps {
   question: string;
   mispronunciations: string[];
   keywords: string[];
-  // onVoiceInput: (voiceBlob: Blob) => Promise<void>;
+  onVoiceInput: (voiceBlob: Blob) => Promise<void>;
   image: string | null;
   correctAnswer: string;
   onClassSelected: () => void;
@@ -27,7 +27,7 @@ const AIClass: React.FC<AIClassProps> = ({
   question,
   mispronunciations = [], // Default to empty array
   keywords = [], // Default to empty array
-  // onVoiceInput,
+  onVoiceInput,
   image,
   correctAnswer,
   onClassSelected,
@@ -51,8 +51,7 @@ const AIClass: React.FC<AIClassProps> = ({
 
     const sendSelectedClass = async () => {
       try {
-        const response = await axios.post('https://c5e0-196-191-221-6.ngrok-free.app/api/v1/secured/bot/class/interaction/first', { selectedClass });
-        
+        await axios.post(baseUrl+'http://127.0.0.1:8000/bot/class/frist', { selectedClass });
       } catch (error) {
         console.error('Error sending selected class:', error);
       }
@@ -74,29 +73,29 @@ const AIClass: React.FC<AIClassProps> = ({
     return () => clearInterval(intervalId);
   }, [selectedClass]);
 
-  // const handleStartRecording = () => {
-  //   setIsRecording(true);
-  //   navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-  //     const newRecorder = new MediaRecorder(stream);
-  //     setRecorder(newRecorder);
-  //     newRecorder.start();
+  const handleStartRecording = () => {
+    setIsRecording(true);
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const newRecorder = new MediaRecorder(stream);
+      setRecorder(newRecorder);
+      newRecorder.start();
 
-  //     newRecorder.ondataavailable = (event) => {
-  //       const audioData = event.data;
-  //       const formData = new FormData();
-  //       formData.append('voice', audioData, 'voice.wav');
+      newRecorder.ondataavailable = (event) => {
+        const audioData = event.data;
+        const formData = new FormData();
+        formData.append('voice', audioData, 'voice.wav');
         
-  //       axios.post('http://127.0.0.1:8000/api/voice-input', formData)
-  //         .then(response => {
-  //           console.log('Voice input sent successfully:', response.data);
-  //           onVoiceInput(audioData);
-  //         })
-  //         .catch(error => {
-  //           console.error('Error sending voice input:', error.response || error.message);
-  //         });
-  //     };
-  //   });
-  // };
+        axios.post('http://127.0.0.1:8000/api/voice-input', formData)
+          .then(response => {
+            console.log('Voice input sent successfully:', response.data);
+            onVoiceInput(audioData);
+          })
+          .catch(error => {
+            console.error('Error sending voice input:', error.response || error.message);
+          });
+      };
+    });
+  };
 
   const handleStopRecording = () => {
     setIsRecording(false);
@@ -184,9 +183,9 @@ const AIClass: React.FC<AIClassProps> = ({
           </div>
           <div className="raise-hand">
             <Button
-              // onMouseDown={handleStartRecording}
+              onMouseDown={handleStartRecording}
               onMouseUp={handleStopRecording}
-              // onTouchStart={handleStartRecording}
+              onTouchStart={handleStartRecording}
               onTouchEnd={handleStopRecording}
             >
               Raise Hand
