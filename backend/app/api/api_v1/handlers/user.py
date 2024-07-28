@@ -30,7 +30,7 @@ async def create_user(data: UserAuth):
             detail="User with this email or username already exist"
         )
 
-@user_router.post('/emailreset', summary="Send email reset password", response_model=PasswordResetRequest)
+@user_router.post('/email/reset', summary="Send email reset password", response_model=PasswordResetRequest)
 async def reset_password(request: PasswordResetRequest):
     try:
         logger.info(f"Request email: {request.email}")
@@ -43,7 +43,7 @@ async def reset_password(request: PasswordResetRequest):
             detail=f"{e}"
         )
         
-@user_router.post("/resetpassword/confirm")
+@user_router.post("/reset/password/confirm")
 async def reset_password_confirm(request: PasswordResetConfirm):
     try:
         await UserService.reset_password(request.token, request.new_password)

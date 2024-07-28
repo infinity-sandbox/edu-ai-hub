@@ -1,5 +1,6 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import uuid
 import jwt
 import smtplib
 from pydantic import ValidationError
@@ -18,6 +19,8 @@ import pymongo
 from app.schemas.user_schema import UserUpdate
 from app.schemas.auth_schema import TokenSchema, TokenPayload
 from logs.loggers.logger import logger_config
+import json
+import random
 logger = logger_config(__name__)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -181,3 +184,51 @@ class UserService:
                 detail="Invalid token for user",
             )
         return user
+    
+    @staticmethod
+    async def audio_path_generator(user_id: UUID):
+        # TODO: Latter will be converted the location to s3
+        root_path = "static"
+        user_id = str(user_id)
+        # TODO: Latter generate a complex session id to manage everything
+        session_id = str(uuid.uuid4())
+        #
+        session_id = session_id.replace('-', '_')
+        user_id = user_id.replace('-', '_')
+        wav_file_path = f"{root_path}/{user_id}__{session_id}.wav"
+        webm_file_path = f"{root_path}/{user_id}__{session_id}.webm"
+        return wav_file_path, webm_file_path
+
+    @staticmethod
+    # Load the JSON data from a file
+    def load_question_bank(file_path: str):
+        with open(file_path, 'r') as file:
+            question_bank = json.load(file)
+        return question_bank
+
+    @staticmethod
+    # Function to get a formatted question and options
+    def get_random_question(question_bank, subject: str) -> str:
+        try:
+            # Find the subject in the question bank
+            subject_data = next((item for item in question_bank if item['subject'].lower() == subject.lower()), None)
+            
+            if not subject_data:
+                return "Subject not found"
+        except Exception as e:
+            logger.error(f"Error: {e}")
+            raise Exception(f"Error: {e}")
+        # Select a random question
+        question_data = random.choice(subject_data['questions'])
+        # Format the question and options
+        options = question_data['options']
+        formatted_options = "\n".join([f"{chr(65+i)}. {option}" for i, option in enumerate(options)])
+        formatted_question = f"{question_data['question']}\n{formatted_options}"
+        return formatted_question
+    
+    @staticmethod
+    async def get_formated_question(subject: str):
+        # Load the question bank
+        question_bank = UserService.load_question_bank('app/services/question_bank_sample.json')
+        formatted_question = UserService.get_random_question(question_bank, subject)
+        return formatted_question

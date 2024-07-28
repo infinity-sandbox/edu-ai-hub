@@ -1,33 +1,89 @@
-.site-layout-background {
-    background: #59B379;
+/* Sidebar.css */
+.menu-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-radius: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Add a slight shadow for better visibility */
+  /* transition: background-color 0.1s, color 0.1s; Smooth transition */
 }
 
+.menu-button:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
+  border-color: #59B379 !important;
+  /* Green border on hover (if any border) */
+}
 
-.menu-button {
-    display: none;
-    padding: 20px;
+.sidebar-menu .ant-menu-item:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
+  /* transition: background-color 0.3s, color 0.3s; Smooth transition */
+}
+
+.sidebar-desktop {
+  height: 100vh;
+  background-color: #001529;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  /* Lower than the button */
+}
+
+.sidebar-menu {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.sidebar-menu .ant-menu-item {
+  color: #000000 !important;
+}
+
+.sidebar-menu .ant-menu-item:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
 }
 
 .drawer-mobile .ant-drawer-body {
-    padding: 0;
+  padding: 0;
 }
 
-.sider-desktop {
-    display: block;
+.sidebar-menu .ant-menu-item:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
 }
 
+.drawer-mobile .sidebar-menu {
+  background-color: transparent;
+}
 
-    .menu-button {
-       width: 50px;
-       height: 50px;
-        display: block;
-        padding: 5px;
-      margin-top: 5px;
-      margin-left: 5px;
-        background-color: #59B379;
-    }
+.drawer-title {
+  font-weight: bold;
+  font-style: italic;
+}
 
-    .sider-desktop {
-        display: none;
-    }
-
+@media (max-width: 768px) {
+  .sidebar-desktop {
+    display: none;
+  }
+}
