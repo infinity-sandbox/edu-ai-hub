@@ -12,7 +12,8 @@
     "games": "Games",
     "notifications": "Notifications",
     "profile": "Profile",
-    "submit": "Submit"
+    "submit": "Submit",
+    "Menu" : "Menu"
   },
   "home": {
     "primary_heading": "Your Favorite Learning Adventures with AI",
@@ -28,7 +29,7 @@
     "login_button": "Log in"
   },
   "index":{
-    "Welcome to the Home Page": "Welcome to the Home Page",
+    "Welcome to the Home Page": "Welcome to",
     "logout": "Logout"
   },
     "profile_management": {

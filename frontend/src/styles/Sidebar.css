@@ -13,67 +13,77 @@
   background-color: #ffffff;
   color: #000000;
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Add a slight shadow for better visibility */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Add a slight shadow for better visibility */
   /* transition: background-color 0.1s, color 0.1s; Smooth transition */
 }
 
 .menu-button:hover {
-  background-color: #59B379 !important; /* Green background on hover */
-  color: #ffffff !important; /* White text on hover */
-  border-color: #59B379 !important; /* Green border on hover (if any border) */
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
+  border-color: #59B379 !important;
+  /* Green border on hover (if any border) */
 }
 
 .sidebar-menu .ant-menu-item:hover {
-  background-color: #59B379 !important; /* Green background on hover */
-  color: #ffffff !important; /* White text on hover */
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
   /* transition: background-color 0.3s, color 0.3s; Smooth transition */
 }
-  
+
+.sidebar-desktop {
+  height: 100vh;
+  background-color: #001529;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  /* Lower than the button */
+}
+
+.sidebar-menu {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.sidebar-menu .ant-menu-item {
+  color: #000000 !important;
+}
+
+.sidebar-menu .ant-menu-item:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
+}
+
+.drawer-mobile .ant-drawer-body {
+  padding: 0;
+}
+
+.sidebar-menu .ant-menu-item:hover {
+  background-color: #59B379 !important;
+  /* Green background on hover */
+  color: #ffffff !important;
+  /* White text on hover */
+}
+
+.drawer-mobile .sidebar-menu {
+  background-color: transparent;
+}
+
+.drawer-title {
+  font-weight: bold;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
   .sidebar-desktop {
-    height: 100vh;
-    background-color: #001529;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 999; /* Lower than the button */
+    display: none;
   }
-  
-  .sidebar-menu {
-    background-color: #ffffff;
-    color: #000000;
-  }
-  
-  .sidebar-menu .ant-menu-item {
-    color: #000000 !important;
-  }
-  
-  .sidebar-menu .ant-menu-item:hover {
-    background-color: #59B379 !important; /* Green background on hover */
-    color: #ffffff !important; /* White text on hover */
-  }
-  
-  .drawer-mobile .ant-drawer-body {
-    padding: 0;
-  }
-
-  .sidebar-menu .ant-menu-item:hover {
-    background-color: #59B379 !important; /* Green background on hover */
-    color: #ffffff !important; /* White text on hover */
-  }
-  
-  .drawer-mobile .sidebar-menu {
-    background-color: transparent;
-  }
-
-  .drawer-title {
-    font-weight: bold;
-    font-style: italic;
-  }
-  
-  @media (max-width: 768px) {
-    .sidebar-desktop {
-      display: none;
-    }
-  }
-  
+}

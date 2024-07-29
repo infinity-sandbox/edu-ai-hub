@@ -1,0 +1,54 @@
+/* Add your styles for the ChatRoom component here */
+.chat-room {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-header {
+    background: #59B379;
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.chat-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.message-content {
+    background: #e6f7ff;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 8px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+}
+.ant-layout-sider-children{
+    background-color: #59B379;
+}
+.ant-spin-container{
+    color: #fff;
+}
+
+button.ant-btn.css-dev-only-do-not-override-98ntnt.ant-btn-primary.ant-btn-dangerous{
+    margin: 50px;
+}

@@ -12,12 +12,14 @@ html {
 
 .fade {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out; /* Defines the duration and easing of the transition */
-  }
-  
-  .fade.show {
-    opacity: 1; /* When the show class is added, opacity transitions to 1 */
-  }
+    transition: opacity 0.5s ease-in-out;
+    /* Defines the duration and easing of the transition */
+}
+
+.fade.show {
+    opacity: 1;
+    /* When the show class is added, opacity transitions to 1 */
+}
 
 
 .insideHome-container {
@@ -31,8 +33,10 @@ html {
 
 .button-container {
     position: relative;
-    width: 400px; /* Adjust width */
-    height: 400px; /* Adjust height */
+    width: 400px;
+    /* Adjust width */
+    height: 400px;
+    /* Adjust height */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,8 +45,10 @@ html {
 
 .circle-button {
     position: absolute;
-    width: 120px; /* Increase size */
-    height: 120px; /* Increase size */
+    width: 120px;
+    /* Increase size */
+    height: 120px;
+    /* Increase size */
     font-size: 1em;
     color: #000000;
     border: none;
@@ -58,27 +64,35 @@ html {
 
 .circle-button img,
 .circle-button figcaption {
-    transition: transform 0.3s ease, font-size 0.3s ease, margin-top 0.3s ease; /* Smooth transition */
+    transition: transform 0.3s ease, font-size 0.3s ease, margin-top 0.3s ease;
+    /* Smooth transition */
 }
 
 .circle-button img {
-    width: 70px; /* Increase size */
-    height: 70px; /* Increase size */
+    width: 70px;
+    /* Increase size */
+    height: 70px;
+    /* Increase size */
 }
 
 .circle-button:hover {
-    background-color: transparent; /* Remove background color */
-    transform: scale(1.2); /* Slightly increase the button size for a smooth effect */
+    background-color: transparent;
+    /* Remove background color */
+    transform: scale(1.2);
+    /* Slightly increase the button size for a smooth effect */
 }
 
 .circle-button:hover img,
 .circle-button:hover figcaption {
-    transform: scale(1.2); /* Increase the scale for a larger hover effect */
+    transform: scale(1.2);
+    /* Increase the scale for a larger hover effect */
 }
 
 .circle-button:hover figcaption {
-    font-size: larger; /* Optionally, increase the font size for a smoother text size transition */
-    margin-top: 13px; /* Add margin to space out the text and image */
+    font-size: larger;
+    /* Optionally, increase the font size for a smoother text size transition */
+    margin-top: 13px;
+    /* Add margin to space out the text and image */
 }
 
 /* Positioning using circular layout */
