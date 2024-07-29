@@ -16,6 +16,7 @@ prompt/extraction/data
 server/dist_*
 .vscode/
 test_modules/
+rhubarb/
 testing/
 build/
 develop-eggs/

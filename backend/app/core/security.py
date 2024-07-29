@@ -42,8 +42,8 @@ def random_hash_generator(context: str = '', is_context: bool = False) -> str:
         return hashlib.md5(os.urandom(32)).hexdigest()
     
 # NOTE: This will be excuted when the file is run as a script and not as an import
-if __name__ == '__main__':
-    logger.info(f"This is hashed: \n"
-          f"{random_hash_generator(context='aibou_assistant', is_context=True)} \n"
-        #   f"{random_hash_generator(context='aibou_chat', is_context=True)} \n"
-        )
+# if __name__ == '__main__':
+#     logger.info(f"This is hashed: \n"
+#           f"{random_hash_generator(context='aibou_assistant', is_context=True)} \n"
+#         #   f"{random_hash_generator(context='aibou_chat', is_context=True)} \n"
+#         )

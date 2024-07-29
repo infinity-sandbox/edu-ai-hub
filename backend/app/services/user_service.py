@@ -229,6 +229,6 @@ class UserService:
     @staticmethod
     async def get_formated_question(subject: str):
         # Load the question bank
-        question_bank = UserService.load_question_bank('app/services/question_bank_sample.json')
+        question_bank = UserService.load_question_bank('utils/json/sample_question_bank.json')
         formatted_question = UserService.get_random_question(question_bank, subject)
         return formatted_question

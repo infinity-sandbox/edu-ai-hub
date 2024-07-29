@@ -1,0 +1,36 @@
+[
+    {
+        "subject": "math",
+        "questions": [
+            {
+                "question": "What is 2 + 2?",
+                "options": ["1", "2", "3", "4"],
+                "answer": "4",
+                "difficulty": "easy"
+            },
+            {
+                "question": "What is 3 + 3?",
+                "options": ["1", "2", "3", "6"],
+                "answer": "6",
+                "difficulty": "easy"
+            }
+        ]
+    },
+    {
+        "subject": "english",
+        "questions": [
+            {
+                "question": "What is the capital of India?",
+                "options": ["Mumbai", "Delhi", "Kolkata", "Chennai"],
+                "answer": "Delhi",
+                "difficulty": "easy"
+            },
+            {
+                "question": "What is the capital of USA?",
+                "options": ["New York", "Washington DC", "Los Angeles", "Chicago"],
+                "answer": "Washington DC",
+                "difficulty": "easy"
+            }
+        ]
+    }
+]

@@ -55,6 +55,7 @@ COPY ./ /backend/
 
 # Change ownership of the /backend directory and its subdirectories to appuser
 RUN chown -R appuser:appuser /backend/logs
+RUN chown -R appuser:appuser /backend/static
 
 # Switch to the non-privileged user to run the application.
 USER appuser

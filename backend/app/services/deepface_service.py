@@ -5,7 +5,7 @@ from typing import Tuple
 logger = logger_config(__name__)
 
 # Load face cascade classifier
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'utils/xml/haarcascade_frontalface_default.xml')
 
 async def detect_emotion(image_path: str) -> Tuple[str, int]:
     # Load the image
