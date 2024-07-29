@@ -21,7 +21,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/home' element={<PrivateRoute><Home/></PrivateRoute>}/>
-        <Route path='/aibot-class' element={<PrivateRoute><AIClass /></PrivateRoute>} />
+        <Route path='/aibot-class' element={<AIClass />} />
           <Route path='/status-pages/success-registration-page' element={<SuccessRegistrationPage />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/password-reset-page' element={<PasswordResetPage />} /> 

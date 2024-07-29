@@ -30,7 +30,7 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
 
   useEffect(() => {
     if (audio) {
-      const handleAudioPlay = () => setAnimation('Idle');
+      const handleAudioPlay = () => setAnimation('Talking');
       const handleAudioPause = () => setAnimation('Idle');
       const handleAudioEnd = () => setAnimation('Idle');
 
@@ -53,12 +53,12 @@ export function Avatar({ audioUrl, lipsync, ...props }) {
     }
   }, [audio]);
 
-  // useEffect(() => {
-  //   if (actions[animation]) {
-  //     actions[animation].reset().fadeIn(0.5).play();
-  //     return () => actions[animation].fadeOut(0.5);
-  //   }
-  // }, [animation, actions]);
+  useEffect(() => {
+    if (actions[animation]) {
+      actions[animation].reset().fadeIn(0.5).play();
+      return () => actions[animation].fadeOut(0.5);
+    }
+  }, [animation, actions]);
 
   useFrame(() => {
     if (audio && lipsync && lipsync.mouthCues && Array.isArray(lipsync.mouthCues)) {

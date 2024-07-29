@@ -132,3 +132,9 @@
   height: 100%;
   width: 400px;
 }
+.keyword-highlight{
+  background-color: rgb(219, 219, 97);
+}
+.highlight{
+  background-color: rgb(236, 126, 126);
+}
