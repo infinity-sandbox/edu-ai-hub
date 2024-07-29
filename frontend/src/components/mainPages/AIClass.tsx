@@ -78,8 +78,17 @@ const AIClass: React.FC = () => {
       if (webcamRef.current) {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
-          axios.post('/api/upload-image', { image: imageSrc })
-            .catch((error) => console.error('Error uploading image:', error));
+          axios.post(baseUrl + '/api/v1/secured/bot/class/interaction/image', 
+            { imageSrc },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Refresh-Token': refreshToken,
+                'Content-Type': 'application/json'
+              }
+            }
+          )
+          .catch((error) => console.error('Error uploading image:', error));
         }
       }
     };

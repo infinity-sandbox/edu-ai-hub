@@ -30,3 +30,11 @@ class BotFirstResponse(BaseModel):
     audio_url: str
     json_data: JSONResponseModel
     question: str
+
+class ImagePayload(BaseModel):
+    imageSrc: str
+    
+class confusedResponse(BaseModel):
+    signal: int
+    audio_url: str
+    json_data: JSONResponseModel
