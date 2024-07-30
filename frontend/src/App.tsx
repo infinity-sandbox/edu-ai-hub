@@ -11,6 +11,7 @@ import SuccessRegistrationPage from '../src/components/statusPages/successRegist
 import ForgotPassword from '../src/components/forgetLink/forgetLinkPage'
 import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
 import ProfileManagement from '../src/components/ProfileManagements/ProfileManagement'
+import ChatRoom from './components/mainPages/ChatRoom';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/home' element={<PrivateRoute><Home/></PrivateRoute>}/>
         <Route path='/aibot-class' element={<AIClass />} />
+        <Route path='chatRoom' element={<ChatRoom/>}/>
           <Route path='/status-pages/success-registration-page' element={<SuccessRegistrationPage />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/password-reset-page' element={<PasswordResetPage />} /> 

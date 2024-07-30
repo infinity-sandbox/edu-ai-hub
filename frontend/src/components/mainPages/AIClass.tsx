@@ -163,7 +163,7 @@ const AIClass: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', audioBlob, 'recording.wav');
-      const response = await axios.post(`${baseUrl}/api/v1/secured/bot/class/interaction/voice`, 
+      const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/voice', 
         formData,
         {
           headers: {
@@ -203,7 +203,7 @@ const AIClass: React.FC = () => {
 
   const fetchNextQuestion = async () => {
     try {
-      const response = await axios.post(`${baseUrl}/api/v1/secured/bot/class/interaction/next`, 
+      const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/next', 
         { selectedClass },
         {
           headers: {
@@ -227,7 +227,7 @@ const AIClass: React.FC = () => {
   };
 
   const handleIncorrectAnswer = () => {
-    navigate('/chatroom', { state: { username: 'User', question } });
+    navigate('/chatroom', { state: { username: localStorage.getItem('username'), question: question } });
   };
 
   return (
@@ -300,10 +300,12 @@ const AIClass: React.FC = () => {
               </div>
             )}
           </Content>
-          <Sider width={400} className="custom-sider">
-            <Canvas shadows camera={{ position: [0, 0, 8], fov: 42 }}>
+          <Sider width={380} className="custom-sider" >
+            <Canvas shadows camera={{ position: [0.85, 0, 8], fov: 42 }} style={{ width: '490px', height: '100%',zIndex: '10', position: 'absolute',
+  top: '0',
+  right: '0' }}>
               <OrbitControls />
-              <Avatar className="avatar" position={[0, -5, 0]} scale={3.5} isPlaying={isAudioPlaying} audioUrl={audioUrl} lipsync={lipsync} />
+              <Avatar className="avatar" position={[0.5, -5, 1]}  scale={3.0} isPlaying={isAudioPlaying} audioUrl={audioUrl} lipsync={lipsync} />
               <Environment preset="sunset" />
             </Canvas>
           </Sider>
