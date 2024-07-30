@@ -1,54 +1,63 @@
-/* Add your styles for the ChatRoom component here */
-.chat-room {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+.chat-room html, body{
+    
+    width: 100wh;
+    overflow: hidden;
 }
 
 .chat-header {
-    background: #59B379;
+    background: #4b7455;
     color: white;
-    padding: 16px;
+    padding: 0 16px;
+}
+
+.header-title {
+    color: white !important;
+    padding: 15px;
+}
+
+.main-layout {
+    height: 90%;
+}
+
+.content-layout {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
+    flex-direction: row;
 }
 
 .chat-content {
+    padding: 0 24px;
     flex: 1;
+    background: #ffffff;
+}
+
+.site {
+    background: #707172;
+}
+
+.canvas-sider {
     padding: 16px;
-    overflow-y: auto;
+    height: 100%;
+    background: #ffffff;
 }
 
-.message {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+.raise-hand-button {
+    float: right;
+    margin-top: 8px;
+    background-color: #ff9800;
+    /* Change button background color */
+    border: none;
+    /* Remove button border */
 }
 
-.message-content {
-    background: #e6f7ff;
-    padding: 8px;
-    border-radius: 8px;
-    margin-left: 8px;
+.raise-hand-button:hover {
+    background-color: #ff5722;
+    /* Change button background color on hover */
 }
 
-.input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    background: #fff;
-    border-top: 1px solid #f0f0f0;
-}
-.ant-layout-sider-children{
-    background-color: #59B379;
-}
-.ant-spin-container{
-    color: #fff;
+input::placeholder {
+    color: #bfbfbf;
 }
 
-button.ant-btn.css-dev-only-do-not-override-98ntnt.ant-btn-primary.ant-btn-dangerous{
-    margin: 50px;
+.ant-input-affix-wrapper {
+    border-radius: 30px !important;
 }

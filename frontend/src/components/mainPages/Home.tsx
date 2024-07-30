@@ -37,7 +37,7 @@ const Home: React.FC = () => {
             <img src={robot} alt="Button Icon" />
             <figcaption>AI class</figcaption>
           </figure>
-          <figure className="circle-button" onClick={() => handleNavigation('/chat')}>
+          <figure className="circle-button" onClick={() => handleNavigation('/chatRoom')}>
             <img src={chat} alt="Button Icon" />
             <figcaption>ChatRoom</figcaption>
           </figure>

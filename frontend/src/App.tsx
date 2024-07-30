@@ -12,6 +12,8 @@ import ForgotPassword from '../src/components/forgetLink/forgetLinkPage'
 import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
 import ProfileManagement from '../src/components/ProfileManagements/ProfileManagement'
 import ChatRoom from './components/mainPages/ChatRoom';
+import 'simplebar/dist/simplebar.min.css';
+
 
 
 function App() {
