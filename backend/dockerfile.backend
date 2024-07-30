@@ -7,12 +7,16 @@
 ARG PYTHON_VERSION=3.10.8
 FROM python:${PYTHON_VERSION}-slim as base
 
-# Install build dependencies
+# Install build dependencies including pkg-config and libhdf5-dev for h5py
 RUN apt-get update && \
-    apt-get install -y gcc python3-dev && \
+    apt-get install -y gcc python3-dev pkg-config libhdf5-dev default-libmysqlclient-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install graphical libraries
+RUN apt-get update && \
+    apt-get install -y libgl1-mesa-glx libglib2.0-0
+    
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -23,16 +27,17 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /backend
 
 # Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
+# The directory /home/appuser is also created here.
 ARG UID=10001
-RUN adduser \
+RUN mkdir -p /home/appuser && \
+    adduser \
     --disabled-password \
     --gecos "" \
     --home "/home/appuser" \
     --shell "/sbin/nologin" \
-    --no-create-home \
     --uid "${UID}" \
-    appuser
+    appuser && \
+    chown -R appuser:appuser /home/appuser
 
 # Change ownership of the /app directory and its subdirectories to appuser
 RUN chown -R appuser:appuser /backend
@@ -41,21 +46,21 @@ RUN chown -R appuser:appuser /backend
 COPY ./requirements.txt /backend/
 COPY ./setup.py /backend/
 COPY ./readme.md /backend/
-# TODO: Uncomment this line if you don't want to use cache
+
+# NOTE: Uncomment this line if you don't want to use cache
 # COPY ./ /backend/
 
 # upgrade pip to the latest version
 RUN pip install --upgrade pip
 
-# install the project as a package
-RUN pip install -e .
+# Install the package in editable mode with the specified settings
+RUN pip install -e . --use-pep517 --config-settings editable_mode=compat
 
 # Copy the rest of the application code
 COPY ./ /backend/
 
 # Change ownership of the /backend directory and its subdirectories to appuser
-RUN chown -R appuser:appuser /backend/logs
-RUN chown -R appuser:appuser /backend/static
+RUN chown -R appuser:appuser /backend/logs /backend/static
 
 # Switch to the non-privileged user to run the application.
 USER appuser
