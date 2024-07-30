@@ -184,6 +184,9 @@ const AIClass: React.FC = () => {
       if (data.audio_url) {
         setIsAudioPlaying(true);
       }
+       if (!data.correctAnswer) {
+        handleIncorrectAnswer();
+      }
     } catch (error) {
       console.error('Error sending recording:', error);
     }

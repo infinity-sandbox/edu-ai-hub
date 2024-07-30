@@ -1,62 +1,132 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Input, Avatar, Button, Layout, Typography, Menu } from 'antd';
-import { UserOutlined, SendOutlined } from '@ant-design/icons';
+import { UserOutlined, SendOutlined } from '@ant-design/icons'; // Assuming RaiseOutlined icon for raise hand
 import styled from 'styled-components';
-import { io } from 'socket.io-client';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
-import { Avatar as ThreeAvatar } from './Avatar'; // Adjust import path as needed
+import { Avatar as ThreeAvatar } from './Avatar'; // Ensure this path is correct
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import '../../styles/mainPageStyle/ChatRoom.css';
+import '../../styles/mainPageStyle/ChatRoom.css'; // Ensure this path is correct
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
 
-const socket = io('ws://2a57-196-190-62-181.ngrok-free.app/'); // Replace with your backend socket URL
+type ChatMessage = {
+  user: string;
+  text: string;
+  className: string;
+  isQuestion?: boolean;
+  answered?: boolean;
+  forwardedFrom?: string;
+  isAIWarning?: boolean;
+  isAppreciation?: boolean;
+};
+
+// Dummy data to demonstrate functionality
+const dummyMessages: ChatMessage[] = [
+  {
+    user: 'kalabe',
+    text: 'What is the capital of France?\nA) Berlin\nB) Madrid\nC) Paris\nD) Rome',
+    className: 'English',
+    isQuestion: true,
+    forwardedFrom: 'mike'
+  },
+  { 
+    user: 'mike123', 
+    text: 'I think it is Paris.', 
+    className: 'English' 
+  },
+  { 
+    user: 'User3', 
+    text: 'It could be Paris!', 
+    className: 'English' 
+  },
+  { 
+    user: 'AI', 
+    text: 'What is the largest organ in the human body?\nA) Heart\nB) Liver\nC) Skin\nD) Brain', 
+    className: 'Biology', 
+    isQuestion: true ,
+    forwardedFrom: 'Abel'
+  },
+  { 
+    user: 'dagi', 
+    text: 'It is the Skin.', 
+    className: 'Biology' 
+  },
+  { 
+    user: 'AI', 
+    text: 'Good job! Your are trying well.', 
+    className: 'English',
+    isAppreciation: true 
+  },
+  { 
+    user: 'AI', 
+    text: 'Warning: Your are giving a direct answer !.', 
+    className: 'Biology', 
+    isAIWarning: true 
+  },
+];
 
 const ChatRoom: React.FC = () => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<{ user: string; text: string; isQuestion?: boolean; answered?: boolean }[]>([
-    { user: 'Mr. X - Forwarded from AI class', text: 'Which of the following sentences is grammatically correct?\nA) She don\'t like apples.\nB) She doesn\'t likes apples.\nC) She doesn\'t like apples.\nD) She don\'t likes apples.', isQuestion: true, answered: false },
-  ]);
-  const [selectedClass, setSelectedClass] = useState('English'); // Example initial value
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Example state
-  const [audioUrl, setAudioUrl] = useState(''); // Example state
-  const [lipsync, setLipsync] = useState({ mouthCues: [] }); // Example state
+  const [messages, setMessages] = useState<ChatMessage[]>(dummyMessages);
+  const [selectedClass, setSelectedClass] = useState('English');
+  const [filteredMessages, setFilteredMessages] = useState<ChatMessage[]>(dummyMessages);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioUrl, setAudioUrl] = useState('');
+  const [lipsync, setLipsync] = useState({ mouthCues: [] });
   const [containerHeight, setContainerHeight] = useState(0);
-  
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    socket.on('chat message', (msg) => {
-      setMessages((prevMessages) => [...prevMessages, msg]);
-    });
-
-    return () => {
-      socket.off('chat message');
-    };
-  }, []);
+    setFilteredMessages(messages.filter(msg => msg.className === selectedClass));
+  }, [messages, selectedClass]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
       setContainerHeight(chatContainerRef.current.scrollHeight);
     }
-  }, [messages]);
+  }, [filteredMessages]);
 
   const sendMessage = () => {
     if (message.trim()) {
-      socket.emit('chat message', { user: 'User', text: message });
-      setMessages((prevMessages) => [...prevMessages, { user: 'User', text: message }]);
+      const username = localStorage.getItem('username') || 'Unknown User';
+      const newMessage: ChatMessage = {
+        user: username,
+        text: message,
+        className: selectedClass
+      };
+
+      // Simulate AI checking for correctness
+      const isAnswerCorrect = Math.random() > 0.5; // Random correctness for demo
+      if (isAnswerCorrect) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { user: 'AI', text: 'Good job! Your are trying well.', isAppreciation: true, className: selectedClass }
+        ]);
+      } else {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { user: 'AI', text: 'Warning: Your are giving a direct answer !. Please try again.', isAIWarning: true, className: selectedClass }
+        ]);
+      }
+
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessage('');
+      setReplyTo(null); // Clear reply state after sending
     }
   };
 
   const handleRaiseHand = (question: string) => {
-    setMessage('Replying to:' + question + '...\n');
+    setMessage(`Replying to: ${question}...\n`);
+    setReplyTo(question);
   };
 
   const handleReply = (message: string) => {
+    setReplyTo(message);
     setMessage(`Replying to: ${message} `);
   };
 
@@ -82,8 +152,8 @@ const ChatRoom: React.FC = () => {
         <Title className='header-title' level={3}>Chat Room</Title>
       </Header>
       <Layout className='main-layout'>
-        <Sider width={200} className="site" style={{ background: '#428051'}}>
-          <Menu style={{ background: '#428051'}} mode="inline" defaultSelectedKeys={[selectedClass]}>
+        <Sider width={200} className="site" style={{ background: '#428051' }}>
+          <Menu style={{ background: '#428051' }} mode="inline" defaultSelectedKeys={[selectedClass]}>
             <Menu.Item key="English" onClick={() => setSelectedClass('English')}>English</Menu.Item>
             <Menu.Item key="Biology" onClick={() => setSelectedClass('Biology')}>Biology</Menu.Item>
             <Menu.Item key="Maths" onClick={() => setSelectedClass('Maths')}>Maths</Menu.Item>
@@ -94,41 +164,63 @@ const ChatRoom: React.FC = () => {
             <ChatContainer ref={chatContainerRef}>
               {isOverflowing ? (
                 <SimpleBar style={{ maxHeight: 'calc(100vh - 200px)' }}>
-                  {messages.map((msg, index) => (
+                  {filteredMessages.map((msg, index) => (
                     <MessageContainer key={index} user={msg.user}>
                       <AvatarContainer>
                         <Avatar icon={<UserOutlined />} />
                       </AvatarContainer>
-                      <MessageContent user={msg.user} isQuestion={msg.isQuestion} answered={msg.answered}>
+                      <MessageContent
+                        user={msg.user}
+                        isQuestion={msg.isQuestion}
+                        answered={msg.answered}
+                        isAIWarning={msg.isAIWarning}
+                        isAppreciation={msg.isAppreciation}
+                      >
                         <strong>{msg.user}</strong>
                         <div onClick={() => handleReply(msg.text)}>
+                          {msg.forwardedFrom && <div>(Forwarded from {msg.forwardedFrom})</div>}
                           {msg.text}
-                          {msg.isQuestion && !msg.answered && (
-                            <Button type="primary" onClick={(e) => { e.stopPropagation(); handleRaiseHand(msg.text); }} className='raise-hand-button'>
-                              Raise Hand
-                            </Button>
-                          )}
                         </div>
+                        {msg.isQuestion && (
+                          <Button 
+                            
+                            onClick={() => handleRaiseHand(msg.text)}
+                            style={{ marginTop: '8px' }}
+                          >
+                            Raise Hand
+                          </Button>
+                        )}
                       </MessageContent>
                     </MessageContainer>
                   ))}
                 </SimpleBar>
               ) : (
-                messages.map((msg, index) => (
+                filteredMessages.map((msg, index) => (
                   <MessageContainer key={index} user={msg.user}>
                     <AvatarContainer>
                       <Avatar icon={<UserOutlined />} />
                     </AvatarContainer>
-                    <MessageContent user={msg.user} isQuestion={msg.isQuestion} answered={msg.answered}>
+                    <MessageContent
+                      user={msg.user}
+                      isQuestion={msg.isQuestion}
+                      answered={msg.answered}
+                      isAIWarning={msg.isAIWarning}
+                      isAppreciation={msg.isAppreciation}
+                    >
                       <strong>{msg.user}</strong>
                       <div onClick={() => handleReply(msg.text)}>
+                        {msg.forwardedFrom && <div>(Forwarded from {msg.forwardedFrom})</div>}
                         {msg.text}
-                        {msg.isQuestion && !msg.answered && (
-                          <Button type="primary" onClick={(e) => { e.stopPropagation(); handleRaiseHand(msg.text); }} className='raise-hand-button'>
-                            Raise Hand
-                          </Button>
-                        )}
                       </div>
+                      {msg.isQuestion && (
+                        <Button 
+                          
+                          onClick={() => handleRaiseHand(msg.text)}
+                          style={{ marginTop: '8px' }}
+                        >
+                          Raise Hand
+                        </Button>
+                      )}
                     </MessageContent>
                   </MessageContainer>
                 ))
@@ -139,17 +231,16 @@ const ChatRoom: React.FC = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onPressEnter={sendMessage}
-                placeholder="Type your message..."
+                placeholder={replyTo ? `Replying to: ${replyTo}` : "Type your message..."}
                 suffix={<SendOutlined onClick={sendMessage} />}
+                style={{ flex: 1 }} // Ensure the input field stretches to fill available space
               />
             </InputContainer>
           </Content>
           <Sider width={500} className='canvas-sider'>
             <FullHeightCanvas>
-             
-              <h1 style={{}}>This chat is Monitored by AI</h1>
+              <h1>This chat is Monitored by AI</h1>
               {memoizedCanvas}
-            
             </FullHeightCanvas>
           </Sider>
         </Layout>
@@ -159,11 +250,9 @@ const ChatRoom: React.FC = () => {
 };
 
 const ChatContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: calc(105vh - 200px); /* Adjust height based on header size */
+  height: calc(100vh - 100px); // Adjust height to ensure it fits within the viewport
+  overflow-y: auto;
   padding: 16px;
-  border-radius: 8px;
 `;
 
 const MessageContainer = styled.div<{ user: string }>`
@@ -173,7 +262,11 @@ const MessageContainer = styled.div<{ user: string }>`
   flex-direction: ${(props) => (props.user === 'User' ? 'row-reverse' : 'row')};
 `;
 
-const MessageContent = styled.div<{ user: string; isQuestion?: boolean; answered?: boolean }>`
+const AvatarContainer = styled.div`
+  margin-right: 8px;
+`;
+
+const MessageContent = styled.div<{ user: string; isQuestion?: boolean; answered?: boolean; isAIWarning?: boolean; isAppreciation?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -181,29 +274,29 @@ const MessageContent = styled.div<{ user: string; isQuestion?: boolean; answered
   margin-right: ${(props) => (props.user === 'User' ? '8px' : '0')};
   padding: 8px;
   border-radius: 16px;
-  background: ${(props) => (props.isQuestion ? '#428051' : '#fff')};
-  color:${(props) => (props.isQuestion ? '#fff' : 'black')}; /* Change question background color */
+  background: ${(props) => 
+    props.isAIWarning ? 'red' : 
+    props.isAppreciation ? 'green' :
+    props.isQuestion ? '#428051' : '#fff'};
+  color: ${(props) => 
+    props.isAIWarning || props.isAppreciation || props.isQuestion ? '#fff' : 'black'};
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   max-width: 60%;
-  align-self: ${(props) => (props.user === 'User' ? 'flex-end' : 'flex-end')};
-
-  ${(props) => props.isQuestion && 'border: 1px solid #428051;'} /* Change question border color */
-`;
-
-const AvatarContainer = styled.div`
-  margin-right: 8px;
+  align-self: ${(props) => (props.user === 'User' ? 'flex-end' : 'flex-start')};
 `;
 
 const InputContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
- 
   background: #f0f0f0;
   border-top: 1px solid #d9d9d9;
-  
   border-radius: 30px;
+  padding: 8px;
+  position: sticky; // Ensure it stays at the bottom of the chat area
+  bottom: 0;
+  width: 100%;
+  z-index: 10; // Ensure it's above other elements
 `;
 
 const FullHeightCanvas = styled.div`
