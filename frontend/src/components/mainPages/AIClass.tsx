@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Webcam from 'react-webcam';
@@ -72,7 +72,7 @@ const AIClass: React.FC = () => {
     };
 
     sendSelectedClass();
-  }, [selectedClass]);
+  }, [selectedClass, accessToken, refreshToken]);
 
   useEffect(() => {
     const captureImage = async () => {
@@ -92,6 +92,10 @@ const AIClass: React.FC = () => {
             );
             const signal = response.data.signal;
             if (signal === 1) {
+               if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+              }
               const { audio_url, json_data, mispronunciations, keywords, exampleContent } = response.data;
               setAudioUrl(`${baseUrl}/${audio_url}`);
               setJsonData(json_data);
@@ -110,7 +114,23 @@ const AIClass: React.FC = () => {
 
     const intervalId = setInterval(captureImage, 5000);
     return () => clearInterval(intervalId);
-  }, [selectedClass]);
+  }, [selectedClass, accessToken, refreshToken]);
+const startRecording = useCallback(() => {
+  setIsRecording(true);
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      mediaRecorder.ondataavailable = event => {
+        if (event.data.size > 0) {
+          sendRecording(event.data);
+        }
+      };
+      mediaRecorder.start();
+      startSpeechRecognition();
+    })
+    .catch(error => console.error('Error accessing microphone:', error));
+}, []);
 
   useEffect(() => {
     if (audioUrl) {
@@ -120,24 +140,7 @@ const AIClass: React.FC = () => {
       audioElement.onended = startRecording;
       setIsAudioPlaying(true);
     }
-  }, [audioUrl]);
-
-  const startRecording = () => {
-    setIsRecording(true);
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(stream => {
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        mediaRecorder.ondataavailable = event => {
-          if (event.data.size > 0) {
-            sendRecording(event.data);
-          }
-        };
-        mediaRecorder.start();
-        startSpeechRecognition();
-      })
-      .catch(error => console.error('Error accessing microphone:', error));
-  };
+  }, [audioUrl, startRecording]);
 
   const startSpeechRecognition = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;

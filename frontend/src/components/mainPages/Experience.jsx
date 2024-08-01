@@ -5,7 +5,7 @@ export const Experience = () => {
     <>
       <OrbitControls />
       <Avatar position={[0,-3,0]} scale={2}/>
-      <Environment preset="sunset"/>
+      <Environment preset="./sunset"/>
     </>
   );
 };
