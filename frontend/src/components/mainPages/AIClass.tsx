@@ -112,7 +112,7 @@ const AIClass: React.FC = () => {
       }
     };
 
-    const intervalId = setInterval(captureImage, 5000);
+    const intervalId = setInterval(captureImage, 60000);
     return () => clearInterval(intervalId);
   }, [selectedClass, accessToken, refreshToken]);
 const startRecording = useCallback(() => {
