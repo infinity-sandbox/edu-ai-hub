@@ -23,10 +23,12 @@
     flex: 1;
     display: flex;
     flex-direction: row;
+    color: white;
 }
 
 .site {
     background: #428051;
+   
 }
 
 .chat-content {
