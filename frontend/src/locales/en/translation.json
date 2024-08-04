@@ -1,5 +1,6 @@
 {
   "Sidebar": {
+    "menu": "Menu",
     "welcome": "Welcome to the Home Page",
     "manage_profile": "Manage Profile",
     "settings": "Settings",
@@ -11,7 +12,8 @@
     "games": "Games",
     "notifications": "Notifications",
     "profile": "Profile",
-    "submit": "Submit"
+    "submit": "Submit",
+    "Menu" : "Menu"
   },
   "home": {
     "primary_heading": "Your Favorite Learning Adventures with AI",
@@ -27,7 +29,7 @@
     "login_button": "Log in"
   },
   "index":{
-    "Welcome to the Home Page": "Welcome to the Home Page",
+    "Welcome to the Home Page": "Welcome to",
     "logout": "Logout"
   },
     "profile_management": {
@@ -125,6 +127,17 @@
     "reset_link_sent": "A reset link has been sent to {email}",
     "send_failed": "Failed to send password reset email. Please try again.",
     "email_sent_success": "Password reset email sent successfully"
-  }
+  },
+      "AIClass": {
+        "selectClass": "Select Class",
+        "selectPlaceholder": "Select a class",
+        "english": "English",
+        "math": "Math",
+        "science": "Science",
+        "class": "{{selectedClass}} Class",
+        "correctAnswer": "Correct Answer",
+        "raiseHand": "Raise Hand",
+        "recording": "Recording..."
+      }
 
 }

@@ -13,3 +13,5 @@ echo "Backend container installed successfully!"
 
 echo "Listing all running containers..."
 docker ps
+
+docker logs -f backend

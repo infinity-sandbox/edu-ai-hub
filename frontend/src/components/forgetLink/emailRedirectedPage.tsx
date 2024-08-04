@@ -23,7 +23,7 @@ const PasswordResetPage: React.FC = () => {
     setLoading(true);
     console.log('Received values of form: ', values);
 
-    axios.post(baseUrl + '/api/v1/users/resetpassword/confirm', { token, new_password: values.password })
+    axios.post(baseUrl + '/api/v1/users/reset/password/confirm', { token, new_password: values.password })
       .then(response => {
         setLoading(false);
         console.log('Password reset successful:', response.data);

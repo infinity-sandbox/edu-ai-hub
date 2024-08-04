@@ -1,0 +1,13 @@
+.lip-sync-character {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.character-video {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #ecf0f1;
+}

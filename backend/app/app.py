@@ -14,7 +14,6 @@ from app.models.user_model import User
 from app.api.api_v1.router import router
 from fastapi.responses import JSONResponse
 
-
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
@@ -24,11 +23,15 @@ run_banner()
 
 app.add_middleware(
     CORSMiddleware,
+    # allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount the static directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 async def serve_frontend():
@@ -38,7 +41,6 @@ async def serve_frontend():
                 }
             )
 
-
 @app.on_event("startup")
 async def app_init():
     """
@@ -46,11 +48,13 @@ async def app_init():
     """
     
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING).aibou
+    # TODO: add weaviate connection here
     
     await init_beanie(
         database=db_client,
         document_models= [
             User
+            # TODO: add bot model schema here
         ]
     )
     

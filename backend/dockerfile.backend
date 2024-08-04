@@ -20,10 +20,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install --upgrade pip
-
 WORKDIR /backend
-COPY . /backend
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
@@ -40,8 +37,24 @@ RUN adduser \
 # Change ownership of the /app directory and its subdirectories to appuser
 RUN chown -R appuser:appuser /backend
 
+# Copy the dependencies file to the working directory
+COPY ./requirements.txt /backend/
+COPY ./setup.py /backend/
+COPY ./readme.md /backend/
+# TODO: Uncomment this line if you don't want to use cache
+# COPY ./ /backend/
+
+# upgrade pip to the latest version
+RUN pip install --upgrade pip
+
 # install the project as a package
 RUN pip install -e .
+
+# Copy the rest of the application code
+COPY ./ /backend/
+
+# Change ownership of the /backend directory and its subdirectories to appuser
+RUN chown -R appuser:appuser /backend/logs
 
 # Switch to the non-privileged user to run the application.
 USER appuser

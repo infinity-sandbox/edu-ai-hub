@@ -15,13 +15,18 @@ __pycache__/
 prompt/extraction/data
 server/dist_*
 .vscode/
+test_modules/
 build/
 develop-eggs/
 # dist/
 downloads/
+Rhubarb-Lip-Sync-1.13.0-macOS/
+Rhubarb_Lip_Sync_1_13_0_macOS/
 eggs/
+backend/static
 .eggs/
 lib/
+static/
 lib64/
 parts/
 sdist/
@@ -30,6 +35,7 @@ wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
+app/services/question_bank_sample.json
 *.egg
 MANIFEST
 .DS_Store
@@ -195,3 +201,5 @@ test_script/
 aibou.egg-info/
 logs/
 venv_aibou/
+testing/
+rhubarb/

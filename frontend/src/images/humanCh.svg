@@ -1,0 +1,15 @@
+    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <circle cx="100" cy="100" r="80" stroke="black" stroke-width="3" fill="#ffcc99" />
+            <!-- Eyes -->
+            <circle cx="70" cy="80" r="10" fill="black" />
+            <circle cx="130" cy="80" r="10" fill="black" />
+            <!-- Mouth -->
+            <g id="mouth" transform="translate(0, 30)">
+              <path id="mouth-smile" d="M70,110 Q100,140 130,110" stroke="black" stroke-width="3" fill="none" display="none"/>
+              <ellipse id="mouth-open" cx="100" cy="120" rx="20" ry="10" fill="black" display="none"/>
+              <rect id="mouth-wide" x="80" y="110" width="40" height="20" fill="black" display="none"/>
+              <ellipse id="mouth-pucker" cx="100" cy="120" rx="10" ry="10" fill="black" display="none"/>
+              <rect id="mouth-closed" x="90" y="110" width="20" height="10" fill="black" display="none"/>
+            </g>
+          </svg>

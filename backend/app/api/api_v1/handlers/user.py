@@ -17,8 +17,8 @@ import jwt
 from bson import ObjectId
 from fastapi import APIRouter, Query
 
-
 user_router = APIRouter()
+
 
 @user_router.post('/register', summary="Create new user/Register", response_model=UserOut)
 async def create_user(data: UserAuth):
@@ -30,22 +30,7 @@ async def create_user(data: UserAuth):
             detail="User with this email or username already exist"
         )
 
-@user_router.put('/profile', summary="Update user info by user_id", response_model=UserOut)
-async def update_user(
-    data: UserUpdate,
-    authorization: str = Header(...),
-    refresh_token: str = Header(...)
-    ):
-    try:
-        user = await UserService.decode_token(authorization, refresh_token)
-        return await UserService.update_user(user.user_id, data)
-    except pymongo.errors.OperationFailure:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
-        )
-        
-@user_router.post('/emailreset', summary="Send email reset password", response_model=PasswordResetRequest)
+@user_router.post('/email/reset', summary="Send email reset password", response_model=PasswordResetRequest)
 async def reset_password(request: PasswordResetRequest):
     try:
         logger.info(f"Request email: {request.email}")
@@ -58,7 +43,7 @@ async def reset_password(request: PasswordResetRequest):
             detail=f"{e}"
         )
         
-@user_router.post("/resetpassword/confirm")
+@user_router.post("/reset/password/confirm")
 async def reset_password_confirm(request: PasswordResetConfirm):
     try:
         await UserService.reset_password(request.token, request.new_password)
@@ -69,14 +54,3 @@ async def reset_password_confirm(request: PasswordResetConfirm):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"{e}"
         )
-
-@user_router.get("/profileview", response_model=UserUpdate)
-async def get_user_profile(
-    access_token: str = Query(..., alias="access_token"),
-    refresh_token: str = Query(..., alias="refresh_token"),
-):
-    logger.info(f"Request token: {access_token} and {refresh_token}")
-    user = await UserService.decode_token(access_token, refresh_token)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user

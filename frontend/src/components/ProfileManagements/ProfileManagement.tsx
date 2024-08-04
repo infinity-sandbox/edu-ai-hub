@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/ProfileManagements.css';
 import { useTranslation } from 'react-i18next';
+import Sidebar from '../SideNav/Sidebar';
 
 
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
@@ -31,6 +32,9 @@ const ProfileManagement: React.FC = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const handleNavigation = (path: string) => {
+    navigate(path); // Navigate to the specified path
+  };
 
   useEffect(() => {
     // Fetch tokens from local storage
@@ -43,7 +47,7 @@ const ProfileManagement: React.FC = () => {
       }
 
     // Fetch user data from backend
-    axios.get(baseUrl + '/api/v1/users/profileview', {
+    axios.get(baseUrl + '/api/v1/secured/profile/view', {
         params: {
             access_token: accessToken,
             refresh_token: refreshToken
@@ -61,7 +65,7 @@ const ProfileManagement: React.FC = () => {
     setIsEditing(false);
   };
   const handleFinish = (values: UserInfo) => {
-    axios.put(baseUrl + '/api/v1/users/profile', values, {
+    axios.put(baseUrl + '/api/v1/secured/profile/update', values, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Refresh-Token': refreshToken,
@@ -77,6 +81,7 @@ const ProfileManagement: React.FC = () => {
 
   return (
     <div>
+      <Sidebar handleNavigation={handleNavigation} />
       {!isEditing ? (
         <div className="profile-container">
         <h2 className="profile-title">{t('profile_management.view_profile')}</h2>

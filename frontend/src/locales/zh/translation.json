@@ -11,7 +11,8 @@
     "games": "游戏",
     "notifications": "通知",
     "profile": "资料",
-    "submit": "提交"
+    "submit": "提交",
+    "Menu": "菜单"
   },
   "home": {
     "primary_heading": "您最喜欢的 AI 学习冒险",
@@ -27,7 +28,7 @@
     "login_button": "登录"
   },
   "index":{
-    "Welcome to the Home Page": "欢迎来到主页",
+    "Welcome to the Home Page": "欢迎来到",
      "logout": "登出"
   },
    "profile_management": {
@@ -124,6 +125,17 @@
     "reset_link_sent": "重置链接已发送到 {email}",
     "send_failed": "发送密码重置电子邮件失败。请再试一次。",
     "email_sent_success": "密码重置电子邮件发送成功"
-  }
+  },
+    "AIClass": {
+        "selectClass": "选择班级",
+        "selectPlaceholder": "选择一个班级",
+        "english": "英语",
+        "math": "数学",
+        "science": "科学",
+        "class": "{{selectedClass}} 班级",
+        "correctAnswer": "正确答案",
+        "raiseHand": "举手",
+        "recording": "录音中..."
+      }
 
 }

@@ -1,0 +1,140 @@
+/* AIClass.css */
+
+.layout {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.ai-class-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff;
+}
+
+.subject-selection {
+  text-align: center;
+  color: rgb(43, 41, 41);
+}
+
+.subject-dropdown {
+  width: 200px;
+}
+
+.subject-selection h1 {
+  margin-bottom: 10px;
+}
+
+.custom-dropdown .ant-select-item-option {
+  &:hover {
+    background-color: #59b379 !important;
+    /* Your desired hover color */
+    color: #fff !important;
+    /* Your desired text color on hover */
+  }
+}
+
+.classroom {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* Ensure content positioning doesn't interfere */
+  z-index: 1;
+  /* Lower z-index to be under the sider */
+}
+
+.title {
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.webcam-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.webcam {
+  width: 200px;
+  height: 150px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+}
+
+.blackboard {
+  flex: 1;
+  background-color: #2e2e2e;
+  color: #ffffff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+.keywords {
+  margin-top: 20px;
+}
+
+.keywords ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.keywords li {
+  background-color: #59b379;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.recording-indicator {
+  margin-top: 10px;
+  color: red;
+}
+
+.ant-layout .ant-layout-sider {
+  position: relative;
+  min-width: 0;
+  background: #ffffff;
+  transition: all 0.2s, background 0s;
+  height: 100vh;
+  width: 100vw;
+}
+
+.custom-sider {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  height: 100%;
+  width: 400px;
+}
+.keyword-highlight{
+  background-color: rgb(233, 233, 152);
+}
+.highlight{
+  background-color: rgb(235, 144, 144);
+}
