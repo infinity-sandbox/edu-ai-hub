@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Input, Avatar, Button, Layout, Typography, Menu } from 'antd';
-import { UserOutlined, SendOutlined } from '@ant-design/icons'; // Assuming RaiseOutlined icon for raise hand
+import { UserOutlined, SendOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
-import { Avatar as ThreeAvatar } from './Avatar'; // Ensure this path is correct
+import { Avatar as ThreeAvatar } from './Avatar';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import '../../styles/mainPageStyle/ChatRoom.css'; // Ensure this path is correct
+import '../../styles/mainPageStyle/ChatRoom.css';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -23,56 +23,11 @@ type ChatMessage = {
   isAppreciation?: boolean;
 };
 
-// Dummy data to demonstrate functionality
-const dummyMessages: ChatMessage[] = [
-  {
-    user: 'kalabe',
-    text: 'What is the capital of France?\nA) Berlin\nB) Madrid\nC) Paris\nD) Rome',
-    className: 'English',
-    isQuestion: true,
-    forwardedFrom: 'mike'
-  },
-  { 
-    user: 'mike123', 
-    text: 'I think it is Paris.', 
-    className: 'English' 
-  },
-  { 
-    user: 'User3', 
-    text: 'It could be Paris!', 
-    className: 'English' 
-  },
-  { 
-    user: 'AI', 
-    text: 'What is the largest organ in the human body?\nA) Heart\nB) Liver\nC) Skin\nD) Brain', 
-    className: 'Biology', 
-    isQuestion: true ,
-    forwardedFrom: 'Abel'
-  },
-  { 
-    user: 'dagi', 
-    text: 'It is the Skin.', 
-    className: 'Biology' 
-  },
-  { 
-    user: 'AI', 
-    text: 'Good job! Your are trying well.', 
-    className: 'English',
-    isAppreciation: true 
-  },
-  { 
-    user: 'AI', 
-    text: 'Warning: Your are giving a direct answer !.', 
-    className: 'Biology', 
-    isAIWarning: true 
-  },
-];
-
 const ChatRoom: React.FC = () => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<ChatMessage[]>(dummyMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [selectedClass, setSelectedClass] = useState('English');
-  const [filteredMessages, setFilteredMessages] = useState<ChatMessage[]>(dummyMessages);
+  const [filteredMessages, setFilteredMessages] = useState<ChatMessage[]>([]);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [audioUrl, setAudioUrl] = useState('');
   const [lipsync, setLipsync] = useState({ mouthCues: [] });
@@ -100,23 +55,17 @@ const ChatRoom: React.FC = () => {
         className: selectedClass
       };
 
-      // Simulate AI checking for correctness
-      const isAnswerCorrect = Math.random() > 0.5; // Random correctness for demo
-      if (isAnswerCorrect) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { user: 'AI', text: 'Good job! Your are trying well.', isAppreciation: true, className: selectedClass }
-        ]);
-      } else {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { user: 'AI', text: 'Warning: Your are giving a direct answer !. Please try again.', isAIWarning: true, className: selectedClass }
-        ]);
-      }
-
       setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+      const aiResponse: ChatMessage = {
+        user: 'AI',
+        text: 'I am currently learning. Your message has been received and will be processed soon.',
+        className: selectedClass
+      };
+
+      setMessages((prevMessages) => [...prevMessages, aiResponse]);
       setMessage('');
-      setReplyTo(null); // Clear reply state after sending
+      setReplyTo(null);
     }
   };
 
@@ -133,12 +82,12 @@ const ChatRoom: React.FC = () => {
   const memoizedCanvas = useMemo(() => (
     <Canvas shadows camera={{ position: [3, 0, 8], fov: 42 }} style={{ width: '100%', height: '100%' }}>
       <OrbitControls />
-      <ThreeAvatar 
-        position={[0, -5, 1]} 
-        scale={3.5} 
-        isPlaying={isAudioPlaying} 
-        audioUrl={audioUrl} 
-        lipsync={lipsync} 
+      <ThreeAvatar
+        position={[0, -5, 1]}
+        scale={3.5}
+        isPlaying={isAudioPlaying}
+        audioUrl={audioUrl}
+        lipsync={lipsync}
       />
       <Environment preset="sunset" />
     </Canvas>
@@ -182,8 +131,7 @@ const ChatRoom: React.FC = () => {
                           {msg.text}
                         </div>
                         {msg.isQuestion && (
-                          <Button 
-                            
+                          <Button
                             onClick={() => handleRaiseHand(msg.text)}
                             style={{ marginTop: '8px' }}
                           >
@@ -213,8 +161,7 @@ const ChatRoom: React.FC = () => {
                         {msg.text}
                       </div>
                       {msg.isQuestion && (
-                        <Button 
-                          
+                        <Button
                           onClick={() => handleRaiseHand(msg.text)}
                           style={{ marginTop: '8px' }}
                         >
@@ -233,13 +180,13 @@ const ChatRoom: React.FC = () => {
                 onPressEnter={sendMessage}
                 placeholder={replyTo ? `Replying to: ${replyTo}` : "Type your message..."}
                 suffix={<SendOutlined onClick={sendMessage} />}
-                style={{ flex: 1 }} // Ensure the input field stretches to fill available space
+                style={{ flex: 1 }}
               />
             </InputContainer>
           </Content>
           <Sider width={500} className='canvas-sider'>
             <FullHeightCanvas>
-              <h1>This chat is Monitored by AI</h1>
+              <h1>This chat is monitored by AI</h1>
               {memoizedCanvas}
             </FullHeightCanvas>
           </Sider>
@@ -250,7 +197,7 @@ const ChatRoom: React.FC = () => {
 };
 
 const ChatContainer = styled.div`
-  height: calc(100vh - 100px); // Adjust height to ensure it fits within the viewport
+  height: calc(100vh - 100px);
   overflow-y: auto;
   padding: 16px;
 `;
@@ -300,7 +247,9 @@ const InputContainer = styled.div`
 `;
 
 const FullHeightCanvas = styled.div`
-  height: 100%;
+  width: 100%;
+  height: 100vh;
 `;
 
 export default ChatRoom;
+
