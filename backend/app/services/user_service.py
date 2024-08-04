@@ -92,7 +92,7 @@ class UserService:
         access_token = UserService.create_access_token(
             data={"sub": email}, expires_delta=access_token_expires
         )
-        reset_link = f"{settings.FRONTEND_API_URL}/PasswordResetPage?token={access_token}"
+        reset_link = f"{settings.FRONTEND_API_URL}/password-reset-page?token={access_token}"
         # Send the reset link to the user's email
         logger.debug(f"Reset link: {reset_link}")
         status = UserService.send_email(email, reset_link)
