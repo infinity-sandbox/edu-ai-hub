@@ -59,7 +59,7 @@ const ChatRoom: React.FC = () => {
 
       const aiResponse: ChatMessage = {
         user: 'AI',
-        text: 'I am currently learning. Your message has been received and will be processed soon.',
+        text: 'I am currently learning and there are no registered users. Your message has been received and will be processed soon.',
         className: selectedClass
       };
 
@@ -80,7 +80,7 @@ const ChatRoom: React.FC = () => {
   };
 
   const memoizedCanvas = useMemo(() => (
-    <Canvas shadows camera={{ position: [3, 0, 8], fov: 42 }} style={{ width: '100%', height: '100%' }}>
+    <Canvas shadows className='avatar' camera={{ position: [3, 0, 8], fov: 42 }} style={{ width: '100%', height: '100%' }}>
       <OrbitControls />
       <ThreeAvatar
         position={[0, -5, 1]}
@@ -98,11 +98,11 @@ const ChatRoom: React.FC = () => {
   return (
     <Layout className='chat-room'>
       <Header className='chat-header'>
-        <Title className='header-title' level={3}>Chat Room</Title>
+        <Title className='header-title' style={{color:'white'}} level={3}>Chat Room</Title>
       </Header>
       <Layout className='main-layout'>
         <Sider width={200} className="site" style={{ background: '#428051' }}>
-          <Menu style={{ background: '#428051' }} mode="inline" defaultSelectedKeys={[selectedClass]}>
+          <Menu mode="inline" defaultSelectedKeys={[selectedClass]} style={{ background: '#428051' }}>
             <Menu.Item key="English" onClick={() => setSelectedClass('English')}>English</Menu.Item>
             <Menu.Item key="Biology" onClick={() => setSelectedClass('Biology')}>Biology</Menu.Item>
             <Menu.Item key="Maths" onClick={() => setSelectedClass('Maths')}>Maths</Menu.Item>
@@ -197,13 +197,13 @@ const ChatRoom: React.FC = () => {
 };
 
 const ChatContainer = styled.div`
-  height: calc(100vh - 100px);
+  flex: 1;
   overflow-y: auto;
   padding: 16px;
 `;
 
 const MessageContainer = styled.div<{ user: string }>`
-  display: flex;
+display: flex;
   align-items: flex-start;
   margin-bottom: 8px;
   flex-direction: ${(props) => (props.user === 'User' ? 'row-reverse' : 'row')};
@@ -213,12 +213,19 @@ const AvatarContainer = styled.div`
   margin-right: 8px;
 `;
 
-const MessageContent = styled.div<{ user: string; isQuestion?: boolean; answered?: boolean; isAIWarning?: boolean; isAppreciation?: boolean }>`
-  display: flex;
+const MessageContent = styled.div<{
+  user: string;
+  isQuestion?: boolean;
+  answered?: boolean;
+  isAIWarning?: boolean;
+  isAppreciation?: boolean;
+}>`
+ display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-left: ${(props) => (props.user === 'User' ? '0' : '8px')};
   margin-right: ${(props) => (props.user === 'User' ? '8px' : '0')};
+
   padding: 8px;
   border-radius: 16px;
   background: ${(props) => 
@@ -235,21 +242,17 @@ const MessageContent = styled.div<{ user: string; isQuestion?: boolean; answered
 
 const InputContainer = styled.div`
   display: flex;
-  align-items: center;
-  background: #f0f0f0;
-  border-top: 1px solid #d9d9d9;
-  border-radius: 30px;
-  padding: 8px;
-  position: sticky; // Ensure it stays at the bottom of the chat area
-  bottom: 0;
-  width: 100%;
-  z-index: 10; // Ensure it's above other elements
+  margin-top: 16px;
 `;
 
 const FullHeightCanvas = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const FullHeightContent = styled(Content)`
   width: 100%;
   height: 100vh;
 `;
 
 export default ChatRoom;
-
