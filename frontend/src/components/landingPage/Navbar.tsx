@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   const { t } = useTranslation();
 
   const handleClick = () => {
-    navigate('/Login');
+    navigate('/login');
   };
 
   const menuOptions = [

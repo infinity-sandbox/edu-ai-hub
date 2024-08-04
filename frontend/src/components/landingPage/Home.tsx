@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    navigate('/Register');
+    navigate('/register');
   };
 
   return (
