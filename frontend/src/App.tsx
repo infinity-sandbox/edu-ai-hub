@@ -23,13 +23,13 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/home' element={<PrivateRoute><Home/></PrivateRoute>}/>
+        <Route path='/home' element={<Home />} />
         <Route path='/aibot-class' element={<AIClass />} />
         <Route path='chatRoom' element={<ChatRoom/>}/>
           <Route path='/status-pages/success-registration-page' element={<SuccessRegistrationPage />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/password-reset-page' element={<PasswordResetPage />} /> 
-        <Route path='/profile-management' element={<PrivateRoute><ProfileManagement/></PrivateRoute>}/>
+        <Route path='/profile-management' element={<ProfileManagement/> } />
       </Routes>
     </BrowserRouter>
   );
