@@ -207,7 +207,8 @@ display: flex;
   align-items: flex-start;
   margin-bottom: 8px;
   flex-direction: ${(props) => (props.user === 'User' ? 'row-reverse' : 'row')};
-`;
+  `;
+
 
 const AvatarContainer = styled.div`
   margin-right: 8px;
@@ -220,12 +221,12 @@ const MessageContent = styled.div<{
   isAIWarning?: boolean;
   isAppreciation?: boolean;
 }>`
+  background: ${({ user }) => (user === 'AI' ? '#f6f8fa' : '#e6f7ff')};
  display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-left: ${(props) => (props.user === 'User' ? '0' : '8px')};
   margin-right: ${(props) => (props.user === 'User' ? '8px' : '0')};
-
   padding: 8px;
   border-radius: 16px;
   background: ${(props) => 
@@ -234,6 +235,8 @@ const MessageContent = styled.div<{
     props.isQuestion ? '#428051' : '#fff'};
   color: ${(props) => 
     props.isAIWarning || props.isAppreciation || props.isQuestion ? '#fff' : 'black'};
+  background-color:${(props)=>
+    props.user === 'AI' ? '#f6f8fa' : '#e6f7ff'};
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   max-width: 60%;
