@@ -236,7 +236,7 @@ const MessageContent = styled.div<{
   color: ${(props) => 
     props.isAIWarning || props.isAppreciation || props.isQuestion ? '#fff' : 'black'};
   background-color:${(props)=>
-    props.user === 'AI' ? '#f6f8fa' : '#e6f7ff'};
+    props.user === 'AI' ? '#90EE90' : '#fff'};
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   max-width: 60%;
