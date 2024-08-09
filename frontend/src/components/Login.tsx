@@ -40,7 +40,7 @@ const Login: React.FC = () => {
         localStorage.setItem('accessToken', access_token);
         localStorage.setItem('refreshToken', refresh_token);   
         message.success(t('login.login_successful'));
-        navigate('/Home');
+        navigate('/home');
     })
     .catch(err => {
         message.error(t("login.invalid_credentials"));

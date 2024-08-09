@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
     console.log('Received values of form: ', values);
     setSubmittedEmail(values.email);
 
-    axios.post(baseUrl + '/api/v1/users/emailreset', { email: values.email })
+    axios.post(baseUrl + '/api/v1/users/email/reset', { email: values.email })
       .then(response => {
         setLoading(false);
         console.log('Password reset email sent successfully:', response.data);

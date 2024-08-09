@@ -201,3 +201,5 @@ test_script/
 aibou.egg-info/
 logs/
 venv_aibou/
+testing/
+rhubarb/
