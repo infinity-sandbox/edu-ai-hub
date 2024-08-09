@@ -1,0 +1,78 @@
+/* PaymentForm.css */
+
+.payment-form {
+    font-family: 'Arial', sans-serif;
+}
+
+h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.express-checkout {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.apple-pay {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.paypal {
+    background-color: #ffc439;
+    color: #003087;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.payment-options button {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment-options .active {
+    border-color: #0070ba;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}

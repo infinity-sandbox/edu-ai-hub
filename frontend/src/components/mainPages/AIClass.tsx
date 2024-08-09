@@ -48,7 +48,7 @@ const AIClass: React.FC = () => {
 
     const sendSelectedClass = async () => {
       try {
-        const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/first', 
+        const response = await axios.post(baseUrl + '/api/v1/secured/bot/class/interaction/first',
           { selectedClass },
           {
             headers: {
@@ -80,7 +80,7 @@ const AIClass: React.FC = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc) {
           try {
-            const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/image', 
+            const response = await axios.post(baseUrl + '/api/v1/secured/bot/class/interaction/image',
               { imageSrc },
               {
                 headers: {
@@ -92,7 +92,7 @@ const AIClass: React.FC = () => {
             );
             const signal = response.data.signal;
             if (signal === 1) {
-               if (audioRef.current) {
+              if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.currentTime = 0;
               }
@@ -115,32 +115,62 @@ const AIClass: React.FC = () => {
     const intervalId = setInterval(captureImage, 5000);
     return () => clearInterval(intervalId);
   }, [selectedClass, accessToken, refreshToken]);
-const startRecording = useCallback(() => {
-  setIsRecording(true);
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      mediaRecorder.ondataavailable = event => {
-        if (event.data.size > 0) {
-          sendRecording(event.data);
-        }
-      };
-      mediaRecorder.start();
-      startSpeechRecognition();
-    })
-    .catch(error => console.error('Error accessing microphone:', error));
-}, []);
+
+  const startRecording = useCallback(() => {
+    setIsRecording(true);
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+        mediaRecorder.ondataavailable = event => {
+          if (event.data.size > 0) {
+            sendRecording(event.data);
+          }
+        };
+        mediaRecorder.start();
+        startSpeechRecognition();
+      })
+      .catch(error => console.error('Error accessing microphone:', error));
+  }, []);
 
   useEffect(() => {
-    if (audioUrl) {
-      const audioElement = new Audio(audioUrl);
-      audioRef.current = audioElement;
-      audioElement.play();
-      audioElement.onended = startRecording;
-      setIsAudioPlaying(true);
+  if (audioUrl) {
+    console.log('Audio URL:', audioUrl); // Add this line for debugging
+
+    // Pause and clean up the previous audio element if it exists
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
     }
-  }, [audioUrl, startRecording]);
+
+    // Create a new audio element and set it to the ref
+    const audioElement = new Audio(audioUrl);
+    audioRef.current = audioElement;
+
+    // Handle audio error
+    audioElement.onerror = (error) => {
+      console.error('Audio playback error:', error);
+    };
+
+    // Play the audio and set up the event handler for when it ends
+    audioElement.play();
+    audioElement.onended = startRecording;
+
+    // Set the state to indicate that audio is playing
+    setIsAudioPlaying(true);
+
+    // Clean up the audio element when the component unmounts or audioUrl changes
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current = null;
+      }
+    };
+  }
+}, [audioUrl, startRecording]);
+
 
   const startSpeechRecognition = () => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -166,7 +196,7 @@ const startRecording = useCallback(() => {
     try {
       const formData = new FormData();
       formData.append('file', audioBlob, 'recording.wav');
-      const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/voice', 
+      const response = await axios.post(baseUrl + '/api/v1/secured/bot/class/interaction/voice',
         formData,
         {
           headers: {
@@ -187,7 +217,7 @@ const startRecording = useCallback(() => {
       if (data.audio_url) {
         setIsAudioPlaying(true);
       }
-       if (!data.correctAnswer) {
+      if (!data.correctAnswer) {
         handleIncorrectAnswer();
       }
     } catch (error) {
@@ -209,7 +239,7 @@ const startRecording = useCallback(() => {
 
   const fetchNextQuestion = async () => {
     try {
-      const response = await axios.post(baseUrl+'/api/v1/secured/bot/class/interaction/next', 
+      const response = await axios.post(baseUrl + '/api/v1/secured/bot/class/interaction/next',
         { selectedClass },
         {
           headers: {

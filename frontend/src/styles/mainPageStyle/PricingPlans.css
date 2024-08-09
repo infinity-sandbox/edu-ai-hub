@@ -1,0 +1,261 @@
+.toggle-container {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: #ccc;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    width: 200px;
+    height: 50px;
+    
+}
+
+.toggle-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 50px;
+    transition: 0.3s ease;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 5px solid #59b379;
+}
+
+.toggle-button span {
+    flex: 1;
+    text-align: center;
+    font-size: 1em;
+   
+}
+
+.toggle-button.weekly {
+    color: black;
+    background-color: #fff;
+
+}
+
+.toggle-button.weekly::before {
+    content: " ";
+    background-color: #59b379;
+    border-radius: 50px;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+    transition: 0.3s ease;
+}
+
+.toggle-button.yearly {
+    background-color: #59b379;
+}
+
+.toggle-button.yearly::before {
+    content: " ";
+    background-color: #fff;
+    border-radius: 50px;
+    
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 50%;
+    transition: 0.3s ease;
+}
+/* PricingPlans.css */
+
+.pricing-container {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    padding: 40px;
+    
+}
+
+.plans {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 79%;
+    margin-left: 200px;
+}
+
+.plan {
+    margin-top: 80px;
+    border-radius: 8px;
+    padding-top:80px;
+    width: 400px;
+    height: 520px;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+.plan:hover {
+    transform: scale(1.10);
+    /* Zoom-in effect */
+
+    /* Change background color on hover */
+    
+}
+.plan.business {
+    background-color: #59b379;
+    /* Custom background color for the middle plan */
+    color: #fff;
+    /* White text for contrast */
+}
+.plan.business p {
+    color: white;
+}
+.plan.business ul li {
+    color: white;
+}
+.plan.business h4 span {
+    color: white;
+}
+.plan.business button{
+    background-color: #ffffff;
+    color: #59b379;
+}
+.plan h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
+
+.plan p {
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.plan h4 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.plan h4 span {
+    font-size: 1rem;
+    color: #888;
+}
+
+.plan ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.plan ul li {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.plan button {
+    padding: 10px 20px ;
+    border: none;
+    background-color: #59b379;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 60px;
+    height: 50px;
+    width: 80%;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: auto;
+    position: relative;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.payment-methods button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.payment-methods button.active {
+    background-color: #e0e7ff;
+    border-color: #007bff;
+}
+
+.payment-form {
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-field {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.input-field:last-child {
+    margin-right: 0;
+}
+
+.input-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-field input,
+.input-field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pay-now {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.pay-now {
+    background-color: #59b379;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}

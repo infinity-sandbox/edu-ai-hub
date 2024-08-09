@@ -24,6 +24,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-howler": "^5.2.3",
+    "@types/react-modal": "^3.16.3",
     "@types/socket.io-client": "^3.0.0",
     "@types/styled-components": "^5.1.34",
     "antd": "^5.19.1",
@@ -43,6 +44,7 @@
     "react-howler": "^5.2.0",
     "react-i18next": "^14.1.2",
     "react-icons": "^5.2.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
     "react-wavesurfer": "^0.8.6",
@@ -86,5 +88,10 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.7",
     "@types/react-icons": "^3.0.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AIClass from './components/mainPages/AIClass';
+import PaymentPlan from './components/mainPages/PricingPlans';
 import LandingPage from './pages/LandingPage';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './components/mainPages/Home';
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/paymentplan' element={<PaymentPlan />} />
         <Route path='/register' element={<Register />} />
         <Route path='/home' element={<PrivateRoute><Home/></PrivateRoute>}/>
         <Route path='/aibot-class' element={<AIClass />} />
