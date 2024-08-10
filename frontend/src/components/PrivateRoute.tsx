@@ -1,9 +1,18 @@
+// src/components/PrivateRoute.tsx
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { isAuthenticated } from './utils/auth';
 
-const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Check if token exists in local storage
-  return isAuthenticated ? children : <Navigate to="/login" />;
+interface PrivateRouteProps {
+  element: React.ReactElement;
+}
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
+  return isAuthenticated() ? (
+    element
+  ) : (
+    <Navigate to="/login" replace />
+  );
 };
 
 export default PrivateRoute;

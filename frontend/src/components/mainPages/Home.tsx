@@ -7,16 +7,20 @@ import chat from '../../images/chat.svg';
 import HomePage from '../../images/HomePage.svg';
 import performance from '../../images/performance.svg';
 import ProfileManagement from '../../images/ProfileManagement.svg';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Sidebar from '../SideNav/Sidebar';
+import PaymentPlan from '../../images/payment_plan.png';
+// import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useProtectedNavigation } from '../utils/navigation';
 
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate(); // Initialize useNavigate
+  // const navigate = useNavigate(); // Initialize useNavigate
+  const { navigateTo } = useProtectedNavigation();
+
   const [fadeIn, setFadeIn] = useState(false);
   const handleNavigation = (path: string) => {
-    navigate(path); // Navigate to the specified path
+    // navigate(path); // Navigate to the specified path
+    navigateTo(path);
   };
   
 
@@ -30,7 +34,6 @@ const Home: React.FC = () => {
 
   return (
     <div className='homeWithImage'>
-      <Sidebar handleNavigation={handleNavigation} />
       <div className={`insideHome-container fade ${fadeIn ? 'show' : ''}`}>
         <div className="button-container" >
           <figure className="circle-button" onClick={() => handleNavigation('/aibot-class')}>
@@ -41,9 +44,9 @@ const Home: React.FC = () => {
             <img src={chat} alt="Button Icon" />
             <figcaption>ChatRoom</figcaption>
           </figure>
-          <figure className="circle-button" onClick={() => handleNavigation('/home')}>
-            <img src={HomePage} alt="Button Icon" />
-            <figcaption>Home</figcaption>
+          <figure className="circle-button" onClick={() => handleNavigation('/paymentplan')}>
+            <img src={PaymentPlan} alt="Button Icon" />
+            <figcaption>Payment Plan</figcaption>
           </figure>
           <figure className="circle-button" onClick={() => handleNavigation('/performance')}>
             <img src={performance} alt="Button Icon" />

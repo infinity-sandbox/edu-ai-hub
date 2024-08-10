@@ -14,25 +14,29 @@ import PasswordResetPage from '../src/components/forgetLink/emailRedirectedPage'
 import ProfileManagement from '../src/components/ProfileManagements/ProfileManagement'
 import ChatRoom from './components/mainPages/ChatRoom';
 import 'simplebar/dist/simplebar.min.css';
+import MainLayout from './components/Layout';
 
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/paymentplan' element={<PaymentPlan />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/aibot-class' element={<AIClass />} />
-        <Route path='/chatRoom' element={<ChatRoom/>}/>
+      <MainLayout>
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
           <Route path='/status-pages/success-registration-page' element={<SuccessRegistrationPage />} />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/password-reset-page' element={<PasswordResetPage />} /> 
-        <Route path='/profile-management' element={<ProfileManagement/> } />
-      </Routes>
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/password-reset-page' element={<PasswordResetPage />} />
+          {/* secured pages */}
+          <Route path='/home' element={<PrivateRoute element={<Home />} />} />
+          <Route path='/aibot-class' element={<PrivateRoute element={<AIClass />} />} />
+          <Route path='/chatRoom' element={<PrivateRoute element={<ChatRoom />} />} />
+          <Route path='/profile-management' element={<PrivateRoute element={<ProfileManagement />} />} />
+          <Route path='/paymentplan' element={<PrivateRoute element={<PaymentPlan />} />} />
+        </Routes>
+      </MainLayout>
     </BrowserRouter>
   );
 }

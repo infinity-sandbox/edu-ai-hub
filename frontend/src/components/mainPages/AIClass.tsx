@@ -7,7 +7,6 @@ import '../../styles/mainPageStyle/AIClass.css';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls } from '@react-three/drei';
 import { Avatar } from './Avatar';
-import Sidebar from '../SideNav/Sidebar';
 
 const { Option } = Select;
 const { Content, Sider } = Layout;
@@ -33,10 +32,6 @@ const AIClass: React.FC = () => {
   const webcamRef = useRef<Webcam>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-
-  const handleNavigation = (path: string) => {
-    navigate(path);
-  };
 
   const handleClassChange = (value: string) => {
     setSelectedClass(value);
@@ -268,7 +263,6 @@ const AIClass: React.FC = () => {
 
   return (
     <Layout className="layout ai-class-container">
-      <Sidebar handleNavigation={handleNavigation} />
       {!selectedClass ? (
         <div className="subject-selection">
           <h1>Select Class</h1>

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import sideSvgImage from '../images/image1.svg';
 import { saveAs } from 'file-saver';
 import { useForm } from "react-hook-form";
+import { useProtectedNavigation } from './utils/navigation';
 const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
 
 
@@ -19,6 +20,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { navigateTo } = useProtectedNavigation();
 
   const onFinish = async (values: any) => {
     const loginData = new URLSearchParams();
@@ -36,11 +38,10 @@ const Login: React.FC = () => {
     .then(_result => {
         const { token } = _result.data;
         const { access_token, refresh_token } = _result.data;
-        localStorage.setItem('authToken', token);
         localStorage.setItem('accessToken', access_token);
         localStorage.setItem('refreshToken', refresh_token);   
         message.success(t('login.login_successful'));
-        navigate('/home');
+        navigateTo('/home');
     })
     .catch(err => {
         message.error(t("login.invalid_credentials"));

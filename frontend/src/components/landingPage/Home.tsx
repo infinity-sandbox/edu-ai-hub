@@ -1,6 +1,6 @@
 import React from "react";
 import BannerBackground from "../../images/home-banner-background-green.svg";
-import BannerImage from "../../images/cartoon-boy-student-stands-and-reading-a-book-free-vector_processed.jpg.svg";
+import BannerImage from "../../images/image2vector.svg"
 import Navbar from "./Navbar";
 import { FiArrowRight } from "react-icons/fi";
 import '../../styles/LandingPage.css';

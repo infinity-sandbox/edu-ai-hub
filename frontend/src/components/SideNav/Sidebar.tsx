@@ -3,14 +3,14 @@ import { Drawer, Button, Menu } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import '../../styles/Sidebar.css';
 import { useTranslation } from 'react-i18next';
+import { useProtectedNavigation } from '../utils/navigation'; // Import your custom hook
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-interface SidebarProps {
-  handleNavigation: (path: string) => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ handleNavigation }) => {
+const Sidebar: React.FC = () => {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
+  const { navigateTo } = useProtectedNavigation(); // Use the custom hook
+  const navigate = useNavigate(); // Initialize navigate function
 
   const showDrawer = () => {
     setVisible(true);
@@ -21,8 +21,16 @@ const Sidebar: React.FC<SidebarProps> = ({ handleNavigation }) => {
   };
 
   const handleMenuClick = ({ key }: { key: string }) => {
-    handleNavigation(key);
-    onClose();
+    if (key === '/sign-out') {
+      // Clear tokens from local storage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      // Redirect to login page
+      navigate('/login');
+    } else {
+      navigateTo(key); // Use the navigateTo function from the hook
+      onClose();
+    }
   };
 
   const menu = (

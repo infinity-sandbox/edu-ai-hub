@@ -13,3 +13,8 @@ interface SpeechRecognitionEvent {
     };
   }[];
 }
+
+// src/global.d.ts
+interface Window {
+  paypal: any;
+}
